@@ -1,5 +1,6 @@
 #include <iostream>
-#include <bits/stdc++.h>
+#include <vector>
+#include <unordered_set>
 #include <random>
 #include <thread>
 #include <chrono>
@@ -20,6 +21,17 @@ using namespace std::chrono;
 //   [type = 0]     direction = -1(stay)
 //   [type = 1]     direction = 0(right) - 7(right-up)
 //   [type = 2, 3]  direction = 0(right) - 3(up)
+typedef enum 
+{
+	Right,
+	Down,
+	Left,
+	Up,
+	RightDown,
+	LeftDown,
+	LeftUp,
+	RightUp,
+} Direction;
 #define Pos pair<int, int> //r, c
 struct Person{
     Pos pos;
@@ -28,26 +40,26 @@ struct Person{
 
 // field[r][c] = 0(empty), 1(myWall), 2(enemyWall), 3(water), 4(castle)
 // writeAble = 0(never or return answer), 1(writeAble), -1(wait)
-void solve1(int requiredTime, vector<vector<int>>& field, vector<Person>& myPeople,
-            vector<Person>& enemyPeople, vector<Movement>& movements,
-            int& writeAble, system_clock::time_point& startTime,
-            bool& finishFlag){
+void solve1(int requiredTime, const vector<vector<int>>& field, const vector<Person>& myPeople,
+            const vector<Person>& enemyPeople, const system_clock::time_point& startTime,
+            const bool& finishFlag, vector<Movement>& movements, int& writeAble){
     int commandI = -1;
     int commands[3] = {2, 3, 1};
+    Direction right = Right;
     while(true){
         while(writeAble != 1 && !finishFlag);
         if(finishFlag) break;
         commandI++;
-        movements = vector<Movement>(myPeople.size(), Movement(commands[commandI%3], 0));
+        movements = vector<Movement>(myPeople.size(), Movement(commands[commandI%3], right));
         writeAble = 0;
     }
 }
+
 // field[r][c] = 0(empty), 1(myWall), 2(enemyWall), 3(water), 4(castle)
 // writeAble = 0(never or return answer), 1(writeAble), -1(wait)
-void solve2(int requiredTime, vector<vector<int>>& field, vector<Person>& myPeople,
-            vector<Person>& enemyPeople, vector<Movement>& movements,
-            int& writeAble, system_clock::time_point& startTime,
-            bool& finishFlag){
+void solve2(int requiredTime, const vector<vector<int>>& field, const vector<Person>& myPeople,
+            const vector<Person>& enemyPeople, const system_clock::time_point& startTime,
+            const bool& finishFlag, vector<Movement>& movements, int& writeAble){
     while(true){
         while(writeAble != 1 && !finishFlag);
         if(finishFlag) break;
@@ -60,8 +72,7 @@ std::mt19937 randint;
 
 int height, width;
 vector<vector<bool>> originField;
-vector<vector<int>> fieldData1;
-vector<vector<int>> fieldData2;
+vector<vector<int>> fieldData1, fieldData2;
 
 int peopleLen;
 vector<Person> people1;
@@ -90,7 +101,7 @@ void setWater(Pos pos){
 
 void printField(){
     for(vector<int>& column: fieldData1){
-        for (int i = 0; i < column.size(); i++) {
+        for (int i = 0; i < width; i++) {
             cout << (i != 0 ? " " : "") << column[i];
         }
         cout << endl;
@@ -129,7 +140,7 @@ void printAll(){
 
 vector<vector<vector<int>>> directionSet = {
     {{0, 1}, {1, 0}, {0, -1}, {-1, 0}},
-    {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}}};
+    {{0, 1}, {1, 0}, {0, -1}, {-1, 0}, {1, 1}, {1, -1}, {-1, -1}, {-1, 1}}};
 vector<vector<int>> directions;
 Movement stay(0, -1);
 vector<int> typeOrder = {3, 2, 1};
@@ -202,7 +213,7 @@ vector<vector<int>> fieldReplace(vector<vector<int>> ans){
     return ans;
 }
 
-void waitSolve(int target, int& flag, system_clock::time_point& startTime, int requiredTime){
+void waitSolve(int target, const int& flag, const system_clock::time_point& startTime, int requiredTime){
     system_clock::time_point now;
     int msec;
     while(flag == target){
@@ -218,61 +229,27 @@ void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
                  vector<vector<int>>& fieldData1, vector<vector<int>>& fieldData2,
                  int& writeAble1, int& writeAble2,
                  system_clock::time_point& startTurn1, system_clock::time_point& startTurn2){
-    int msec;
-    vector<vector<int>> _fieldData;
-    vector<Pos> _people1(people1.size()), _people2(people2.size());
-    _fieldData = fieldData1;
-    for(int i = 0; i < people1.size(); i++) _people1[i] = people1[i].pos;
-    for(int i = 0; i < people2.size(); i++) _people2[i] = people2[i].pos;
+    vector<vector<int>> pointField1(height, vector<int>(width));
+    vector<vector<int>> pointField2(height, vector<int>(width));
     for(int turn = 0; turn < requiredTurn; turn++){
         startTurn1 = system_clock::now();
         writeAble1 = 1;
         waitSolve(1, writeAble1, startTurn1, requiredTime);
-        if(fieldData1 != _fieldData){
-            cout << "turn" << turn << "にてfieldData1への不正な書き込みが発生しました" << endl;
-            break;
-        }
-        for(int i = 0; i < people1.size(); i++){
-            finishFlag |= _people1[i] != people1[i].pos;
-            finishFlag |= _people2[i] != people2[i].pos;
-        }
-        if(finishFlag){
-            cout << "turn" << turn << "にてpeopleへの不正な書き込みが発生しました" << endl;
-            break;
-        }
         turnProcessing(movements1, people1, fieldData1, 1);
         writeAble1 = 0;
         fieldData2 = fieldReplace(fieldData1);
         _printAll;
         
-        _fieldData = fieldData2;
-        for(int i = 0; i < people1.size(); i++) _people1[i] = people1[i].pos;
-        for(int i = 0; i < people2.size(); i++) _people2[i] = people2[i].pos;
         waitSolve(-1, writeAble2, startTurn1, requiredTime);
         turn++;
         
         startTurn2 = system_clock::now();
         writeAble2 = 1;
         waitSolve(1, writeAble2, startTurn2, requiredTime);
-        if(fieldData2 != _fieldData){
-            cout << "turn" << turn << "にてfieldData2への不正な書き込みが発生しました" << endl;
-            break;
-        }
-        for(int i = 0; i < people1.size(); i++){
-            finishFlag |= _people1[i] != people1[i].pos;
-            finishFlag |= _people2[i] != people2[i].pos;
-        }
-        if(finishFlag){
-            cout << "turn" << turn << "にてpeopleへの不正な書き込みが発生しました" << endl;
-            break;
-        }
         turnProcessing(movements2, people2, fieldData2, 2);
         fieldData1 = fieldReplace(fieldData2);
         _printAll;
         
-        _fieldData = fieldData1;
-        for(int i = 0; i < people1.size(); i++) _people1[i] = people1[i].pos;
-        for(int i = 0; i < people2.size(); i++) _people2[i] = people2[i].pos;
         waitSolve(-1, writeAble1, startTurn2, requiredTime);
     }
     finishFlag = true;
@@ -310,7 +287,6 @@ void simulate(int seed, int turn, int requiredTime){
         person.pos = Pos(r, c);
         fieldData1[r][c] = -1;
     }
-    cout << people1.size() << " " << people2.size() << endl;
     for(vector<int>& column : fieldData1){
         for(int i = 0; i < width; i++){
             if(column[i] == -1) column[i] = 0;
@@ -325,14 +301,15 @@ void simulate(int seed, int turn, int requiredTime){
     int writeAble1 = 0;
     auto startTurn1 = system_clock::now();
     vector<Movement> movements1(peopleLen, pair<int, int>(0, -1));
-    threads.push_back(thread(solve1, requiredTime, ref(fieldData1), ref(people1), ref(people2),
-                             ref(movements1), ref(writeAble1), ref(startTurn1), ref(finishFlag)));
     
     int writeAble2 = 0;
     auto startTurn2 = system_clock::now();
     vector<Movement> movements2(peopleLen, pair<int, int>(0, -1));
+    
+    threads.push_back(thread(solve1, requiredTime, ref(fieldData1), ref(people1), ref(people2),
+                             ref(startTurn1), ref(finishFlag), ref(movements1), ref(writeAble1)));
     threads.push_back(thread(solve2, requiredTime, ref(fieldData2), ref(people2), ref(people1),
-                             ref(movements2), ref(writeAble2), ref(startTurn2), ref(finishFlag)));
+                             ref(startTurn2), ref(finishFlag), ref(movements2), ref(writeAble2)));
     threads.push_back(thread(judgeSystem, turn, requiredTime, ref(finishFlag), ref(people1), ref(people2),
                                           ref(movements1), ref(movements2),
                                           ref(fieldData1), ref(fieldData2),
