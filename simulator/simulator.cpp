@@ -196,8 +196,8 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
         tie(t, direction) = movements[i];
         if(t != 1) continue;
         tie(r, c) = people[i].pos;
-        r += directions[(direction+4)%8][0];
-        c += directions[(direction+4)%8][1];
+        r += directions[(direction&4) + (direction+2)%4][0];
+        c += directions[(direction&4) + (direction+2)%4][1];
         people[i].pos = Pos(r, c);
         movements[i] = stay;
     }
