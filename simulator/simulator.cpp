@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <unordered_set>
 #include <random>
 #include <thread>
@@ -172,9 +173,6 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
             switch(type){
                 case 1:
                     if(w || f == 2) break;
-                    tie(_t, j) = personFind(Pos(r, c));
-                    if(_t == team) cantMove.insert(j);
-                    if(_t != -1) break;
                     people[i].pos = Pos(r, c);
                     continue;
                 case 2:
@@ -192,6 +190,18 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
         }
     }
     directions = directionSet[0];
+    for(int i = 0; i < peopleLen; i++){
+        tie(t, direction) = movements[i];
+        if(t < 0 || 3 < t) movements[i] = stay;
+        if(t != 1) continue;
+        tie(r, c) = people[i].pos;
+        tie(_t, j) = personFind(Pos(r, c));
+        if(_t != -1 && (_t != team || i != j)) {
+            cantMove.insert(i);
+            if(_t == team) cantMove.insert(j);
+        }
+    }
+    directions = directionSet[0];
     for(int i : cantMove){
         tie(t, direction) = movements[i];
         if(t != 1) continue;
@@ -201,6 +211,7 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
         people[i].pos = Pos(r, c);
         movements[i] = stay;
     }
+    for(int i = 0; i < peopleLen; i++) people[i].movement.push_back(movements[i]);
 }
 
 vector<vector<int>> fieldReplace(vector<vector<int>> ans){
@@ -223,6 +234,100 @@ void waitSolve(int target, const int& flag, const system_clock::time_point& star
     }
 }
 
+void fieldUpdate(vector<vector<int>>& pointField1, vector<vector<int>>& pointField2,
+                 const vector<vector<int>>& fieldData1, const vector<vector<int>>& fieldData2){
+    for(vector<int>& column : pointField1){
+        for(int& r : column){
+            if(r == 1) r = 2;
+        }
+    }
+    for(vector<int>& column : pointField2){
+        for(int& r : column){
+            if(r == 1) r = 2;
+        }
+    }
+    queue<Pos> targets;
+    vector<vector<bool>> reached(height, vector<bool>(width));
+    int r, c;
+    for(r = 1; r < height-1; r++){
+        targets.push(Pos(r, 0));
+        reached[r][0] = true;
+        targets.push(Pos(r, width-1));
+        reached[r][width-1] = true;
+    }
+    for(c = 0; c < width; c++){
+        targets.push(Pos(0, c));
+        targets.push(Pos(height-1, c));
+    }
+    reached[0] = vector<bool>(width, true);
+    reached[height-1] = vector<bool>(width, true);
+    
+    Pos target;
+    while(!targets.empty()){
+        target = targets.front();
+        targets.pop();
+        for(vector<int>& direction : directionSet[0]){
+            tie(r, c) = target;
+            r += direction[0];
+            c += direction[1];
+            if(r < 0 || height <= r || c < 0 || width <= c) continue;
+            if(!reached[r][c] && fieldData1[r][c] != 1){
+                reached[r][c] = true;
+                targets.push(Pos(r, c));
+            }
+        }
+    }
+
+    for(r = 0; r < height; r++){
+        for(c = 0; c < width; c++){
+            if(!reached[r][c]){
+                pointField1[r][c] = 1;
+                pointField2[r][c] = 0;
+            }
+            if(fieldData1[r][c] == 1) pointField1[r][c] = 0;
+        }
+    }
+
+    reached = vector<vector<bool>>(height, vector<bool>(width));
+    for(r = 1; r < height-1; r++){
+        targets.push(Pos(r, 0));
+        reached[r][0] = true;
+        targets.push(Pos(r, width-1));
+        reached[r][width-1] = true;
+    }
+    for(c = 0; c < width; c++){
+        targets.push(Pos(0, c));
+        targets.push(Pos(height-1, c));
+    }
+    reached[0] = vector<bool>(width, true);
+    reached[height-1] = vector<bool>(width, true);
+    
+    while(!targets.empty()){
+        target = targets.front();
+        targets.pop();
+        for(vector<int>& direction : directionSet[0]){
+            tie(r, c) = target;
+            r += direction[0];
+            c += direction[1];
+            if(r < 0 || height <= r || c < 0 || width <= c) continue;
+            if(!reached[r][c] && fieldData1[r][c] != 1){
+                reached[r][c] = true;
+                targets.push(Pos(r, c));
+            }
+        }
+    }
+
+    for(r = 0; r < height; r++){
+        for(c = 0; c < width; c++){
+            if(!reached[r][c]){
+                pointField2[r][c] = 1;
+                pointField1[r][c] &= 1;
+            }
+            if(fieldData2[r][c] == 1) pointField2[r][c] = 0;
+        }
+    }
+}
+
 void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
                  vector<Person>& people1, vector<Person>& people2,
                  vector<Movement>& movements1, vector<Movement>& movements2,
@@ -238,6 +343,7 @@ void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
         turnProcessing(movements1, people1, fieldData1, 1);
         writeAble1 = 0;
         fieldData2 = fieldReplace(fieldData1);
+        fieldUpdate(pointField1, pointField2, fieldData1, fieldData2);
         _printAll;
         
         waitSolve(-1, writeAble2, startTurn1, requiredTime);
@@ -248,6 +354,7 @@ void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
         waitSolve(1, writeAble2, startTurn2, requiredTime);
         turnProcessing(movements2, people2, fieldData2, 2);
         fieldData1 = fieldReplace(fieldData2);
+        fieldUpdate(pointField1, pointField2, fieldData1, fieldData2);
         _printAll;
         
         waitSolve(-1, writeAble1, startTurn2, requiredTime);
