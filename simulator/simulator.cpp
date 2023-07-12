@@ -5,68 +5,19 @@
 #include <random>
 #include <thread>
 #include <chrono>
+#include "simulator.h"
 
 using namespace std;
 using namespace std::chrono;
 
-#define debugPrint false
-#if(debugPrint == true)
-  #define _printAll printAll()
-#else
-  #define _printAll 
-#endif
+#include "solveList.h"
+#include "solveList2.h"
 
-#define Movement pair<int, int>
-// pair<type, direction>
-//   type = 0(stay), 1(move), 2(build), 3(clear)
-//   [type = 0]     direction = -1(stay)
-//   [type = 1]     direction = 0(right) - 7(right-up)
-//   [type = 2, 3]  direction = 0(right) - 3(up)
-typedef enum 
-{
-	Right,
-	Down,
-	Left,
-	Up,
-	RightDown,
-	LeftDown,
-	LeftUp,
-	RightUp,
-} Direction;
-#define Pos pair<int, int> //r, c
-struct Person{
-    Pos pos;
-    vector<Movement> movement; //history
-};
-
-// field[r][c] = 0(empty), 1(myWall), 2(enemyWall), 3(water), 4(castle)
-// writeAble = 0(never or return answer), 1(writeAble), -1(wait)
-void solve1(int requiredTime, const vector<vector<int>>& field, const vector<Person>& myPeople,
+void solver(const SolveFunction _solve, int requiredTime,
+            const vector<vector<int>>& field, const vector<Person>& myPeople,
             const vector<Person>& enemyPeople, const system_clock::time_point& startTime,
             const bool& finishFlag, vector<Movement>& movements, int& writeAble){
-    int commandI = -1;
-    int commands[3] = {2, 3, 1};
-    Direction right = Right;
-    while(true){
-        while(writeAble != 1 && !finishFlag);
-        if(finishFlag) break;
-        commandI++;
-        movements = vector<Movement>(myPeople.size(), Movement(commands[commandI%3], right));
-        writeAble = 0;
-    }
-}
-
-// field[r][c] = 0(empty), 1(myWall), 2(enemyWall), 3(water), 4(castle)
-// writeAble = 0(never or return answer), 1(writeAble), -1(wait)
-void solve2(int requiredTime, const vector<vector<int>>& field, const vector<Person>& myPeople,
-            const vector<Person>& enemyPeople, const system_clock::time_point& startTime,
-            const bool& finishFlag, vector<Movement>& movements, int& writeAble){
-    while(true){
-        while(writeAble != 1 && !finishFlag);
-        if(finishFlag) break;
-        movements = vector<Movement>(myPeople.size(), Movement(0, -1));
-        writeAble = 0;
-    }
+    _solve(requiredTime, field, myPeople, enemyPeople, startTime, finishFlag, movements, writeAble);
 }
 
 std::mt19937 randint;
@@ -173,6 +124,9 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
             switch(type){
                 case 1:
                     if(w || f == 2) break;
+                    tie(_t, j) = personFind(Pos(r, c));
+                    if(_t == team) cantMove.insert(j);
+                    if(_t != -1) break;
                     people[i].pos = Pos(r, c);
                     continue;
                 case 2:
@@ -187,18 +141,6 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
                     continue;
             }
             movements[i] = stay;
-        }
-    }
-    directions = directionSet[0];
-    for(int i = 0; i < peopleLen; i++){
-        tie(t, direction) = movements[i];
-        if(t < 0 || 3 < t) movements[i] = stay;
-        if(t != 1) continue;
-        tie(r, c) = people[i].pos;
-        tie(_t, j) = personFind(Pos(r, c));
-        if(_t != -1 && (_t != team || i != j)) {
-            cantMove.insert(i);
-            if(_t == team) cantMove.insert(j);
         }
     }
     directions = directionSet[0];
@@ -234,8 +176,7 @@ void waitSolve(int target, const int& flag, const system_clock::time_point& star
     }
 }
 
-void fieldUpdate(vector<vector<int>>& pointField1, vector<vector<int>>& pointField2,
-                 const vector<vector<int>>& fieldData1, const vector<vector<int>>& fieldData2){
+void fieldUpdate(vector<vector<int>>& pointField1, vector<vector<int>>& pointField2, const vector<vector<int>>& fieldData1, const vector<vector<int>>& fieldData2){
     for(vector<int>& column : pointField1){
         for(int& r : column){
             if(r == 1) r = 2;
@@ -262,12 +203,10 @@ void fieldUpdate(vector<vector<int>>& pointField1, vector<vector<int>>& pointFie
     reached[0] = vector<bool>(width, true);
     reached[height-1] = vector<bool>(width, true);
     
-    Pos target;
     while(!targets.empty()){
-        target = targets.front();
+        tie(r, c) = targets.front();
         targets.pop();
         for(vector<int>& direction : directionSet[0]){
-            tie(r, c) = target;
             r += direction[0];
             c += direction[1];
             if(r < 0 || height <= r || c < 0 || width <= c) continue;
@@ -303,14 +242,13 @@ void fieldUpdate(vector<vector<int>>& pointField1, vector<vector<int>>& pointFie
     reached[height-1] = vector<bool>(width, true);
     
     while(!targets.empty()){
-        target = targets.front();
+        tie(r, c) = targets.front();
         targets.pop();
         for(vector<int>& direction : directionSet[0]){
-            tie(r, c) = target;
             r += direction[0];
             c += direction[1];
             if(r < 0 || height <= r || c < 0 || width <= c) continue;
-            if(!reached[r][c] && fieldData1[r][c] != 1){
+            if(!reached[r][c] && fieldData2[r][c] != 1){
                 reached[r][c] = true;
                 targets.push(Pos(r, c));
             }
@@ -362,7 +300,7 @@ void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
     finishFlag = true;
 }
 
-void simulate(int seed, int turn, int requiredTime){
+void simulate(int seed, int turn, int requiredTime, const SolveFunction _solve1, const SolveFunction _solve2){
     if(seed == -1){
         std::random_device rnd;
         seed = rnd();
@@ -413,9 +351,9 @@ void simulate(int seed, int turn, int requiredTime){
     auto startTurn2 = system_clock::now();
     vector<Movement> movements2(peopleLen, pair<int, int>(0, -1));
     
-    threads.push_back(thread(solve1, requiredTime, ref(fieldData1), ref(people1), ref(people2),
+    threads.push_back(thread(solver, _solve1, requiredTime, ref(fieldData1), ref(people1), ref(people2),
                              ref(startTurn1), ref(finishFlag), ref(movements1), ref(writeAble1)));
-    threads.push_back(thread(solve2, requiredTime, ref(fieldData2), ref(people2), ref(people1),
+    threads.push_back(thread(solver, _solve2, requiredTime, ref(fieldData2), ref(people2), ref(people1),
                              ref(startTurn2), ref(finishFlag), ref(movements2), ref(writeAble2)));
     threads.push_back(thread(judgeSystem, turn, requiredTime, ref(finishFlag), ref(people1), ref(people2),
                                           ref(movements1), ref(movements2),
@@ -426,6 +364,7 @@ void simulate(int seed, int turn, int requiredTime){
 }
 
 int main(void){
-    simulate(0, 20, 3000);
+    makeList();
+    simulate(0, 20, 3000, solveList[0], solveList[1]);
     return 0;
 }
