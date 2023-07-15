@@ -11,8 +11,5 @@ src = [
   'src/solveList2.cpp'
 ]
 
-inc = include_directories('include')
-
-procon_kyogi = executable('example', src,
-  include_directories: inc,
+procon_kyogi = executable('simulator', src,
   install: true)
