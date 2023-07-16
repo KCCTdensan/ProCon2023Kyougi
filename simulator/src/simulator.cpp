@@ -12,6 +12,11 @@
 #include <thread>
 #include <unordered_set>
 #include <vector>
+#include <unordered_map>
+
+#include <string>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 using namespace std::chrono;
@@ -54,7 +59,6 @@ void setWater(int r, int c, int phase)
     if (fieldData1[r][c] != 0)
         return;
     fieldData1[r][c] = 3;
-    originField[r][c] = true;
     if (phase >= 4)
         return;
     phase++;
@@ -84,7 +88,7 @@ void printField()
 
 void printMovements(vector<Movement>& movements)
 {
-    for (int i = 0; i < movements.size(); i++) {
+    for (int i = 0; i < (int)movements.size(); i++) {
         cout << ((i != 0) ? " " : "") << movements[i].first
              << " " << movements[i].second;
     }
@@ -111,7 +115,7 @@ void printAll()
         for (int c = 0; c < width; c++) {
             cout << (c != 0 ? " " : "");
             t = personFind(Pos(r, c)).first;
-            cout << (t == -1 ? " " : (t == 1 ? "1" : "2")) << fieldData1[r][c];
+            cout << (t == -1 ? " " : (t == 1 ? "a" : "b")) << fieldData1[r][c];
         }
         cout << endl;
     }
@@ -138,7 +142,7 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
             tie(t, direction) = movements[i];
             if (t != type)
                 continue;
-            if (direction < 0 || directions.size() <= direction) {
+            if (direction < 0 || (int)directions.size() <= direction) {
                 movements[i] = stay;
                 continue;
             }
@@ -383,7 +387,6 @@ void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
         _printAll;
 
         waitSolve(-1, writeAble2, startTurn1, requiredTime);
-        turn++;
 
         startTurn2 = system_clock::now();
         writeAble2 = 1;
@@ -412,9 +415,9 @@ void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
     finishFlag = true;
 }
 
-int simulate(int seed, int turn, int requiredTime, const SolveFunction _solve1,
-    const SolveFunction _solve2, pair<int, int> pointRatio)
-{
+#define AllFieldData tuple<vector<vector<int>>, vector<Person>, vector<Person>>
+
+AllFieldData create(int seed){
     if (seed == -1) {
         std::random_device rnd;
         seed = rnd();
@@ -425,7 +428,6 @@ int simulate(int seed, int turn, int requiredTime, const SolveFunction _solve1,
     height = 11 + randint() % 15;
     width = 11 + randint() % 15;
     fieldData1 = vector<vector<int>>(height, vector<int>(width));
-    originField = vector<vector<bool>>(height, vector<bool>(width));
 
     int r, c;
     for (int i = randint() % 3; i > 0; i--)
@@ -454,7 +456,23 @@ int simulate(int seed, int turn, int requiredTime, const SolveFunction _solve1,
                 column[i] = 0;
         }
     }
+    return AllFieldData(fieldData1, people1, people2);
+}
+
+int simulate(AllFieldData data, int turn, int requiredTime, const SolveFunction _solve1,
+    const SolveFunction _solve2, pair<int, int> pointRatio)
+{
+    fieldData1 = get<0>(data);
     fieldData2 = fieldReplace(fieldData1);
+    height = (int)fieldData1.size();
+    width = (int)fieldData1.back().size();
+    originField = vector<vector<bool>>(height, vector<bool>(width));
+    for(int r = 0; r < height; r++){
+        for(int c = 0; c < height; c++) originField[r][c] = fieldData1[r][c] == 3;
+    }
+    people1 = get<1>(data);
+    people2 = get<2>(data);
+    peopleLen = (int)people1.size();
     printAll();
 
 #ifdef GL
@@ -490,12 +508,58 @@ int simulate(int seed, int turn, int requiredTime, const SolveFunction _solve1,
     return ans;
 }
 
+unordered_map<string, AllFieldData> getAllFieldDatas() {
+    unordered_map<string, AllFieldData> ans;
+    vector<string> targets = {"A11", "A13", "A15", "A17", "A21", "A25", "B11", "B13", "B15", "B17", "B21", "B25", "C11", "C13", "C15", "C17", "C21", "C25"};
+    string str_buf, str_conma_buf, input_csv_file_path;
+    for(string& target : targets){
+        AllFieldData newData;
+        input_csv_file_path = "../fieldDatas/" + target + ".csv";
+        std::ifstream ifs_csv_file(input_csv_file_path);
+        vector<vector<int>>& data = get<0>(newData);
+        vector<Person> &person1 = get<1>(newData), &person2 = get<2>(newData);
+        int i = 0, j;
+        while (getline(ifs_csv_file, str_buf)) {
+            std::istringstream i_stream(str_buf);
+            data.push_back(vector<int>(0));
+            j = 0;
+            while (getline(i_stream, str_conma_buf, ',')) {
+                switch(str_conma_buf[0]){
+                    case 'a':
+                        data.back().push_back(0);
+                        person1.push_back(Person());
+                        person1.back().pos = Pos(i, j);
+                        break;
+                    case 'b':
+                        data.back().push_back(0);
+                        person2.push_back(Person());
+                        person2.back().pos = Pos(i, j);
+                        break;
+                    case '0':
+                        data.back().push_back(0);
+                        break;
+                    default:
+                        data.back().push_back(str_conma_buf[0]-'0'+2);
+                        break;
+                }
+                j++;
+            }
+            i++;
+        }
+        ans[target] = newData;
+    }
+    return ans;
+}
+
 int main(void)
 {
     makeList();
-    int winner = simulate(0, 20, 3000, solveList[0], solveList[1], pair<int, int>(100, 10));
-    // simulate(seed, turn, timeOfTurn, solve1, solve2, [castlePointRatio, fieldPointRatio])
+    unordered_map<string, AllFieldData> allField = getAllFieldDatas();
+    int winner = simulate(allField["A11"], 10, 3000, solveList[0], solveList[1], pair<int, int>(100, 10));
+    // simulate(allField["fieldName"], turn, timeOfTurn, solve1, solve2, [castlePointRatio, fieldPointRatio])
     //  -> 1: solve1 win   2: solve2 win   0: draw
+    
+    // simulate(create(seed), ...)
     //  seed = -1 --> random seed
     cout << "winner: " << winner << endl;
 
