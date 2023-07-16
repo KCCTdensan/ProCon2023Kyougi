@@ -6,7 +6,7 @@
 
 `pip3 install meson`
 
-`pip3 install ninja-build`
+`pip3 install ninja`
 
 ### 2. ファイルのビルド
 
