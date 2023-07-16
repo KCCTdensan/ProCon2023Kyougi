@@ -4,20 +4,28 @@ project('procon_kyogi', 'cpp',
 
 ver = meson.project_version()
 
-deps = [
-  dependency('gl'),
-  dependency('glfw3'),
-  dependency('glew'),
-  dependency('glm'),
-]
+GUI_boolean = true
+
+if GUI_boolean
+  deps = [
+    dependency('gl'),
+    dependency('glfw3'),
+    dependency('glew'),
+    dependency('glm'),
+  ]
+else
+  deps = []
+endif
 
 src = [
   'src/simulator.cpp',
   'src/solve1.cpp',
   'src/solve2.cpp',
   'src/solveList2.cpp',
-  'src/display.cpp',
 ]
+if GUI_boolean
+  src += 'src/display.cpp'
+endif
 
 procon_kyogi = executable('simulator', src,
   dependencies: deps,
