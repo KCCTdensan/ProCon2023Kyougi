@@ -24,6 +24,10 @@ ninja -C ./build
 
 これで`simulator`という実行ファイルが`/ProCon2023Kyougi/simulator/build`内にできるので、あとはこれを実行すればプログラムを実行できます。
 
+`/ProCon2023Kyougi/simulator/`内の`build.sh`を実行することでも上記のコマンドを実行できます。
+
+`build.sh`に実行権限があたっていない場合は`chmod +x build.sh`を実行して実行権限を与えてください。
+
 ## ビルドするファイルの増やし方
 
 `meson.build`の中の`src`に追加すればおｋ
