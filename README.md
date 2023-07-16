@@ -6,7 +6,7 @@
 
 `pip3 install meson`
 
-windows で ninja-build をインストールする方法はまた今度調べます...
+windows で ninja-build をインストールする方法はまた今度調べます... <- pipでいけました
 
 ### 2. ファイルのビルド
 
