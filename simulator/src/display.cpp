@@ -12,7 +12,7 @@ const int g_height = 1200;
 GLFWwindow* window;
 
 // カラーコード
-std::vector<Color> c = {
+std::vector<Color> cl = {
     { 0xf0, 0xe6, 0x8c }, // 道
     { 0xff, 0x00, 0x00 }, // player1
     { 0x00, 0x00, 0xff }, // player2
@@ -23,7 +23,7 @@ std::vector<Color> c = {
 // GUIを表示させる前に必ず実行すること
 int displayInit()
 {
-    for (auto& x : c) {
+    for (auto& x : cl) {
         x.r /= (float)0xff;
         x.g /= (float)0xff;
         x.b /= (float)0xff;
@@ -67,16 +67,16 @@ void drawDisplay(std::vector<std::vector<int>>& fieldData)
     glLoadIdentity();
     glTranslatef(0.0f, 0.0f, -1.0f); // 平行移動
 
-    for (int i = 1; i <= height; i++) {
-        for (int j = 1; j <= width; j++) {
+    for (int r = 1; r <= height; r++) {
+        for (int c = 1; c <= width; c++) {
             // 正方形の描画
-            float y1 = 1.0f - (2.0f / (height + 2)) * i, x1 = -1.0f + (2.0f / (width + 2)) * j, y2 = 1.0f - (2.0f / (height + 2)) * (i + 1), x2 = -1.0f + (2.0f / (width + 2)) * (j + 1);
+            float y1 = 1.0f - (2.0f / (height + 2)) * r, x1 = -1.0f + (2.0f / (width + 2)) * c, y2 = 1.0f - (2.0f / (height + 2)) * (r + 1), x2 = -1.0f + (2.0f / (width + 2)) * (c + 1);
             glBegin(GL_QUADS);
-            auto t = personFind(Pos(i, j)).first;
+            auto t = personFind(Pos(r, c)).first;
             if (t != -1) {
-                glColor3f(c[t].r, c[t].g, c[t].b);
+                glColor3f(cl[t].r, cl[t].g, cl[t].b);
             } else {
-                glColor3f(c[fieldData[i - 1][j - 1]].r, c[fieldData[i - 1][j - 1]].g, c[fieldData[i - 1][j - 1]].b); // 色の設定
+                glColor3f(cl[fieldData[r - 1][c - 1]].r, cl[fieldData[r - 1][c - 1]].g, cl[fieldData[r - 1][c - 1]].b); // 色の設定
             }
             glVertex2f(x1, y2); // 左下
             glVertex2f(x2, y2); // 右下

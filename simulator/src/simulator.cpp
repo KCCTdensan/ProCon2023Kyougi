@@ -1,4 +1,4 @@
-// #define GL
+#define GL
 
 #ifdef GL
 #include "../include/display.h"
