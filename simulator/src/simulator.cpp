@@ -500,7 +500,6 @@ int main(void)
     cout << "winner: " << winner << endl;
 
 #ifdef GL
-    getchar();
     displayOff();
 #endif
 

@@ -6,8 +6,8 @@
 #include <vector>
 
 // 画面サイズ
-const int g_width = 1200;
-const int g_height = 1200;
+const int g_width = 1000;
+const int g_height = 1000;
 
 GLFWwindow* window;
 
@@ -72,7 +72,7 @@ void drawDisplay(std::vector<std::vector<int>>& fieldData)
             // 正方形の描画
             float y1 = 1.0f - (2.0f / (height + 2)) * r, x1 = -1.0f + (2.0f / (width + 2)) * c, y2 = 1.0f - (2.0f / (height + 2)) * (r + 1), x2 = -1.0f + (2.0f / (width + 2)) * (c + 1);
             glBegin(GL_QUADS);
-            auto t = personFind(Pos(r, c)).first;
+            auto t = personFind(Pos(r - 1, c - 1)).first;
             if (t != -1) {
                 glColor3f(cl[t].r, cl[t].g, cl[t].b);
             } else {
@@ -86,6 +86,7 @@ void drawDisplay(std::vector<std::vector<int>>& fieldData)
         }
     }
     glfwSwapBuffers(window);
+    getchar();
 }
 
 // displayを消す(最後には必ず実行すること)
