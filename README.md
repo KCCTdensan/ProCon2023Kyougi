@@ -6,7 +6,7 @@
 
 `pip3 install meson`
 
-windows で ninja-build をインストールする方法はまた今度調べます... <- pipでいけました
+`pip3 install ninja-build`
 
 ### 2. ファイルのビルド
 
@@ -18,8 +18,19 @@ pwd
 このディレクトリにいる状態で以下のコマンドを実行
 
 ```bash
-meson setup ./build
+meson setup ./build --reconfigure
 ninja -C ./build
 ```
 
 これで`simulator`という実行ファイルが`/ProCon2023Kyougi/simulator/build`内にできるので、あとはこれを実行すればプログラムを実行できます。
+
+## ビルドするファイルの増やし方
+
+`meson.build`の中の`src`に追加すればおｋ
+
+## このプロジェクトをビルドするのに必要な外部ライブラリ
+
+- OpenGL
+- GLFW
+
+これらを導入できない場合は`meson.build`の中の`display.cpp`を消し、`simulator.cpp`の`#define GL`をコメントアウトすればビルドできるようになるはずです(多分)
