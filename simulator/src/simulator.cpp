@@ -1,3 +1,9 @@
+// #define GL
+
+#ifdef GL
+#include "../include/display.h"
+#endif
+
 #include "../include/simulator.h"
 #include <chrono>
 #include <iostream>
@@ -451,6 +457,11 @@ int simulate(int seed, int turn, int requiredTime, const SolveFunction _solve1,
     fieldData2 = fieldReplace(fieldData1);
     printAll();
 
+#ifdef GL
+    displayInit();
+    drawDisplay(fieldData1);
+#endif
+
     vector<thread> threads;
     bool finishFlag = false;
     int ans = 0;
@@ -487,5 +498,11 @@ int main(void)
     //  -> 1: solve1 win   2: solve2 win   0: draw
     //  seed = -1 --> random seed
     cout << "winner: " << winner << endl;
+
+#ifdef GL
+    getchar();
+    displayOff();
+#endif
+
     return 0;
 }
