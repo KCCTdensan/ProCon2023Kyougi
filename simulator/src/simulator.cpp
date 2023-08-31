@@ -121,11 +121,12 @@ void printAll()
     }
 }
 
-vector<vector<vector<int>>> directionSet = {
-    { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } },
-    { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }, { 1, 1 }, { 1, -1 }, { -1, -1 }, { -1, 1 } }
+vector<vector<int>> directionSet = {
+    { 0, 0 }, { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }
 };
-vector<vector<int>> directions;
+vector<vector<int>> fourDirection = {
+    { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 }
+};
 Movement stay(0, -1);
 vector<int> typeOrder = { 3, 2, 1 };
 
@@ -137,18 +138,17 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
     unordered_set<int> cantMove(0);
     printMovements(movements);
     for (int type : typeOrder) {
-        directions = directionSet[type == 1];
         for (int i = 0; i < peopleLen; i++) {
             tie(t, direction) = movements[i];
             if (t != type)
                 continue;
-            if (direction < 0 || (int)directions.size() <= direction) {
+            if (direction < 1 || direction > 8 || (t != 1 && direction % 2 == 1)) {
                 movements[i] = stay;
                 continue;
             }
             tie(r, c) = people[i].pos;
-            r += directions[direction][0];
-            c += directions[direction][1];
+            r += directionSet[direction][0];
+            c += directionSet[direction][1];
             if (r < 0 || height <= r || c < 0 || width <= c) {
                 movements[i] = stay;
                 continue;
@@ -185,14 +185,13 @@ void turnProcessing(vector<Movement>& movements, vector<Person>& people,
             movements[i] = stay;
         }
     }
-    directions = directionSet[0];
     for (int i : cantMove) {
         tie(t, direction) = movements[i];
         if (t != 1)
             continue;
         tie(r, c) = people[i].pos;
-        r += directions[(direction & 4) + (direction + 2) % 4][0];
-        c += directions[(direction & 4) + (direction + 2) % 4][1];
+        r += directionSet[(direction+3)%8+1][0];
+        c += directionSet[(direction+3)%8+1][1];
         people[i].pos = Pos(r, c);
         movements[i] = stay;
     }
@@ -270,7 +269,7 @@ void fieldUpdate(vector<vector<int>>& pointField1, vector<vector<int>>& pointFie
     while (!targets.empty()) {
         target = targets.front();
         targets.pop();
-        for (vector<int>& direction : directionSet[0]) {
+        for (vector<int>& direction : fourDirection) {
             tie(r, c) = target;
             r += direction[0];
             c += direction[1];
@@ -319,7 +318,7 @@ void fieldUpdate(vector<vector<int>>& pointField1, vector<vector<int>>& pointFie
     while (!targets.empty()) {
         target = targets.front();
         targets.pop();
-        for (vector<int>& direction : directionSet[0]) {
+        for (vector<int>& direction : fourDirection) {
             tie(r, c) = target;
             r += direction[0];
             c += direction[1];
@@ -344,23 +343,21 @@ void fieldUpdate(vector<vector<int>>& pointField1, vector<vector<int>>& pointFie
     }
 }
 
-vector<int> calcPoints(vector<vector<int>>& pointField, const vector<vector<int>>& fieldData,
-    pair<int, int> pointRatio)
-{
+vector<int> calcPoints(vector<vector<int>>& pointField, const vector<vector<int>>& fieldData){
     vector<int> ans(3, 0);
     for (int r = 0; r < height; r++) {
         for (int c = 0; c < width; c++) {
             if (pointField[r][c] != 0) {
                 if (fieldData[r][c] == 4) {
-                    ans[0] += pointRatio.first;
-                    ans[1] += 1;
+                    ans[0] += 100;
+                    ans[1] += 100;
                 } else {
-                    ans[0] += pointRatio.second;
-                    ans[2] += 1;
+                    ans[0] += 30;
+                    ans[2] += 30;
                 }
             }
             if (fieldData[r][c] == 1)
-                ans[0] += 1;
+                ans[0] += 10;
         }
     }
     return ans;
@@ -371,8 +368,7 @@ void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
     vector<Movement>& movements1, vector<Movement>& movements2,
     vector<vector<int>>& fieldData1, vector<vector<int>>& fieldData2,
     int& writeAble1, int& writeAble2,
-    system_clock::time_point& startTurn1, system_clock::time_point& startTurn2,
-    pair<int, int> pointRatio, int& ans)
+    system_clock::time_point& startTurn1, system_clock::time_point& startTurn2, int& ans)
 {
     vector<vector<int>> pointField1(height, vector<int>(width));
     vector<vector<int>> pointField2(height, vector<int>(width));
@@ -398,8 +394,11 @@ void judgeSystem(int requiredTurn, int requiredTime, bool& finishFlag,
 
         waitSolve(-1, writeAble1, startTurn2, requiredTime);
     }
-    vector<int> point1 = calcPoints(pointField1, fieldData1, pointRatio);
-    vector<int> point2 = calcPoints(pointField2, fieldData2, pointRatio);
+    vector<int> point1 = calcPoints(pointField1, fieldData1);
+    vector<int> point2 = calcPoints(pointField2, fieldData2);
+    printAll();
+    cout << "team1: " << point1[0] << ", " << point1[1] << ", " << point1[2] << endl;
+    cout << "team2: " << point2[0] << ", " << point2[1] << ", " << point2[2] << endl;
     if (point1[0] > point2[0])
         ans = 1;
     else if (point1[0] < point2[0])
@@ -460,7 +459,7 @@ AllFieldData create(int seed){
 }
 
 int simulate(AllFieldData data, int turn, int requiredTime, const SolveFunction _solve1,
-    const SolveFunction _solve2, pair<int, int> pointRatio)
+    const SolveFunction _solve2)
 {
     fieldData1 = get<0>(data);
     fieldData2 = fieldReplace(fieldData1);
@@ -501,8 +500,7 @@ int simulate(AllFieldData data, int turn, int requiredTime, const SolveFunction 
         ref(movements1), ref(movements2),
         ref(fieldData1), ref(fieldData2),
         ref(writeAble1), ref(writeAble2),
-        ref(startTurn1), ref(startTurn2),
-        pointRatio, ref(ans)));
+        ref(startTurn1), ref(startTurn2), ref(ans)));
     for (auto& t : threads)
         t.join();
     return ans;
@@ -555,8 +553,8 @@ int main(void)
 {
     makeList();
     unordered_map<string, AllFieldData> allField = getAllFieldDatas();
-    int winner = simulate(allField["A11"], 10, 3000, solveList[0], solveList[1], pair<int, int>(100, 10));
-    // simulate(allField["fieldName"], turn, timeOfTurn, solve1, solve2, [castlePointRatio, fieldPointRatio])
+    int winner = simulate(allField["A11"], 10, 3000, solveList[0], solveList[1]);
+    // simulate(allField["fieldName"], turn, timeOfTurn, solve1, solve2)
     //  -> 1: solve1 win   2: solve2 win   0: draw
     
     // simulate(create(seed), ...)
