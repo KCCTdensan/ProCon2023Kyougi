@@ -24,7 +24,7 @@ using namespace std::chrono;
 #include "../include/solveList.h"
 #include "../include/solveList2.h"
 
-extern vector<SolveFunction> solveList;
+extern vector<pair<string, SolveFunction>> solveList;
 
 void solver(const SolveFunction _solve, int requiredTime,
     const vector<vector<int>>& field, const vector<Person>& myPeople,
@@ -553,7 +553,7 @@ int main(void)
 {
     makeList();
     unordered_map<string, AllFieldData> allField = getAllFieldDatas();
-    int winner = simulate(allField["A11"], 10, 3000, solveList[0], solveList[1]);
+    int winner = simulate(allField["A11"], 10, 3000, solveList[0].second, solveList[1].second);
     // simulate(allField["fieldName"], turn, timeOfTurn, solve1, solve2)
     //  -> 1: solve1 win   2: solve2 win   0: draw
     

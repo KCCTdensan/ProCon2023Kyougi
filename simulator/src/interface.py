@@ -5,14 +5,14 @@ baseUrl = "http://localhost:3000"
 
 class LogList:
     def __init__(self):
-        self.time = datetime.datetime.now().strftime("%y/%m/%d-%H:%M:%S")
+        self.time = datetime.datetime.now().strftime("%y-%m-%d_%H-%M-%S")
         self.id = None
         while self.id is None:
-            with open("../interfaceLogs/nowId", "r") as f:
+            with open(r"..\interfaceLogs\nowId.txt", "r") as f:
                 self.id = int(f.read())
         boolean = True
         while boolean:
-            with open("../interfaceLogs/nowId", "w") as f:
+            with open(r"..\interfaceLogs\nowId.txt", "w") as f:
                 f.write(str(self.id+1))
                 boolean = False
         self.data = pd.DataFrame(columns=["method", "url", "params", \
@@ -22,16 +22,28 @@ class LogList:
     def add(self, method, url, **kwargs):
         newData = pd.DataFrame({"method": method, "url": url, \
                       "reqTime": datetime.datetime.now(), **kwargs}, \
-                      index=[self.len]).T
+                      index=[self.len])
         self.data = pd.concat([self.data, newData])
         self.len += 1
         return self.len-1
     def set(self, logId, status, data):
-        self.data.at[logId]["resTime"] = datetime.datetime.now()
-        self.data.at[logId]["status"] = status
-        if data is not None: self.data.at[logId]["resData"] = data
+        self.data.at[logId, "resTime"] = datetime.datetime.now()
+        self.data.at[logId, "status"] = status
+        if data is not None: self.data.at[logId, "resData"] = data
     def __del__(self):
-        self.data.to_csv(f"../interfaceLogs/log{self.id}({self.time})")
+        if len(self.data) == 0:
+            nowId = None
+            while nowId is None:
+                with open(r"..\interfaceLogs\nowId.txt", "r") as f:
+                    nowId = int(f.read())
+            if nowId != self.id+1: return
+            boolean = True
+            while boolean:
+                with open(r"..\interfaceLogs\nowId.txt", "w") as f:
+                    f.write(str(self.id))
+                boolean = False
+            return
+        self.data.to_csv(f"..\\interfaceLogs\\log{self.id}({self.time}).csv")
 
 d = datetime.timedelta(seconds=1)
 def matchInfo(info, match):
@@ -61,8 +73,8 @@ class Interface:
         assert self.id is not None, \
                "試合Idを先に設定してください"
         res = matchInfo(self.get(f"/matches/{self.id}", \
-                                 params={"id": self.id}), match)
-        self.turn = res["turn"]+1+int(res["turn"]%2 == 0 ^ match["first"])
+                                 params={"id": self.id}), self.match)
+        self.turn = res["turn"]+1+int(res["turn"]%2 == 0 ^ self.match["first"])
         return res
     def setTurn(self, turn):
         self.turn = turn
@@ -96,3 +108,5 @@ class Interface:
             print("サーバとの通信に失敗しました。")
             return False
         return True
+    def release(self):
+        self.log = LogList()

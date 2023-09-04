@@ -46,6 +46,7 @@ struct Person {
 #define solveDatas int, const vector<vector<int>>&, const vector<Person>&, const vector<Person>&, const system_clock::time_point&, const bool&, vector<Movement>&, int&
 
 typedef void (*SolveFunction)(solveDatas);
+#define Solver pair<string, SolveFunction>
 
 extern int height, width;
 

@@ -1,5 +1,5 @@
 #pragma once
 #include "simulator.h"
 #include "solveList.h"
-extern vector<SolveFunction> solveList;
+extern vector<Solver> solveList;
 void makeList();

@@ -1,9 +1,9 @@
 #include "../include/solveList2.h"
 
-vector<SolveFunction> solveList;
+vector<Solver> solveList;
 
 void makeList()
 {
-    solveList.push_back(solve1);
-    solveList.push_back(solve2);
+    solveList.push_back(Solver("solve1", solve1));
+    solveList.push_back(Solver("solve2", solve2));
 }
