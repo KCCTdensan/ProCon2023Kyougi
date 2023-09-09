@@ -1,7 +1,7 @@
 import requests, json
 import pandas as pd
 import datetime
-baseUrl = "http://localhost:3000"
+from requests.exceptions import Timeout
 
 class LogList:
     def __init__(self):
@@ -46,23 +46,96 @@ class LogList:
         self.data.to_csv(f"..\\interfaceLogs\\log{self.id}({self.time}).csv")
 
 d = datetime.timedelta(seconds=1)
+class Field:
+    def __init__(self, wall, territory, structure):
+        self.wall, self.territory, self.structure = \
+                   wall, territory, structure
+    def __str__(self):
+        return ",".join(["  MyEn"[self.wall*2:][:2],
+                         "  MyEnXX"[self.territory*2:][:2],
+                         "    pondfort"[self.structure*4:][:4]])
+    def __repr__(self):
+        return "".join(["Field({wall: ",
+                        ["None", "MyWall", "EnemyWall"][self.wall],
+                        ", territory: ",
+                        ["None", "MyField", "EnemyField",
+                         "BothField"][self.territory],
+                        ", structure: ",
+                        ["None", "Pond", "Castle"][self.structure],
+                        "})"])
+
+class Board:
+    def __init__(self, board):
+        self.walls = board["walls"]
+        self.territories = board["territories"]
+        self.width = board["width"]
+        self.height = board["height"]
+        self.mason = board["mason"]
+        self.structures = board["structures"]
+        self.masons = board["masons"]
+        self.all = [[Field(*data) for data in zip(*datas)] for datas \
+                    in zip(self.walls, self.territories, self.structures)]
+
+    def __str__(self):
+        return "[{}]".format(",\n".join(str([*map(str, line)]) \
+                                        for line in self.all))
+    def __repr__(self):
+        return "[{}]".format(",\n".join(map(repr, self.all)))
+
+class MatchInfo:
+    def __init__(self, info, match):
+        self.id = info["id"]
+        self.turn = info["turn"]
+        self.board = Board(info["board"])
+        self.logs = info["logs"]
+        self.myTurn = info["id"]%2 == 1 ^ match["first"]
+        self.myLogs = info["logs"][1-int(match["first"])::2]
+        self.otherLogs = info["logs"][match["first"]::2]
+    def __str__(self):
+        return (f"id: {self.id}\n"
+                f"turn: {self.turn}\n"
+                 "board:\n"
+                f"{self.board}\n"
+                f"myTurn: {self.myTurn}\n"
+                f"logs: {self.logs}\n"
+                f"myLogs: {self.myLogs}\n"
+                f"otherLogs: {self.otherLogs}")
+    def __repr__(self):
+        return "".join(["MatchInfo({id: ",
+                        repr(self.id),
+                        ", turn: ",
+                        repr(self.turn),
+                        ", myTurn: ",
+                        repr(self.myTurn),
+                        ",\nlogs: ",
+                        repr(self.logs),
+                        ",\nmyLogs: ",
+                        repr(self.myLogs),
+                        ",\notherLogs: ",
+                        repr(self.otherLogs),
+                        ",\nboard:\n",
+                        repr(self.board)])
+
 def matchInfo(info, match):
-    info["myTurn"] = info["id"]%2 == 1 ^ match["first"]
-    info["myLogs"] = info["logs"][1-int(match["first"])::2]
-    info["otherLogs"] = info["logs"][match["first"]::2]
-    return info
+    if info is None: return None
+    return MatchInfo(info, match)
 
 class Interface:
-    def __init__(self, token):
-        self.log, self.token, self.id, self.turn = LogList(), token, None, 0
-        assert self.getMatches() is not None, \
+    def __init__(self, token=None, *, baseUrl="http://localhost:", port=3000, \
+                 check=True):
+        self.log, self.token, self.id, self.turn, self.baseUrl = \
+                  LogList(), token, None, 0, "".join([baseUrl, str(port)])
+        assert not check or self.getMatches() is not None, \
                f"token({token})が不正である可能性があります"
+        self.checked = check
     def getMatches(self):
+        assert self.checked, "正しいデータが挿入されていない可能性があります"
         res = self.get("/matches")
         if res is None: return None
         self.matches = res["matches"]
         return self.matches
     def setTo(self, matchId):
+        assert self.checked, "正しいデータが挿入されていない可能性があります"
         for match in self.matches:
             if match["id"] == matchId: break
         else:
@@ -79,15 +152,18 @@ class Interface:
     def setTurn(self, turn):
         self.turn = turn
     def postMovement(self, data):
-        self.post({"turn": self.turn, "actions": data})
+        return self.post({"turn": self.turn, "actions": data})
         
     def get(self, url, **kwargs):
-        url = "".join([baseUrl, url])
+        url = "".join([self.baseUrl, url])
         params = {**kwargs.get("params", {}), "token": self.token}
         kwargs["params"] = params
         for _ in range(3):
             logId = self.log.add("GET", url, **kwargs)
-            res = requests.get(url, **kwargs, timeout=1)
+            try: res = requests.get(url, **kwargs, timeout=1)
+            except Timeout:
+                self.log.set(logId, 404, "")
+                continue
             self.log.set(logId, res.status_code, res.text)
             if res.status_code == 200: break
         else:
@@ -96,12 +172,15 @@ class Interface:
         data = json.loads(res.text)
         return data
     def post(self, **kwargs):
-        url = "".join([baseUrl, f"/matches/{self.id}"])
+        url = "".join([self.baseUrl, f"/matches/{self.id}"])
         params = {**kwargs.get("params", {}), "token": self.token}
         kwargs["params"] = params
         for _ in range(3):
             logId = self.log.add("POST", url, **kwargs)
-            res = requests.post(url, **kwargs, timeout=1)
+            try: res = requests.post(url, **kwargs, timeout=1)
+            except Timeout:
+                self.log.set(logId, 404, "")
+                continue
             self.log.set(logId, res.status_code, res.text)
             if res.status_code == 200: break
         else:
