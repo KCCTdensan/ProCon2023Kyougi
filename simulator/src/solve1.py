@@ -1,4 +1,4 @@
 import solverSet
-def test():
+def test(x):
     print("a")
 solverSet.set("solve1", test)

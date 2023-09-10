@@ -1,6 +1,5 @@
-import requests, json
+import requests, json, datetime
 import pandas as pd
-import datetime
 from requests.exceptions import Timeout
 
 class LogList:
@@ -47,13 +46,14 @@ class LogList:
 
 d = datetime.timedelta(seconds=1)
 class Field:
-    def __init__(self, wall, territory, structure):
-        self.wall, self.territory, self.structure = \
-                   wall, territory, structure
+    def __init__(self, wall, territory, structure, mason):
+        self.wall, self.territory, self.structure, self.mason = \
+                   wall, territory, structure, mason
     def __str__(self):
         return ",".join(["  MyEn"[self.wall*2:][:2],
                          "  MyEnXX"[self.territory*2:][:2],
-                         "    pondfort"[self.structure*4:][:4]])
+                         "    pondfort"[self.structure*4:][:4]],
+                         f"{self.mason: >2}")
     def __repr__(self):
         return "".join(["Field({wall: ",
                         ["None", "MyWall", "EnemyWall"][self.wall],
@@ -62,6 +62,8 @@ class Field:
                          "BothField"][self.territory],
                         ", structure: ",
                         ["None", "Pond", "Castle"][self.structure],
+                        ", mason: ",
+                        str(self.mason),
                         "})"])
 
 class Board:
@@ -74,8 +76,13 @@ class Board:
         self.structures = board["structures"]
         self.masons = board["masons"]
         self.all = [[Field(*data) for data in zip(*datas)] for datas \
-                    in zip(self.walls, self.territories, self.structures)]
-
+            in zip(self.walls, self.territories, self.structures, self.masons)]
+        self.myMasons = [None]*self.mason
+        self.opponentMasons = [None]*self.mason
+        for x, row in enumerate(self.masons):
+            for y, ans in enumerate(row):
+                if ans > 0: self.myMasons[ans-1] = [x, y]
+                if ans < 0: self.opponentMasons[-ans-1] = [x, y]
     def __str__(self):
         return "[{}]".format(",\n".join(str([*map(str, line)]) \
                                         for line in self.all))
@@ -124,12 +131,14 @@ class Interface:
     def __init__(self, token=None, *, baseUrl="http://localhost:", port=3000, \
                  check=True):
         self.log, self.token, self.id, self.turn, self.baseUrl = \
-                  LogList(), token, None, 0, "".join([baseUrl, str(port)])
-        assert not check or self.getMatches() is not None, \
+                  None, token, None, 0, "".join([baseUrl, str(port)])
+        assert not check or self.getMatches(test=True) is not None, \
                f"token({token})が不正である可能性があります"
         self.checked = check
-    def getMatches(self):
-        assert self.checked, "正しいデータが挿入されていない可能性があります"
+    def getMatches(self, *, test=False):
+        if not test:
+            assert self.checked, \
+                   "正しいデータが挿入されていない可能性があります"
         res = self.get("/matches")
         if res is None: return None
         self.matches = res["matches"]
@@ -147,7 +156,8 @@ class Interface:
                "試合Idを先に設定してください"
         res = matchInfo(self.get(f"/matches/{self.id}", \
                                  params={"id": self.id}), self.match)
-        self.turn = res["turn"]+1+int(res["turn"]%2 == 0 ^ self.match["first"])
+        if res is None: return None
+        self.turn = res.turn+1+int(res.turn%2 == 0 ^ self.match["first"])
         return res
     def setTurn(self, turn):
         self.turn = turn
@@ -158,9 +168,10 @@ class Interface:
         url = "".join([self.baseUrl, url])
         params = {**kwargs.get("params", {}), "token": self.token}
         kwargs["params"] = params
+        if self.log is None: self.log = LogList()
         for _ in range(3):
             logId = self.log.add("GET", url, **kwargs)
-            try: res = requests.get(url, **kwargs, timeout=1)
+            try: res = requests.get(url, **kwargs, timeout=0.25)
             except Timeout:
                 self.log.set(logId, 404, "")
                 continue
@@ -175,9 +186,10 @@ class Interface:
         url = "".join([self.baseUrl, f"/matches/{self.id}"])
         params = {**kwargs.get("params", {}), "token": self.token}
         kwargs["params"] = params
+        if self.log is None: self.log = LogList()
         for _ in range(3):
             logId = self.log.add("POST", url, **kwargs)
-            try: res = requests.post(url, **kwargs, timeout=1)
+            try: res = requests.post(url, **kwargs, timeout=0.25)
             except Timeout:
                 self.log.set(logId, 404, "")
                 continue
@@ -188,4 +200,4 @@ class Interface:
             return False
         return True
     def release(self):
-        self.log = LogList()
+        self.log = None
