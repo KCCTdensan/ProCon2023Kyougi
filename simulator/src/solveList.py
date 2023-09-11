@@ -1,5 +1,5 @@
-import solverSet
+import simulator
 def getSolver(name):
-    return solverSet.solverList.get(name, None)
+    return simulator.solverList.get(name, None)
 import solve1
 import solve2

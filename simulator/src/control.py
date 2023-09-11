@@ -1,13 +1,12 @@
 import interface, view, simulator
 import solveList as solveListPack
 import pandas as pd
-import sys, platform, subprocess, threading, time
-
-mode = 2
+import sys, platform, subprocess, threading, time, traceback
+mode = 3
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 1
+threadLen = 3
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
@@ -21,9 +20,11 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve1.py", "solve2.py"]]
+        matchList = [["all", "all"]]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = False
+        replace = True
+        # 観戦を行うか否か TrueでGUI表示します
+        watch = False
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -56,23 +57,30 @@ while disabledList is None:
         disabledList = f.read().split("\n")
 disabledList = [solver.split(",") for solver in disabledList if solver != ""]
 allList = [solver[0] for solver in [*solverList, *disabledList]]
-allName = sum([[f"{solver}-first", f"{solver}-second"] for solver in allList])
+allName = sum([[f"{solver}-first", f"{solver}-second"] for solver in allList],
+              start=[])
 fieldList = []
 for c in "ABC":
     fieldList.extend([f"{c}{i}" for i in [11,13,15,17,21,25]])
 
 if platform.system() == "Windows":
-    target = r"..\server\procon-server_win.exe"
+    serverName = "..\\server\\procon-server_win.exe"
 elif platform.system() == "Linux":
-    target = r"..\server\procon-server_linux"
+    serverName = "../server/procon-server_linux"
 elif "AMD" in platform.machine().upper():
-    target = r"..\server\procon-server_darwin_amd"
+    serverName = "../server/procon-server_darwin_amd"
 else:
-    target = r"..\server\procon-server_darwin_arm"
+    serverName = "../server/procon-server_darwin_arm"
+if platform.system() == "Windows":
+    csvFile = "result\\"
+    fieldFile = "..\\fieldDatas\\"
+else:
+    csvFile = "result/"
+    fieldFile = "../fieldDatas/"
 
 class Result:
     def __init__(self, solver, *, new=False):
-        self.file = f"result\{solver.split('.')[0]}.csv"
+        self.file = f"{csvFile}{solver.split('.')[0]}.csv"
         if new: self.result = pd.DataFrame(index=allName,
                                            columns=fieldList)
         else:
@@ -86,15 +94,17 @@ class Result:
     def match(self, opponent, field):
         ans = []
         for text in [f"{opponent}-first", f"{opponent}-second"]:
-            data = self.result.at[text][field]
-            if not data: ans.append(None)
+            data = self.result.at[text,field]
+            if pd.isnull(data): ans.append(None)
             else:
                 data = data.split(": ")
                 ans.append([data[0] == "WIN", *map(int, data[1].split("-"))])
         return ans
     def set(self, opponent, field, point1, point2, result, *, first=True):
-        self.result.at[f"{opponent}-{'first' if first else 'second'}"][field] \
+        self.result.at[f"{opponent}-{'first' if first else 'second'}",field] \
             = f"{'WIN' if result else 'LOSE'}: {point1}-{point2}"
+    def release(self):
+        self.result.to_csv(self.file)
     def __del__(self):
         self.result.to_csv(self.file)
 
@@ -134,15 +144,16 @@ if mode == 2:
     newSolverList = [",".join(solver) for solver in newSolverList]
     newDisabledList = [",".join(solver) for solver in newDisabledList]
     while newSolverList is not None:
-        with open("result\solverList.txt", "w") as f:
+        with open(f"{csvFile}solverList.txt", "w") as f:
             f.write("\n".join(newSolverList))
             newSolverList = None
     while newDisabledList is not None:
-        with open("result\disabledList.txt", "w") as f:
+        with open(f"{csvFile}disabledList.txt", "w") as f:
             f.write("\n".join(newDisabledList))
             newDisabledList = None
     allList = [solver[0] for solver in [*solverList, *disabledList]]
-    allName = sum([[f"{solver}-first", f"{solver}-second"] for solver in allList])
+    allName = sum([[f"{solver}-first", f"{solver}-second"] for solver \
+                   in allList], start=[])
     newSolver = [solver[0] for solver in newSolver]
     for solver in newSolver:
         a = Result(solver, new=True); del a
@@ -179,44 +190,55 @@ if mode == 3:
 
 if mode == 1:
     results = dict([(solver[0], Result(solver[0])) for solver in solverList])
-
+processes = []
 class Solver:
     def __init__(self, solver):
-        self._isAlive = False
-        self.main = None
+        self._isAlive, self.main, self.dead = False, None, False
         self.thread = []
         if solver[0][-3:] == ".py": self.lang = "python"
         else: self.lang = "c++"
         self.name = solver[0]
         if solver[1] == "all": self.target = False
-        else: self.target = obj[1]
+        else: self.target = solver[1]
         if self.lang == "python":
-            self.solver = solveListPack.getSolver(obj[0][:-3])
-            assert self.solver is not None, f"{obj[0]}が見つかりません"
+            self.solver = solveListPack.getSolver(solver[0][:-3])
+            assert self.solver is not None, f"{solver[0]}が見つかりません"
     def threading(self, func, *args, **kwargs):
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
         self.thread.append(thread)
         thread.start()
         return thread
+    def solve(self, func, *args, **kwargs):
+        try: func(*args, **kwargs)
+        except:
+            self.dead = True
+            traceback.print_exc()
     def start(self, interface):
         self._isAlive = True
         if self.lang == "python":
-            self.main = self.threading(self.solver, interface, self)
+            self.main = self.threading(self.solve, self.solver, interface, self)
     def targetAs(self, target):
         return not self.target or target[0] == self.target
     def isAlive(self):
-        if self.lang == "python":
-            self._isAlive &= self.main is not None and self.main.is_alive()
+        if self.lang == "python" and self.main is not None:
+            self._isAlive &= self.main.is_alive()
         return self._isAlive
     def release(self):
         self._isAlive = False
+    def __del__(self):
+        for thread in self.thread:
+            try: thread.join()
+            except RuntimeError: pass
 
 class Match(object):
     def __init__(self):
         self.thread = []
+        self.process = None
     def interfaceStart(self, interface, matchId, token, **kwargs):
-        interface.__init__(token, **kwargs)
-        interface.setTo(matchId)
+        try:
+            interface.__init__(token, **kwargs)
+            interface.setTo(matchId)
+        except: traceback.print_exc()
     def threading(self, func, *args, **kwargs):
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
         self.thread.append(thread)
@@ -224,28 +246,39 @@ class Match(object):
         return thread
     def show(self):
         if not self.isAlive(): return False
-        view.show(self.interface.getMatchInfo().board)
+        if self.mode == "real":
+            view.show(self.interface.getMatchInfo(), self.solver.name)
+        if self.mode == "practice":
+            view.show(self.interface.getMatchInfo(), self.solver1.name,
+                      self.solver2.name, self.field)
         return True
     def __del__(self):
-        for thread in self.threads:
-            thread.join()
+        for thread in self.thread:
+            try: thread.join()
+            except RuntimeError: pass
 
 class Real(Match):
     def __init__(self, solver, matchId):
         super().__init__()
+        self.cantStart = False
         self.interface = interface.Interface(check=False)
         self.interface1 = interface.Interface(check=False)
-        self.threading(
-          self.interfaceStart, self.interface, matchId, token, baseUrl=baseUrl)
-        thread = self.threading(
-          self.interfaceStart, self.interface1, matchId, token, baseUrl=baseUrl)
+        self.threading(self.interfaceStart, self.interface, matchId, token,
+                       baseUrl=baseUrl)
+        thread = self.threading(self.interfaceStart, self.interface1, matchId,
+                                token, baseUrl=baseUrl)
         self.solver = solver
         self.mode="real"
-        thread.join()
+        try: thread.join()
+        except RuntimeError: pass
+        if not self.interface1.checked:
+            self.cantStart = True
+            return
         solver.start(self.interface1)
     def isAlive(self):
         return self.solver.isAlive()
     def __del__(self):
+        if self.cantStart: return False
         self.solver.release()
         self.threading(lambda: self.interface.release())
         self.threading(lambda: self.interface1.release())
@@ -257,10 +290,13 @@ class Practice(Match):
         if not(solver1.targetAs(field) and solver2.targetAs(field)):
             self.cantStart = True
             return
-        print(f"start {solver1.name} - {solver2.name} match in {field}")
+        print(f"start {solver1.name} - {solver2.name} match in {field} "
+              f"at port {port}")
         self.cantRecord = self.cantStart = False
-        self.process = subprocess.run([target, "-c",
-                            f"..\\fieldDatas\\{field}.txt", "-l", f":{port}"])
+        self.process = subprocess.Popen([serverName, "-c",
+            f"{fieldFile}{field}.txt", "-l", f":{port}", "-start", "1s"])
+        processes.append(self.process)
+        time.sleep(1)
         self.field = field
         self.interface = interface.Interface(check=False)
         self.interface1 = interface.Interface(check=False)
@@ -278,15 +314,20 @@ class Practice(Match):
         self.allTurn = None
         thread1.join()
         thread2.join()
+        if not self.interface1.checked or not self.interface2.checked:
+            self.cantRecord = True
+            return
         solver1.start(self.interface1)
         solver2.start(self.interface2)
     def isAlive(self):
+        if self.cantStart: return False
         if self.cantRecord: return False
         if self.allTurn is None:
             returned = self.interface.getMatches()
             if returned: self.allTurn = returned[0]["turns"]
             else: self.cantRecord = True
         returned = self.interface.getMatchInfo()
+        if not self.interface.checked: pass
         if not returned: self.cantRecord = True
         elif returned.turn == self.allTurn: return False
         if self.cantRecord: return False
@@ -314,11 +355,14 @@ class Practice(Match):
             results[solver1.name].set(solver2.name, self.field, point[0][0],
                                       point[1][0], result)
             results[solver2.name].set(solver1.name, self.field, point[1][0],
-                                      point[0][0], result, first=False)
-            print(f"recorded {solver1.name} - {solver2.name} match in {self.field}")
+                                      point[0][0], not result, first=False)
+            print(f"recorded {solver1.name} - {solver2.name} match "
+                  f"in {self.field}")
         else:
-            print(f"failed {solver1.name} - {solver2.name} match in {self.field}")
+            print(f"failed {solver1.name} - {solver2.name} match "
+                  f"in {self.field}")
         super().__del__()
+        if self.process.poll() is None: self.process.kill()
 
 def pattern(solver1, solver2):
     if solver1 != "all" and solver1 not in solverDict:
@@ -329,41 +373,57 @@ def pattern(solver1, solver2):
         return
     if solver1 == "all":
         for solver1 in solverList:
-            for pattern in pattern(solver1[0], solver2): yield pattern
+            for p in pattern(solver1[0], solver2): yield p
         return 
     if solver2 == "all":
-        for solver2 in allList:
-            for pattern in pattern(solver1, solver2[0]): yield pattern
+        for solver2 in solverList:
+            for p in pattern(solver1, solver2[0]): yield p
         return
     solver1 = [solver1, solverDict[solver1]]
     solver2 = [solver2, solverDict[solver2]]
     for field in fieldList:
         yield [solver1, solver2, field]
-if mode == 1:
-    queue, p = iter(matchList), iter([])
-    matches = []
-    port = set()
-    while True:
-        if len(matches) < threadLen:
-            target = next(p, None)
-            if target is None:
-                target = next(queue, None)
-                if target is None: break
-                p = pattern(*target)
+
+try:
+    if mode == 1:
+        queue, p = iter(matchList), iter([])
+        matches = []
+        port = set()
+        if watch: view.start()
+        while True:
+            if len(matches) < threadLen:
+                target = next(p, None)
+                if target is None:
+                    target = next(queue, None)
+                    if target is None: break
+                    p = pattern(*target)
+                    continue
+                if replace or not results[target[0][0]].match(target[1][0],
+                                                              target[2])[0]:
+                    for po in range(3000, 4000):
+                        if po not in port: break
+                    matches.append([Practice(Solver(target[0]),
+                                    Solver(target[1]), target[2], po), po])
+                    port.add(po)
                 continue
-            if replace or not results[target[0]].match(target[1], target[2])[0]:
-                for p in range(8000, 9000):
-                    if p not in port: break
-                matches.append([Practice(Solver(target[0]), Solver(target[1]), \
-                                         target[2], port), p])
-                port.add(p)
-            continue
-        for i, m in enumerate(matches):
-            if not m[0].isAlive():
-                port.discard(m[1])
-                del m, matches[i]
-        time.sleep(0.1)
+            for i, m in enumerate(matches):
+                if not m[0].isAlive():
+                    port.discard(m[1])
+                    del m, matches[i]
+                elif watch and m[1] == 3000: m[0].show()
+            time.sleep(0.1)
     while len(matches) > 0:
         for i, m in enumerate(matches):
             if not m[0].isAlive(): del m, matches[i]
         time.sleep(0.1)
+    print("正常終了しました。")
+except KeyboardInterrupt: print("終了します")
+finally:
+    for m in matches: m[0].cantRecord = True
+    m = None
+    del matches
+    for result in results.values():
+        result.release()
+    for p in processes:
+        if p.poll() is None: p.kill()
+    if watch: view.release()

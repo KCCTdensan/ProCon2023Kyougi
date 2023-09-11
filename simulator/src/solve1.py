@@ -1,4 +1,49 @@
-import solverSet
-def test(x):
-    print("a")
-solverSet.set("solve1", test)
+import simulator
+from simulator import *
+import time
+def solve1(interface, solver):
+    matchInfo = interface.getMatchInfo()
+    while True:
+        if matchInfo is None or not solver.isAlive(): return
+        board = matchInfo.board
+        movement = []
+        for mason in board.myMasons:
+            distance = simulator.distance(board, mason)
+            castle, newDistance = None, 999
+            for c in board.castles:
+                if -1 < distance[c[0]][c[1]] < newDistance:
+                    castle, newDistance = c, distance[c[0]][c[1]]
+            if castle is None:
+                movement.append([0, 0])
+            elif mason == castle:
+                for i, dy, dx in fourDirectionSet:
+                    x, y = mason[0]+dx, mason[1]+dy
+                    if not inField(board, x, y): continue
+                    match board.walls[x][y]:
+                        case 0: movement.append([2, i])
+                        case 2: movement.append([3, i])
+                        case _: continue
+                    break
+                else: movement.append([0, 0])
+            else:
+                distance = simulator.distance(board, castle)
+                ans, newDistance = None, distance[mason[0]][mason[1]]
+                for i, dy, dx in directionSet:
+                    x, y = mason[0]+dx, mason[1]+dy
+                    if not inField(board, x, y): continue
+                    if -1 < distance[x][y] < newDistance:
+                        newDistance = distance[x][y]
+                        ans = i
+                if ans is None: movement.append([0, 0])
+                else: movement.append([1, ans])
+        interface.postMovement(movement)
+        turn = matchInfo.turn
+        while turn == matchInfo.turn:
+            time.sleep(0.1)
+            matchInfo = interface.getMatchInfo()
+            if matchInfo is None or not solver.isAlive(): return
+        while matchInfo.myTurn:
+            time.sleep(0.1)
+            matchInfo = interface.getMatchInfo()
+            if matchInfo is None or not solver.isAlive(): return
+simulator.set("solve1", solve1)

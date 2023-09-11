@@ -1,22 +1,27 @@
-import requests, json, datetime
+import httpx, json, datetime, platform
 import pandas as pd
-from requests.exceptions import Timeout
+from requests.exceptions import Timeout, ConnectionError
+
+if platform.system() == "Windows":
+    logFile = "..\\interfaceLogs\\"
+else:
+    logFile = "../interfaceLogs/"
 
 class LogList:
     def __init__(self):
         self.time = datetime.datetime.now().strftime("%y-%m-%d_%H-%M-%S")
         self.id = None
         while self.id is None:
-            with open(r"..\interfaceLogs\nowId.txt", "r") as f:
-                self.id = int(f.read())
+            with open(f"{logFile}nowId.txt", "r") as f:
+                if (txt := f.read()) != "": self.id = int(txt)
         boolean = True
         while boolean:
-            with open(r"..\interfaceLogs\nowId.txt", "w") as f:
+            with open(f"{logFile}nowId.txt", "w") as f:
                 f.write(str(self.id+1))
                 boolean = False
-        self.data = pd.DataFrame(columns=["method", "url", "params", \
-                                          "status", "reqTime", "resTime", \
-                                          "data", "resData"])
+        self.data = pd.DataFrame(columns=["method", "url", "headers", \
+                                          "params", "status", "reqTime", \
+                                          "resTime", "data", "resData"])
         self.len = 0
     def add(self, method, url, **kwargs):
         newData = pd.DataFrame({"method": method, "url": url, \
@@ -33,16 +38,16 @@ class LogList:
         if len(self.data) == 0:
             nowId = None
             while nowId is None:
-                with open(r"..\interfaceLogs\nowId.txt", "r") as f:
+                with open(f"{logFile}nowId.txt", "r") as f:
                     nowId = int(f.read())
             if nowId != self.id+1: return
             boolean = True
             while boolean:
-                with open(r"..\interfaceLogs\nowId.txt", "w") as f:
+                with open(f"{logFile}nowId.txt", "w") as f:
                     f.write(str(self.id))
                 boolean = False
             return
-        self.data.to_csv(f"..\\interfaceLogs\\log{self.id}({self.time}).csv")
+        self.data.to_csv(f"{logFile}log{self.id}({self.time}).csv")
 
 d = datetime.timedelta(seconds=1)
 class Field:
@@ -79,10 +84,12 @@ class Board:
             in zip(self.walls, self.territories, self.structures, self.masons)]
         self.myMasons = [None]*self.mason
         self.opponentMasons = [None]*self.mason
-        for x, row in enumerate(self.masons):
+        self.castles = []
+        for x, row in enumerate(self.all):
             for y, ans in enumerate(row):
-                if ans > 0: self.myMasons[ans-1] = [x, y]
-                if ans < 0: self.opponentMasons[-ans-1] = [x, y]
+                if ans.mason > 0: self.myMasons[ans.mason-1] = [x, y]
+                if ans.mason < 0: self.opponentMasons[-ans.mason-1] = [x, y]
+                if ans.structure == 2: self.castles.append([x, y])
     def __str__(self):
         return "[{}]".format(",\n".join(str([*map(str, line)]) \
                                         for line in self.all))
@@ -95,7 +102,7 @@ class MatchInfo:
         self.turn = info["turn"]
         self.board = Board(info["board"])
         self.logs = info["logs"]
-        self.myTurn = info["id"]%2 == 1 ^ match["first"]
+        self.myTurn = info["turn"]%2 == 1 ^ match["first"]
         self.myLogs = info["logs"][1-int(match["first"])::2]
         self.otherLogs = info["logs"][match["first"]::2]
     def __str__(self):
@@ -131,7 +138,8 @@ class Interface:
     def __init__(self, token=None, *, baseUrl="http://localhost:", port=3000, \
                  check=True):
         self.log, self.token, self.id, self.turn, self.baseUrl = \
-                  None, token, None, 0, "".join([baseUrl, str(port)])
+                  None, token, None, 0, f"{baseUrl}{port}"
+        self.headers = {"procon-token": token}
         assert not check or self.getMatches(test=True) is not None, \
                f"token({token})が不正である可能性があります"
         self.checked = check
@@ -154,50 +162,54 @@ class Interface:
     def getMatchInfo(self):
         assert self.id is not None, \
                "試合Idを先に設定してください"
-        res = matchInfo(self.get(f"/matches/{self.id}", \
-                                 params={"id": self.id}), self.match)
+        res = matchInfo(self.get(f"/matches/{self.id}"), self.match)
         if res is None: return None
         self.turn = res.turn+1+int(res.turn%2 == 0 ^ self.match["first"])
         return res
     def setTurn(self, turn):
         self.turn = turn
     def postMovement(self, data):
-        return self.post({"turn": self.turn, "actions": data})
+        if type(data) is not list: pass
+        elif type(data[0]) is list:
+            old, data = data, {"turn": self.turn}
+            data["actions"] = []
+            for d in old:
+                data["actions"].append({"type": d[0], "dir": d[1]})
+        elif type(data[0]) is dict:
+            data = {"turn": self.turn, "actions": data}
+        return self.post(f"/matches/{self.id}", data=data)
         
-    def get(self, url, **kwargs):
+    def get(self, url):
         url = "".join([self.baseUrl, url])
-        params = {**kwargs.get("params", {}), "token": self.token}
-        kwargs["params"] = params
         if self.log is None: self.log = LogList()
-        for _ in range(3):
-            logId = self.log.add("GET", url, **kwargs)
-            try: res = requests.get(url, **kwargs, timeout=0.25)
-            except Timeout:
-                self.log.set(logId, 404, "")
-                continue
-            self.log.set(logId, res.status_code, res.text)
-            if res.status_code == 200: break
-        else:
-            print("サーバとの通信に失敗しました。")
-            return None
-        data = json.loads(res.text)
-        return data
-    def post(self, **kwargs):
-        url = "".join([self.baseUrl, f"/matches/{self.id}"])
-        params = {**kwargs.get("params", {}), "token": self.token}
-        kwargs["params"] = params
+        logId = self.log.add("GET", url, headers=self.headers)
+        try:
+            with httpx.Client(timeout=httpx.Timeout(0.5)) as client:
+                res = client.get(url, headers=self.headers)
+            if res.status_code == httpx.codes.OK:
+                if self.log is None: return None
+                self.log.set(logId, res.status_code, res.json())
+                return res.json()
+            code = res.status_code
+        except (httpx.TimeoutException, httpx.NetworkError): code = 404
+        if self.log is not None: self.log.set(logId, code, "")
+        print(f"サーバとの通信に失敗しました。({logId}: {code})")
+        return None
+    def post(self, url, data):
+        url = "".join([self.baseUrl, url])
         if self.log is None: self.log = LogList()
-        for _ in range(3):
-            logId = self.log.add("POST", url, **kwargs)
-            try: res = requests.post(url, **kwargs, timeout=0.25)
-            except Timeout:
-                self.log.set(logId, 404, "")
-                continue
-            self.log.set(logId, res.status_code, res.text)
-            if res.status_code == 200: break
-        else:
-            print("サーバとの通信に失敗しました。")
-            return False
-        return True
+        logId = self.log.add("POST", url, data=str(data), headers=self.headers)
+        try:
+            with httpx.Client(timeout=httpx.Timeout(0.5)) as client:
+                res = client.post(url, json=data, headers=self.headers)
+            if res.status_code == httpx.codes.OK:
+                if self.log is None: return None
+                self.log.set(logId, res.status_code, res.json())
+                return True
+            code = res.status_code
+        except (httpx.TimeoutException, httpx.NetworkError): code = 404
+        if self.log is not None: self.log.set(logId, code, "")
+        print(f"サーバとの通信に失敗しました。({logId}: {code})")
+        return False
     def release(self):
         self.log = None
