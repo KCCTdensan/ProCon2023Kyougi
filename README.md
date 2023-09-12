@@ -5,6 +5,7 @@
 httpx, pandas
 
 `pip install httpx pandas`
+`pip3 install httpx pandas`
 
 ## solverの追加方法(python)
 
@@ -34,19 +35,21 @@ solver関数はシミュレート時呼び出され、試合の情報を取得�
 
 solver関数の第1引数のinterfaceにはInterfaceクラスが渡されます 内容は以下の通りです
 
-`Interface.getMatchInfo()`: MatchInfoクラス
+```
+Interface.getMatchInfo(): MatchInfoクラス
   試合の情報がMatchInfoクラスで返される(後述) 通信に失敗した場合はNoneが返り値
 
-`Interface.postMovement(data)`: bool
+Interface.postMovement(data): bool
   職人の行動を決定する(サーバーにPOSTする) 通信に失敗した場合はFalseが返り値
   dataの形式は2通り利用できる
     [[0, 0], [1, 8], [2, 8]]
     [{"type": 0, "dir": 0}, {"type": 1, "dir": 8}, {"type": 2, "dir": 8}]
   基本的に次の自分のターンに対しての行動を決定する
 
-`Interface.setTurn(turn)`: None
+Interface.setTurn(turn): None
   Interface.postMovementの直前に使用することで次のターン以外にも行動を設定することが出来る
   他チームの行動は多分無理
+```
 
 MatchInfoクラス、及び内部に生成されるBoardクラスの内容は以下の通りです
 
