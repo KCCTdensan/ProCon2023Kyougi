@@ -2,11 +2,11 @@ import interface, view, simulator
 import solveList as solveListPack
 import pandas as pd
 import sys, platform, subprocess, threading, time, traceback
-mode = 3
+mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 3
+threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
@@ -24,7 +24,7 @@ match mode:
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
         replace = True
         # 観戦を行うか否か TrueでGUI表示します
-        watch = False
+        watch = True
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -91,17 +91,17 @@ class Result:
                 self.result = pd.concat([pd.DataFrame(index=allName), \
                                          self.result.loc[new]], axis=1)
 
-    def match(self, opponent, field):
+    def match(self, other, field):
         ans = []
-        for text in [f"{opponent}-first", f"{opponent}-second"]:
+        for text in [f"{other}-first", f"{other}-second"]:
             data = self.result.at[text,field]
             if pd.isnull(data): ans.append(None)
             else:
                 data = data.split(": ")
                 ans.append([data[0] == "WIN", *map(int, data[1].split("-"))])
         return ans
-    def set(self, opponent, field, point1, point2, result, *, first=True):
-        self.result.at[f"{opponent}-{'first' if first else 'second'}",field] \
+    def set(self, other, field, point1, point2, result, *, first=True):
+        self.result.at[f"{other}-{'first' if first else 'second'}",field] \
             = f"{'WIN' if result else 'LOSE'}: {point1}-{point2}"
     def release(self):
         self.result.to_csv(self.file)
@@ -348,10 +348,7 @@ class Practice(Match):
             point = simulator.calcPoint(returned.board)
             if solver1.dead: point[0] = [-1, -1, -1]
             if solver2.dead: point[1] = [-1, -1, -1]
-            if point[0][0] != point[1][0]: result = point[0][0] > point[1][0]
-            elif point[0][1] != point[1][1]: result = point[0][1] > point[1][1]
-            elif point[0][2] != point[0][2]: result = point[0][2] > point[1][2]
-            else: result = True
+            result = point[0] >= point[1]
             results[solver1.name].set(solver2.name, self.field, point[0][0],
                                       point[1][0], result)
             results[solver2.name].set(solver1.name, self.field, point[1][0],

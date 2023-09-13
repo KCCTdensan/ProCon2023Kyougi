@@ -83,12 +83,12 @@ class Board:
         self.all = [[Field(*data) for data in zip(*datas)] for datas \
             in zip(self.walls, self.territories, self.structures, self.masons)]
         self.myMasons = [None]*self.mason
-        self.opponentMasons = [None]*self.mason
+        self.otherMasons = [None]*self.mason
         self.castles = []
         for x, row in enumerate(self.all):
             for y, ans in enumerate(row):
                 if ans.mason > 0: self.myMasons[ans.mason-1] = [x, y]
-                if ans.mason < 0: self.opponentMasons[-ans.mason-1] = [x, y]
+                if ans.mason < 0: self.otherMasons[-ans.mason-1] = [x, y]
                 if ans.structure == 2: self.castles.append([x, y])
     def __str__(self):
         return "[{}]".format(",\n".join(str([*map(str, line)]) \
@@ -105,6 +105,7 @@ class MatchInfo:
         self.myTurn = info["turn"]%2 == 1 ^ match["first"]
         self.myLogs = info["logs"][1-int(match["first"])::2]
         self.otherLogs = info["logs"][match["first"]::2]
+        self.first = match["first"]
     def __str__(self):
         return (f"id: {self.id}\n"
                 f"turn: {self.turn}\n"

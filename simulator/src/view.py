@@ -1,9 +1,11 @@
 import tkinter as tk
 import threading
+from simulator import directionList
+from collections import deque
 finishBool = False
 data = None
 
-def draw(canvas, field, x, y, x0, length):
+def drawField(canvas, field, x, y, x0, length):
     match field.territory:
         case 0: line="white"
         case 1: line="red"
@@ -47,7 +49,38 @@ def main():
             x0 = (600-board.height*length)/2
             for y, row in enumerate(board.all):
                 for x, field in enumerate(row):
-                    draw(canvas, field, x, y, x0, length)
+                    drawField(canvas, field, x, y, x0, length)
+            myMasons = board.myMasons.copy()
+            myHistory = [deque([pos]) for pos in myMasons]
+            otherMasons = board.otherMasons.copy()
+            otherHistory = [deque([pos]) for pos in otherMasons]
+            for log in data[0].logs[::-1]:
+                for i, action in enumerate(log["actions"]):
+                    if not action["succeeded"] or action["type"] != 1: continue
+                    dif = directionList[action["dir"]-1]
+                    if log["turn"]%2 == 0 ^ data[0].first:
+                        myMasons[i] = list(map(sum, zip(myMasons[i], dif)))
+                        myHistory[i].appendleft(myMasons[i])
+                    else:
+                        otherMasons[i] = list(map(sum, zip(otherMasons[i], dif)))
+                        otherHistory[i].appendleft(otherMasons[i])
+            for h in myHistory:
+                if len(h) == 1: continue
+                args = []
+                for p in h:
+                    args.append(x0+(p[1]+0.5)*length)
+                    args.append(50+(p[0]+0.5)*length)
+                canvas.create_line(*args, fill = "tomato",
+                                   activewidth = 7, width = 3, arrow=tk.LAST)
+            for h in otherHistory:
+                if len(h) == 1: continue
+                args = []
+                for p in h:
+                    args.append(x0+(p[1]+0.5)*length)
+                    args.append(50+(p[0]+0.5)*length)
+                canvas.create_line(*args, fill = "RoyalBlue1",
+                                   activewidth = 7, width = 3, arrow=tk.LAST)
+
             if len(data) == 2:
                 canvas.create_text(300, 650, text=f"{data[1]}を実行中")
             if len(data) == 4:

@@ -29,7 +29,7 @@ def distance(board, x, y=None):
 
 def calcPoint(board):
     ans = [0, 0, 0]
-    opponent = [0, 0, 0]
+    other = [0, 0, 0]
     for row in board.all:
         for field in row:
             point = 100 if field.structure == 2 else 30
@@ -37,12 +37,12 @@ def calcPoint(board):
                 ans[0] += point
                 ans[1+(field.structure!=2)] += point
             if field.territory >= 2:
-                opponent[0] += point
-                opponent[1+(field.structure!=2)] += point
+                other[0] += point
+                other[1+(field.structure!=2)] += point
             match field.wall:
                 case 1: ans[0] += 10
-                case 2: opponent[0] += 10
-    return [ans, opponent]
+                case 2: other[0] += 10
+    return [ans, other]
 
 solverList = {}
 def set(name, solver):
