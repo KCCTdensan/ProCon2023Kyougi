@@ -5,6 +5,7 @@
 httpx, pandas
 
 `pip install httpx pandas`
+
 `pip3 install httpx pandas`
 
 ## solverの追加方法(python)
@@ -59,6 +60,8 @@ MatchInfo.turn: int
   現在のターン数
 MatchInfo.myTurn: bool
   次のターンが自分のターンか否か (先手チームならturn = [0, 2, 4, 6...]の時にTrue)
+MatchInfo.first: bool
+  この試合において自分が先手か否か
 MatchInfo.board: Boardクラス
   現在のフィールドの情報をBoardクラスで表したもの
 MatchInfo.logs: list
@@ -102,7 +105,7 @@ Board.all: list<list<Fieldクラス>>
 Board.myMasons: list
   自チームの職人の位置を返す idが1始まりなのに対しインデックスは0始まりなので注意
     例: Board.myMasons[0] が [3, 6] のとき Board.masons[3][6] は 1
-Board.opponentMasons: list
+Board.otherMasons: list
   他チームの職人の位置を返す
 Board.castles: list
   フィールド上の城の位置を返す
@@ -117,7 +120,7 @@ solver.isAlive(): bool
   試合が続行可能かどうかを返す
 ```
 
-Falseが返された場合即座にsolver関数を終了してください(終了処理を円滑に進めるため) なお、この関数がFalseを返していない時にsolver関数が終了すると**異常終了したとみなされます。** 試合中は必ずsolver関数の実行を続けてください。
+Falseが返された場合即座にsolver関数を終了してください(終了処理を円滑に進めるため)
 
 ### simulatorモジュール
 
@@ -126,7 +129,7 @@ solverファイルに必ずインポートする必要があるsimulatorモジ�
 ```
 simulator.set(name, solver): None
   solverをsolver関数として登録する
-  control.pyではnameを用いて管理するため注意すること 拡張子は不要
+  control.pyではnameを用いて管理するため注意すること 拡張子は不要 ファイル名に指定できない文字は指定不可
 
 simulator.directionList: ((-1, -1), (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0))
 simulator.directionSet: ((1, -1, -1), (2, 0, -1), (3, 1, -1), (4, 1, 0), (5, 1, 1), (6, 0, 1), (7, -1, 1), (8, -1, 0))
@@ -154,3 +157,11 @@ simulator.calcPoint(board): list<list<int>>
     [相手チームの合計点数, 相手チームの城のみの点数, 相手チームの陣地のみの点数]
   ]
 ```
+
+## 試合結果について
+
+試合結果はcontrol.pyで確認できますがresultフォルダからも確認できます
+
+solver関数が異常終了した場合は点数を-1として記録します
+
+なお、試合中が正常終了しなかった場合(Ctrl-Cで中断された場合等)は記録されません
