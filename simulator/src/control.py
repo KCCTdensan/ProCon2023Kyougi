@@ -331,7 +331,7 @@ class Practice(Match):
         if not returned: self.cantRecord = True
         elif returned.turn == self.allTurn: return False
         if self.cantRecord: return False
-        return self.solver1.isAlive() and self.solver2.isAlive()
+        return not self.solver1.dead and not self.solver2.dead
     def __del__(self):
         if self.cantStart:
             super().__del__()
