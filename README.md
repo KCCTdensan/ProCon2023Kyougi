@@ -131,24 +131,42 @@ simulator.set(name, solver): None
   solverをsolver関数として登録する
   control.pyではnameを用いて管理するため注意すること 拡張子は不要 ファイル名に指定できない文字は指定不可
 
-simulator.directionList: ((-1, -1), (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0))
-simulator.directionSet: ((1, -1, -1), (2, 0, -1), (3, 1, -1), (4, 1, 0), (5, 1, 1), (6, 0, 1), (7, -1, 1), (8, -1, 0))
-simulator.fourDirectionList: ((0, -1), (1, 0), (0, 1), (-1, 0))
-simulator.fourDirectionSet: ((2, 0, -1), (4, 1, 0), (6, 0, 1), (8, -1, 0))
+directionList: ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1))
+directionSet: ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1), (6, 1, 0), (7, 1, -1), (8, 0, -1))
+fourDirectionList: ((-1, 0), (0, 1), (1, 0), (0, -1))
+fourDirectionSet: ((2, -1, 0), (4, 0, 1), (6, 1, 0), (8, 0, -1))
   全方位にアクセスする際のインデックスの差分及びそのidをタプルにしたもの
 
 simulator.inField(board, x, y): bool
   与えられた座標がBoardクラスの中に存在するか否かを返す
   次のように使ってください
-    for dir, dx, dy: simulator.directionSet:
+    for dir, dx, dy in simulator.directionSet:
       newX, newY = x+dx, y+dy
       if not simulator.inField(board, newX, newY)
 
   引数を2つにして座標の配列で渡すこともできます
   simulator.inField(board, [500000, -123]) -> False
 
-simulator.distance(board, x, y): list<list<int>>
+simulator.allDirection(board, directions, x, y): iter<list<int>>
+  directionsにdirectionList及びその種類のものを入れることで全方位に対する数値を出してくれる
+  また、boardの情報を見て範囲外のものは返さない
+  次のように使えます
+  for dir, x, y in simulator.allDirection(board, directionSet, oldX, oldY):
+  for x, y in simulator.allDirection(board, directionList, oldX, oldY):
+  なおイテレータ型なので繰り返し使う際はlistに変換してください
+
+simulator.distance(board, x, y): tuple<tuple<int>>
   与えられた座標からの距離を幅探索し、2次元配列で返します 到達できない箇所は-1が返されます
+
+simulator.Distance(board): Distanceクラス
+  探索したことのある座標から何度も幅探索することを避けるために距離測定専用のクラスを作りました
+  ただし新たに建築された城壁等に対応できないため必ず毎ターンboardを更新することをお勧めします
+  Distance.watch(x, y): tuple<tuple<int>>
+    distanceと同様 探索済みの座標はメモ化によりO(1)
+  Distance[x][y]: tuple<tuple<int>>
+  Distance[x, y]: tuple<tuple<int>>
+  Distance[(x, y)]: tuple<tuple<int>>
+    distanceと同様 インデックスが指定でき、より簡潔な書き方ができます
 
 simulator.calcPoint(board): list<list<int>>
   与えられたBoardクラスでの現在の自チームの点数、相手チームの点数を返します
