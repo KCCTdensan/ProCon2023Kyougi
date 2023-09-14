@@ -57,8 +57,8 @@ class Field:
     def __str__(self):
         return ",".join(["  MyEn"[self.wall*2:][:2],
                          "  MyEnXX"[self.territory*2:][:2],
-                         "    pondfort"[self.structure*4:][:4]],
-                         f"{self.mason: >2}")
+                         "    pondfort"[self.structure*4:][:4],
+                         f"{self.mason: >2}"])
     def __repr__(self):
         return "".join(["Field({wall: ",
                         ["None", "MyWall", "EnemyWall"][self.wall],
@@ -91,8 +91,8 @@ class Board:
                 if ans.mason < 0: self.otherMasons[-ans.mason-1] = [x, y]
                 if ans.structure == 2: self.castles.append([x, y])
     def __str__(self):
-        return "[{}]".format(",\n".join(str([*map(str, line)]) \
-                                        for line in self.all))
+        return "[\n  [{}]\n]".format(
+            "],\n  [".join("|".join([*map(str, line)]) for line in self.all))
     def __repr__(self):
         return "[{}]".format(",\n".join(map(repr, self.all)))
 
