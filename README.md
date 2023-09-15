@@ -32,7 +32,7 @@ solver関数はシミュレート時呼び出され、試合の情報を取得�
 
 自作クラスについて以下に示します
 
-### Interfaceクラス
+### Interfaceクラス(interface.Interface)
 
 solver関数の第1引数のinterfaceにはInterfaceクラスが渡されます 内容は以下の通りです
 
@@ -54,7 +54,7 @@ Interface.setTurn(turn): None
 
 MatchInfoクラス、及び内部に生成されるBoardクラスの内容は以下の通りです
 
-### MatchInfoクラス
+### MatchInfoクラス(simulator.MatchInfo)
 ```
 MatchInfo.turn: int
   現在のターン数
@@ -83,7 +83,7 @@ MatchInfo.otherLogs: list
   MatchInfo.logsから相手チームのターンのみ取り出したもの
 ```
 
-### Boardクラス
+### Boardクラス(simulator.Board)
 ```
 Board.height, Board.width: int
   フィールドの大きさ フィールドを2次元配列で表す際は長さheightの配列の中に長さwidthの配列が入る形になる
@@ -111,7 +111,7 @@ Board.castles: list
   フィールド上の城の位置を返す
 ```
 
-### Solverクラス
+### Solverクラス(control.Solver)
 
 solver関数の第2引数のsolverにはSolverクラスが渡されます solver関数内で利用するのは次のメソッドのみです
 
@@ -151,22 +151,25 @@ simulator.allDirection(board, directions, x, y): iter<list<int>>
   directionsにdirectionList及びその種類のものを入れることで全方位に対する数値を出してくれる
   また、boardの情報を見て範囲外のものは返さない
   次のように使えます
-  for dir, x, y in simulator.allDirection(board, directionSet, oldX, oldY):
-  for x, y in simulator.allDirection(board, directionList, oldX, oldY):
+    for dir, x, y in simulator.allDirection(board, directionSet, oldX, oldY):
+    for x, y in simulator.allDirection(board, directionList, oldX, oldY):
   なおイテレータ型なので繰り返し使う際はlistに変換してください
+  引数を3つにして座標の配列で渡すこともできます
+  simulator.allDirection(board, directionSet, [-1, -1]) -> iter([(5, 0, 0)])
 
 simulator.distance(board, x, y): tuple<tuple<int>>
-  与えられた座標からの距離を幅探索し、2次元配列で返します 到達できない箇所は-1が返されます
+  与えられた座標からの距離を幅探索し、2次元配列で返します 到達できない箇所は-1が返されます また、存在しない座標が与えられるとNoneを返します
+  引数を2つにして座標の配列で渡すこともできます
+  simulator.distance(board, [500000, -123]) -> None
 
-simulator.Distance(board): Distanceクラス
-  探索したことのある座標から何度も幅探索することを避けるために距離測定専用のクラスを作りました
-  ただし新たに建築された城壁等に対応できないため必ず毎ターンboardを更新することをお勧めします
-  Distance.watch(x, y): tuple<tuple<int>>
-    distanceと同様 探索済みの座標はメモ化によりO(1)
-  Distance[x][y]: tuple<tuple<int>>
-  Distance[x, y]: tuple<tuple<int>>
-  Distance[(x, y)]: tuple<tuple<int>>
-    distanceと同様 インデックスが指定でき、より簡潔な書き方ができます
+simulator.nearest(board, pos, targets): targets[...]
+simulator.nearest(distance, targets): targets[...]
+  与えられたBoardクラス、または距離を表す2次元配列から、targetsのうち最も近いものを返します また、存在しない座標が与えられるとNoneを返します
+  次のように使えます
+    castle = simulator.nearest(board, mason, castles)
+    castle = simulator.nearest(simulator.distance(board, mason), castles)
+  座標は必ず配列にする必要はなく、targetsも複数の引数として渡して構いません(targets内で複数の形式を混合するのはやめてください)
+  simulator.nearest(board, 500000, -123, castle1, castle2, castle3) -> None
 
 simulator.calcPoint(board): list<list<int>>
   与えられたBoardクラスでの現在の自チームの点数、相手チームの点数を返します
@@ -174,6 +177,13 @@ simulator.calcPoint(board): list<list<int>>
     [自チームの合計点数, 自チームの城のみの点数, 自チームの陣地のみの点数],
     [相手チームの合計点数, 相手チームの城のみの点数, 相手チームの陣地のみの点数]
   ]
+
+また、boardを引数にとる関数はBoardクラスからメソッドとして呼び出せます
+Board.inField(x, y): bool
+Board.allDirection(directions, x, y): iter<list<int>>
+Board.distance(x, y): tuple<tuple<int>>
+Board.nearest(pos, targets): targets[...]
+Board.calcPoint(): list<list<int>>
 ```
 
 ## 試合結果について
@@ -182,4 +192,4 @@ simulator.calcPoint(board): list<list<int>>
 
 solver関数が異常終了した場合は点数を-1として記録します
 
-なお、試合中が正常終了しなかった場合(Ctrl-Cで中断された場合等)は記録されません
+なお、試合中に正常終了しなかった場合(Ctrl-Cで中断された場合等)は記録されません

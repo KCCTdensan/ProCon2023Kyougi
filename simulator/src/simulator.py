@@ -118,11 +118,12 @@ class Board:
         else: pos, targets = args[:2], args[2:]
         if len(targets) == 1: targets = targets[0]
         if not hasattr(targets[0], '__len__'): targets = (targets, )
-        ans, newDistance = None, 999
+        ans, newDistance, distance = None, 999, self.distance(pos)
+        if distance is None: return None
         for target in targets:
-            if -1 < self.distance(pos)[target[0]][target[1]] < newDistance:
+            if -1 < distance[target[0]][target[1]] < newDistance:
                 ans = target
-                newDistance = self.distance(pos)[target[0]][target[1]]
+                newDistance = distance[target[0]][target[1]]
         return ans
         
     def distance(self, x, y = None):
