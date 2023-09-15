@@ -7,8 +7,7 @@ fourDirectionList = ((-1, 0), (0, 1), (1, 0), (0, -1))
 fourDirectionSet = ((2, -1, 0), (4, 0, 1), (6, 1, 0), (8, 0, -1))
 def inField(board, x, y=None):
     if y is None: x, y = x
-    if not(0 <= x < board.height and 0 <= y < board.width): return False
-    return True
+    return 0 <= x < board.height and 0 <= y < board.width
 
 def allDirection(board, directions, x, y=None):
     if y is None: x, y = x
@@ -35,42 +34,17 @@ def distance(board, x, y=None):
     ans = tuple(tuple(a) for a in ans)
     return ans
 
-class Distance:
-    def __init__(self, board, *, inside = -1):
-        self.inside = inside
-        if inside != -1:
-            self.parent = board
-            return
-        self.board = board
-        self.results = defaultdict(dict)
-        self.children = {}
-    def watch(self, *pos):
-        if self.inside != -1:
-            return self.parent.watch(self.inside, *pos)
-        if len(pos) == 1: pos = pos[0]
-        if not hasattr(pos, '__len__') or len(pos) != 2:
-            if not hasattr(pos, '__len__'):
-                raise IndexError(f"watch({pos})は適切ではありません。")
-            pos = tuple(pos)
-            raise IndexError(f"watch{pos}は適切ではありません。")
-        x, y = pos
-        if y in self.results[x]: return self.results[x][y]
-        self.results[x][y] = distance(self.board, *pos)
-        return self.results[x][y]
-    def __getitem__(self, pos):
-        if self.inside == -1 and type(pos) == int:
-            if pos != -1 and pos not in self.children:
-                self.children[pos] = Distance(self, inside=pos)
-            return self.children[pos]
-        if type(pos) is not tuple: pos = (pos, )
-        if not self.watch(*pos): raise IndexError(f"{pos}は範囲外です")
-        return self.watch(*pos)
-    def __str__(self):
-        if self.inside != -1: return f"{self.parent}[{self.inside}]"
-        return f"Distance(\n{self.board}\n)"
-    def __repr__(self):
-        if self.inside != -1: return f"{repr(self.parent)}[{self.inside}]"
-        return f"Distance(\n{repr(self.board)}\n)"
+def nearest(board, *targets):
+    if hasattr(board, 'nearest'): return board.nearest(*targets)
+    distance = board
+    if len(targets) == 1: targets = targets[0]
+    if not hasattr(targets[0], '__len__'): targets = (targets, )
+    ans, newDistance = None, 999
+    for target in targets:
+        if -1 < distance[target[0]][target[1]] < newDistance:
+            ans = target
+            newDistance = distance[target[0]][target[1]]
+    return ans
 
 def calcPoint(board):
     ans = [0, 0, 0]
@@ -88,6 +62,118 @@ def calcPoint(board):
                 case 1: ans[0] += 10
                 case 2: other[0] += 10
     return [ans, other]
+
+class Field:
+    def __init__(self, wall, territory, structure, mason):
+        self.wall, self.territory, self.structure, self.mason = \
+                   wall, territory, structure, mason
+    def __str__(self):
+        return ",".join(["  MyEn"[self.wall*2:][:2],
+                         "  MyEnXX"[self.territory*2:][:2],
+                         "    pondfort"[self.structure*4:][:4],
+                         f"{self.mason: >2}"])
+    def __repr__(self):
+        return "".join(["Field({wall: ",
+                        ["None", "MyWall", "EnemyWall"][self.wall],
+                        ", territory: ",
+                        ["None", "MyField", "EnemyField",
+                         "BothField"][self.territory],
+                        ", structure: ",
+                        ["None", "Pond", "Castle"][self.structure],
+                        ", mason: ",
+                        str(self.mason),
+                        "})"])
+
+class Board:
+    def __init__(self, board):
+        self.walls = board["walls"]
+        self.territories = board["territories"]
+        self.width = board["width"]
+        self.height = board["height"]
+        self.mason = board["mason"]
+        self.structures = board["structures"]
+        self.masons = board["masons"]
+        self.all = [[Field(*data) for data in zip(*datas)] for datas \
+            in zip(self.walls, self.territories, self.structures, self.masons)]
+        self.myMasons = [None]*self.mason
+        self.otherMasons = [None]*self.mason
+        self.castles = []
+        for x, row in enumerate(self.all):
+            for y, ans in enumerate(row):
+                if ans.mason > 0: self.myMasons[ans.mason-1] = [x, y]
+                if ans.mason < 0: self.otherMasons[-ans.mason-1] = [x, y]
+                if ans.structure == 2: self.castles.append([x, y])
+    
+        self.log_distance = defaultdict(dict)
+        
+    def inField(self, x, y=None):
+        if y is None: x, y = x
+        return 0 <= x < self.height and 0 <= y < self.width
+
+    def allDirection(self, *args):
+        return allDirection(self, *args)
+
+    def nearest(self, *args):
+        if hasattr(args[0], '__len__'): pos, targets = args[0], args[1:]
+        else: pos, targets = args[:2], args[2:]
+        if len(targets) == 1: targets = targets[0]
+        if not hasattr(targets[0], '__len__'): targets = (targets, )
+        ans, newDistance = None, 999
+        for target in targets:
+            if -1 < self.distance(pos)[target[0]][target[1]] < newDistance:
+                ans = target
+                newDistance = self.distance(pos)[target[0]][target[1]]
+        return ans
+        
+    def distance(self, x, y = None):
+        if y is None: x, y = x
+        if y not in self.log_distance[x]:
+            self.log_distance[x][y] = distance(self, x, y)
+        return self.log_distance[x][y]
+
+    def calcPoint(self):
+        return calcPoint(self)
+    
+    def __str__(self):
+        return "[\n  [{}]\n]".format(
+            "],\n  [".join("|".join([*map(str, line)]) for line in self.all))
+    def __repr__(self):
+        return "[{}]".format(",\n".join(map(repr, self.all)))
+
+class MatchInfo:
+    def __init__(self, info, match):
+        self.id = info["id"]
+        self.turn = info["turn"]
+        self.board = Board(info["board"])
+        self.logs = info["logs"]
+        self.myTurn = info["turn"]%2 == 1 ^ match["first"]
+        self.myLogs = info["logs"][1-int(match["first"])::2]
+        self.otherLogs = info["logs"][match["first"]::2]
+        self.first = match["first"]
+    def __str__(self):
+        return (f"id: {self.id}\n"
+                f"turn: {self.turn}\n"
+                 "board:\n"
+                f"{self.board}\n"
+                f"myTurn: {self.myTurn}\n"
+                f"logs: {self.logs}\n"
+                f"myLogs: {self.myLogs}\n"
+                f"otherLogs: {self.otherLogs}")
+    def __repr__(self):
+        return "".join(["MatchInfo({id: ",
+                        repr(self.id),
+                        ", turn: ",
+                        repr(self.turn),
+                        ", myTurn: ",
+                        repr(self.myTurn),
+                        ",\nlogs: ",
+                        repr(self.logs),
+                        ",\nmyLogs: ",
+                        repr(self.myLogs),
+                        ",\notherLogs: ",
+                        repr(self.otherLogs),
+                        ",\nboard:\n",
+                        repr(self.board)])
 
 solverList = {}
 def set(name, solver):

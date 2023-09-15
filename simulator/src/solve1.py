@@ -6,17 +6,13 @@ def solve1(interface, solver):
     while True:
         if matchInfo is None or not solver.isAlive(): return
         board = matchInfo.board
-        distance = Distance(board)
         movement = []
         for mason in board.myMasons:
-            castle, newDistance = None, 999
-            for c in board.castles:
-                if -1 < distance.watch(mason)[c[0]][c[1]] < newDistance:
-                    castle, newDistance = c, distance.watch(mason)[c[0]][c[1]]
+            castle = board.nearest(mason, board.castles)
             if castle is None:
                 movement.append([0, 0])
             elif mason == castle:
-                for i, x, y in allDirection(board, fourDirectionSet, mason):
+                for i, x, y in board.allDirection(fourDirectionSet, mason):
                     match board.walls[x][y]:
                         case 0: movement.append([2, i])
                         case 2: movement.append([3, i])
@@ -24,10 +20,11 @@ def solve1(interface, solver):
                     break
                 else: movement.append([0, 0])
             else:
-                ans, newDistance = None, distance[castle][mason[0]][mason[1]]
-                for i, x, y in allDirection(board, directionSet, mason):
-                    if -1 < distance.watch(castle)[x][y] < newDistance:
-                        newDistance = distance.watch(castle)[x][y]
+                ans = None
+                newDistance = board.distance(castle)[mason[0]][mason[1]]
+                for i, x, y in board.allDirection(directionSet, mason):
+                    if -1 < board.distance(castle)[x][y] < newDistance:
+                        newDistance = board.distance(castle)[x][y]
                         ans = i
                 if ans is None: movement.append([0, 0])
                 else: movement.append([1, ans])

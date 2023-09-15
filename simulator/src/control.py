@@ -292,15 +292,18 @@ class Practice(Match):
             return
         print(f"start {solver1.name} - {solver2.name} match in {field} "
               f"at port {port}")
+        
+        self.solver1 = solver1
+        self.solver2 = solver2
+        self.interface = interface.Interface(check=False)
+        self.interface1 = interface.Interface(check=False)
+        self.interface2 = interface.Interface(check=False)
         self.cantRecord = self.cantStart = False
         self.process = subprocess.Popen([serverName, "-c",
             f"{fieldFile}{field}.txt", "-l", f":{port}", "-start", "1s"])
         processes.append(self.process)
         time.sleep(1)
         self.field = field
-        self.interface = interface.Interface(check=False)
-        self.interface1 = interface.Interface(check=False)
-        self.interface2 = interface.Interface(check=False)
         self.threading(
             self.interfaceStart, self.interface, 10, "token1", port=port)
         thread1 = self.threading(
@@ -308,8 +311,6 @@ class Practice(Match):
         thread2 = self.threading(
             self.interfaceStart, self.interface2, 10, "token2", port=port)
         
-        self.solver1 = solver1
-        self.solver2 = solver2
         self.mode="practice"
         self.allTurn = None
         thread1.join()

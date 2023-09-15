@@ -44,7 +44,7 @@ def drawField(canvas, field, x, y, x0, length):
 def main():
     root = tk.Tk()
     root.geometry("600x700")
-    canvas = tk.Canvas(root, width=600, height=700)
+    canvas = tk.Canvas(root, width=600, height=700, bg="#eee")
     canvas.place(x=0, y=0)
     def update():
         global data, finishBool

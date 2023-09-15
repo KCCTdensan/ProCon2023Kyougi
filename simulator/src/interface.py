@@ -1,6 +1,7 @@
 import httpx, json, datetime, platform
 import pandas as pd
 from requests.exceptions import Timeout, ConnectionError
+from simulator import MatchInfo
 
 if platform.system() == "Windows":
     logFile = "..\\interfaceLogs\\"
@@ -48,88 +49,6 @@ class LogList:
                 boolean = False
             return
         self.data.to_csv(f"{logFile}log{self.id}({self.time}).csv")
-
-d = datetime.timedelta(seconds=1)
-class Field:
-    def __init__(self, wall, territory, structure, mason):
-        self.wall, self.territory, self.structure, self.mason = \
-                   wall, territory, structure, mason
-    def __str__(self):
-        return ",".join(["  MyEn"[self.wall*2:][:2],
-                         "  MyEnXX"[self.territory*2:][:2],
-                         "    pondfort"[self.structure*4:][:4],
-                         f"{self.mason: >2}"])
-    def __repr__(self):
-        return "".join(["Field({wall: ",
-                        ["None", "MyWall", "EnemyWall"][self.wall],
-                        ", territory: ",
-                        ["None", "MyField", "EnemyField",
-                         "BothField"][self.territory],
-                        ", structure: ",
-                        ["None", "Pond", "Castle"][self.structure],
-                        ", mason: ",
-                        str(self.mason),
-                        "})"])
-
-class Board:
-    def __init__(self, board):
-        self.walls = board["walls"]
-        self.territories = board["territories"]
-        self.width = board["width"]
-        self.height = board["height"]
-        self.mason = board["mason"]
-        self.structures = board["structures"]
-        self.masons = board["masons"]
-        self.all = [[Field(*data) for data in zip(*datas)] for datas \
-            in zip(self.walls, self.territories, self.structures, self.masons)]
-        self.myMasons = [None]*self.mason
-        self.otherMasons = [None]*self.mason
-        self.castles = []
-        for x, row in enumerate(self.all):
-            for y, ans in enumerate(row):
-                if ans.mason > 0: self.myMasons[ans.mason-1] = [x, y]
-                if ans.mason < 0: self.otherMasons[-ans.mason-1] = [x, y]
-                if ans.structure == 2: self.castles.append([x, y])
-    def __str__(self):
-        return "[\n  [{}]\n]".format(
-            "],\n  [".join("|".join([*map(str, line)]) for line in self.all))
-    def __repr__(self):
-        return "[{}]".format(",\n".join(map(repr, self.all)))
-
-class MatchInfo:
-    def __init__(self, info, match):
-        self.id = info["id"]
-        self.turn = info["turn"]
-        self.board = Board(info["board"])
-        self.logs = info["logs"]
-        self.myTurn = info["turn"]%2 == 1 ^ match["first"]
-        self.myLogs = info["logs"][1-int(match["first"])::2]
-        self.otherLogs = info["logs"][match["first"]::2]
-        self.first = match["first"]
-    def __str__(self):
-        return (f"id: {self.id}\n"
-                f"turn: {self.turn}\n"
-                 "board:\n"
-                f"{self.board}\n"
-                f"myTurn: {self.myTurn}\n"
-                f"logs: {self.logs}\n"
-                f"myLogs: {self.myLogs}\n"
-                f"otherLogs: {self.otherLogs}")
-    def __repr__(self):
-        return "".join(["MatchInfo({id: ",
-                        repr(self.id),
-                        ", turn: ",
-                        repr(self.turn),
-                        ", myTurn: ",
-                        repr(self.myTurn),
-                        ",\nlogs: ",
-                        repr(self.logs),
-                        ",\nmyLogs: ",
-                        repr(self.myLogs),
-                        ",\notherLogs: ",
-                        repr(self.otherLogs),
-                        ",\nboard:\n",
-                        repr(self.board)])
 
 def matchInfo(info, match):
     if info is None: return None
