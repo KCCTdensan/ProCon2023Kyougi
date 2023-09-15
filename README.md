@@ -184,6 +184,7 @@ Board.allDirection(directions, x, y): iter<list<int>>
 Board.distance(x, y): tuple<tuple<int>>
 Board.nearest(pos, targets): targets[...]
 Board.calcPoint(): list<list<int>>
+distanceのみはBoardクラス内でメモ化しているため2回目以降はO(1)です
 ```
 
 ## 試合結果について
