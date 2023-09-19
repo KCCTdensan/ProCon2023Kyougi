@@ -50,6 +50,10 @@ Interface.postMovement(data): bool
 Interface.setTurn(turn): None
   Interface.postMovementの直前に使用することで次のターン以外にも行動を設定することが出来る
   他チームの行動は多分無理
+
+Interface.turn: int
+  Interfaceが次にPOSTするターン
+  無効なターン数にもなり得る(ただし、POSTの際に中断する)
 ```
 
 MatchInfoクラス、及び内部に生成されるBoardクラスの内容は以下の通りです
@@ -58,6 +62,8 @@ MatchInfoクラス、及び内部に生成されるBoardクラスの内容は以
 ```
 MatchInfo.turn: int
   現在のターン数
+MatchInfo.turns: int
+  この試合の総ターン数
 MatchInfo.myTurn: bool
   次のターンが自分のターンか否か (先手チームならturn = [0, 2, 4, 6...]の時にTrue)
 MatchInfo.first: bool
