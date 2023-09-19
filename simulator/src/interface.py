@@ -2,24 +2,43 @@ import httpx, json, datetime, platform
 import pandas as pd
 from requests.exceptions import Timeout, ConnectionError
 from simulator import MatchInfo
+dataBool = True
 
 if platform.system() == "Windows":
     logFile = "..\\interfaceLogs\\"
 else:
     logFile = "../interfaceLogs/"
 
-class LogList:
+class LogFileId:
     def __init__(self):
-        self.time = datetime.datetime.now().strftime("%y-%m-%d_%H-%M-%S")
         self.id = None
         while self.id is None:
             with open(f"{logFile}nowId.txt", "r") as f:
                 if (txt := f.read()) != "": self.id = int(txt)
+    def get(self):
+        ans = self.id = self.id + 1
+        return ans
+    def now(self):
+        return self.id
+    def set(self, newId):
+        self.id = newId
+    def release(self):
         boolean = True
         while boolean:
             with open(f"{logFile}nowId.txt", "w") as f:
-                f.write(str(self.id+1))
+                f.write(str(self.id))
                 boolean = False
+    def __del__(self):
+        self.release()
+
+logFileId = LogFileId()
+def release():
+    logFileId.release()
+
+class LogList:
+    def __init__(self):
+        self.time = datetime.datetime.now().strftime("%y-%m-%d_%H-%M-%S")
+        self.id = logFileId.get()
         self.data = pd.DataFrame(columns=["method", "url", "headers", \
                                           "params", "status", "reqTime", \
                                           "resTime", "data", "resData"])
@@ -28,25 +47,18 @@ class LogList:
         newData = pd.DataFrame({"method": method, "url": url, \
                       "reqTime": datetime.datetime.now(), **kwargs}, \
                       index=[self.len])
+        if not dataBool and "data" in newData: del newData["data"]
         self.data = pd.concat([self.data, newData])
         self.len += 1
         return self.len-1
     def set(self, logId, status, data):
         self.data.at[logId, "resTime"] = datetime.datetime.now()
         self.data.at[logId, "status"] = status
-        if data is not None: self.data.at[logId, "resData"] = data
+        if dataBool and data is not None: self.data.at[logId, "resData"] = data
     def __del__(self):
         if len(self.data) == 0:
-            nowId = None
-            while nowId is None:
-                with open(f"{logFile}nowId.txt", "r") as f:
-                    nowId = int(f.read())
-            if nowId != self.id+1: return
-            boolean = True
-            while boolean:
-                with open(f"{logFile}nowId.txt", "w") as f:
-                    f.write(str(self.id))
-                boolean = False
+            if logFileId.now() != self.id+1: return
+            logFileId.set(self.id)
             return
         self.data.to_csv(f"{logFile}log{self.id}({self.time}).csv")
 
@@ -59,7 +71,7 @@ class Interface:
                  check=True):
         self.log, self.token, self.id, self.turn, self.baseUrl = \
                   None, token, None, 0, f"{baseUrl}{port}"
-        self.headers = {"procon-token": token}
+        self.headers, self.released = {"procon-token": token}, False
         assert not check or self.getMatches(test=True) is not None, \
                f"token({token})が不正である可能性があります"
         self.checked = check
@@ -89,6 +101,8 @@ class Interface:
     def setTurn(self, turn):
         self.turn = turn
     def postMovement(self, data):
+        assert self.id is not None, \
+               "試合Idを先に設定してください"
         if type(data) is not list: pass
         elif type(data[0]) is list:
             old, data = data, {"turn": self.turn}
@@ -97,9 +111,16 @@ class Interface:
                 data["actions"].append({"type": d[0], "dir": d[1]})
         elif type(data[0]) is dict:
             data = {"turn": self.turn, "actions": data}
+        if self.turn > self.match["turns"]:
+            print(f"不正なターン({self.turn})に対するPOSTをキャンセルしました")
+            return False
         return self.post(f"/matches/{self.id}", data=data)
         
     def get(self, url):
+        if self.released:
+            print("リリース処理がされたInterfaceクラスでの通信が発生したため"
+                  "通信がキャンセルされました。")
+            return None
         url = "".join([self.baseUrl, url])
         if self.log is None: self.log = LogList()
         logId = self.log.add("GET", url, headers=self.headers)
@@ -116,6 +137,10 @@ class Interface:
         print(f"サーバとの通信に失敗しました。({logId}: {code})")
         return None
     def post(self, url, data):
+        if self.released:
+            print("リリース処理がされたInterfaceクラスでの通信が発生したため"
+                  "通信がキャンセルされました")
+            return False
         url = "".join([self.baseUrl, url])
         if self.log is None: self.log = LogList()
         logId = self.log.add("POST", url, data=str(data), headers=self.headers)
@@ -133,3 +158,4 @@ class Interface:
         return False
     def release(self):
         self.log = None
+        self.released = True

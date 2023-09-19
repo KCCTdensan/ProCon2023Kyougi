@@ -145,6 +145,7 @@ class MatchInfo:
     def __init__(self, info, match):
         self.id = info["id"]
         self.turn = info["turn"]
+        self.turns = match["turns"]
         self.board = Board(info["board"])
         self.logs = info["logs"]
         self.myTurn = info["turn"]%2 == 1 ^ match["first"]

@@ -3,7 +3,7 @@ from simulator import *
 import time
 def solve1(interface, solver):
     matchInfo = interface.getMatchInfo()
-    while True:
+    while interface.turn <= matchInfo.turns:
         if matchInfo is None or not solver.isAlive(): return
         board = matchInfo.board
         movement = []
@@ -38,4 +38,5 @@ def solve1(interface, solver):
             time.sleep(0.1)
             matchInfo = interface.getMatchInfo()
             if matchInfo is None or not solver.isAlive(): return
+    while solver.isAlive(): time.sleep(0.1)
 simulator.set("solve1", solve1)

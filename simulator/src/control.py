@@ -10,6 +10,9 @@ threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
+recordData = False
+# サーバ通信のデータを完全に残すか否かを選べます
+# データを完全に残すためにはかなり容量が必要になります(1試合9MB)
 match mode:
     case 0:
         token = ""
@@ -24,7 +27,7 @@ match mode:
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
         replace = True
         # 観戦を行うか否か TrueでGUI表示します
-        watch = True
+        watch = False
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -188,6 +191,8 @@ if mode == 3:
     print(Result(solver).result)
     sys.exit()
 
+interface.dataBool = recordData
+
 if mode == 1:
     results = dict([(solver[0], Result(solver[0])) for solver in solverList])
 processes = []
@@ -263,17 +268,20 @@ class Real(Match):
         self.cantStart = False
         self.interface = interface.Interface(check=False)
         self.interface1 = interface.Interface(check=False)
-        self.threading(self.interfaceStart, self.interface, matchId, token,
+        thread = self.threading(self.interfaceStart, self.interface, matchId, token,
                        baseUrl=baseUrl)
-        thread = self.threading(self.interfaceStart, self.interface1, matchId,
+        thread1 = self.threading(self.interfaceStart, self.interface1, matchId,
                                 token, baseUrl=baseUrl)
         self.solver = solver
         self.mode="real"
-        try: thread.join()
+        try:
+            thread.join()
+            thread1.join()
         except RuntimeError: pass
         if not self.interface1.checked:
             self.cantStart = True
             return
+        while self.interface.getMatchInfo() is None: pass
         solver.start(self.interface1)
     def isAlive(self):
         return self.solver.isAlive()
@@ -304,7 +312,7 @@ class Practice(Match):
         processes.append(self.process)
         time.sleep(1)
         self.field = field
-        self.threading(
+        thread = self.threading(
             self.interfaceStart, self.interface, 10, "token1", port=port)
         thread1 = self.threading(
             self.interfaceStart, self.interface1, 10, "token1", port=port)
@@ -313,11 +321,15 @@ class Practice(Match):
         
         self.mode="practice"
         self.allTurn = None
-        thread1.join()
-        thread2.join()
+        try:
+            thread.join()
+            thread1.join()
+            thread2.join()
+        except RuntimeError: pass
         if not self.interface1.checked or not self.interface2.checked:
             self.cantRecord = True
             return
+        while self.interface.getMatchInfo() is None: pass
         solver1.start(self.interface1)
         solver2.start(self.interface2)
     def isAlive(self):
@@ -387,8 +399,10 @@ try:
         queue, p = iter(matchList), iter([])
         matches = []
         port = set()
+        match1 = None
         if watch: view.start()
         while True:
+            if watch and match1 is not None: match1.show()
             if len(matches) < threadLen:
                 target = next(p, None)
                 if target is None:
@@ -403,12 +417,13 @@ try:
                     matches.append([Practice(Solver(target[0]),
                                     Solver(target[1]), target[2], po), po])
                     port.add(po)
+                    if po == 3000: match1 = matches[-1][0]
                 continue
             for i, m in enumerate(matches):
                 if not m[0].isAlive():
                     port.discard(m[1])
+                    if m[1] == 3000: match1 = None
                     del m, matches[i]
-                elif watch and m[1] == 3000: m[0].show()
             time.sleep(0.1)
     while len(matches) > 0:
         for i, m in enumerate(matches):
@@ -425,3 +440,4 @@ finally:
     for p in processes:
         if p.poll() is None: p.kill()
     if watch: view.release()
+    interface.release()
