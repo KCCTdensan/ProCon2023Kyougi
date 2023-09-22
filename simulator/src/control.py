@@ -25,9 +25,9 @@ match mode:
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
         matchList = [["all", "all"]]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = True
+        replace = False
         # 観戦を行うか否か TrueでGUI表示します
-        watch = False
+        watch = True
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -42,7 +42,7 @@ match mode:
         # 削除(記録を消去する) ファイルの削除は手動でやること
         deletedSolver = []
         # 無効化・有効化("all"に含まれなくなる)
-        switchSolver = []
+        switchSolver = ["solve2.py"]
     case 3:
         solver = "solve1.py"
         # 特定のsolverに対しての結果を確認する
@@ -433,7 +433,7 @@ try:
 except KeyboardInterrupt: print("終了します")
 finally:
     for m in matches: m[0].cantRecord = True
-    m = None
+    if match1 is not None: del match1, m
     del matches
     for result in results.values():
         result.release()

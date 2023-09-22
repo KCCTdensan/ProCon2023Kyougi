@@ -18,21 +18,7 @@ def allDirection(board, directions, x, y=None):
         if len(d) == 3: yield (d[0], *pos)
 
 def distance(board, x, y=None):
-    if not inField(board, x, y): return None
-    if y is None: x, y = x
-    ans = [[-1]*board.width for _ in range(board.height)]
-    ans[x][y] = 0
-    targets = deque([[x, y]])
-    while len(targets) > 0:
-        target = targets.pop()
-        now = ans[target[0]][target[1]]+1
-        for x, y in allDirection(board, directionList, target):
-            field = board.all[x][y]
-            if ans[x][y] == -1 and field.wall != 2 and field.structure != 1:
-                ans[x][y] = now
-                targets.appendleft([x, y])
-    ans = tuple(tuple(a) for a in ans)
-    return ans
+    return board.distance(x, y)
 
 def nearest(board, *targets):
     if hasattr(board, 'nearest'): return board.nearest(*targets)
@@ -128,8 +114,22 @@ class Board:
         
     def distance(self, x, y = None):
         if y is None: x, y = x
+        if not self.inField(x, y): return None
         if y not in self.log_distance[x]:
-            self.log_distance[x][y] = distance(self, x, y)
+            ans = [[-1]*self.width for _ in range(self.height)]
+            ans[x][y] = 0
+            targets = deque([[x, y]])
+            while len(targets) > 0:
+                target = targets.popleft()
+                now = ans[target[0]][target[1]]+1
+                for x, y in self.allDirection(directionList, target):
+                    field = self.all[x][y]
+                    if ans[x][y] == -1 and field.wall != 2 and \
+                       field.structure != 1:
+                        ans[x][y] = now
+                        targets.appendleft([x, y])
+            ans = tuple(tuple(a) for a in ans)
+            self.log_distance[x][y] = ans
         return self.log_distance[x][y]
 
     def calcPoint(self):

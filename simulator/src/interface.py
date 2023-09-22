@@ -123,7 +123,8 @@ class Interface:
             return None
         url = "".join([self.baseUrl, url])
         if self.log is None: self.log = LogList()
-        logId = self.log.add("GET", url, headers=self.headers)
+        logId = self.log.add("GET", url,
+                             headers=str(self.headers))
         try:
             with httpx.Client(timeout=httpx.Timeout(0.5)) as client:
                 res = client.get(url, headers=self.headers)
@@ -143,7 +144,8 @@ class Interface:
             return False
         url = "".join([self.baseUrl, url])
         if self.log is None: self.log = LogList()
-        logId = self.log.add("POST", url, data=str(data), headers=self.headers)
+        logId = self.log.add("POST", url, data=str(data),
+                             headers=str(self.headers))
         try:
             with httpx.Client(timeout=httpx.Timeout(0.5)) as client:
                 res = client.post(url, json=data, headers=self.headers)

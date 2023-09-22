@@ -3,8 +3,8 @@ from simulator import *
 import time
 def solve1(interface, solver):
     matchInfo = interface.getMatchInfo()
-    while interface.turn <= matchInfo.turns:
-        if matchInfo is None or not solver.isAlive(): return
+    while solver.isAlive() and matchInfo is not None and \
+          interface.turn <= matchInfo.turns:
         board = matchInfo.board
         movement = []
         for mason in board.myMasons:
@@ -38,5 +38,6 @@ def solve1(interface, solver):
             time.sleep(0.1)
             matchInfo = interface.getMatchInfo()
             if matchInfo is None or not solver.isAlive(): return
+    if matchInfo is None: return
     while solver.isAlive(): time.sleep(0.1)
 simulator.set("solve1", solve1)
