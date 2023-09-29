@@ -2,11 +2,11 @@
 
 ## 必要なライブラリ
 
-httpx, pandas
+httpx, pandas, requests
 
-`pip install httpx pandas`
+`pip install httpx pandas requests`
 
-`pip3 install httpx pandas`
+`pip3 install httpx pandas requests`
 
 ## solverの追加方法(python)
 
