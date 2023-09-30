@@ -1,6 +1,6 @@
 import tkinter as tk
 import threading
-from simulator import directionList
+from simulator import eightDirectionList
 from collections import deque
 finishBool = False
 data = None
@@ -63,7 +63,7 @@ def main():
             for log in data[0].logs[::-1]:
                 for i, action in enumerate(log["actions"]):
                     if not action["succeeded"] or action["type"] != 1: continue
-                    dif = directionList[action["dir"]-1]
+                    dif = eightDirectionList[action["dir"]-1]
                     if log["turn"]%2 == 0 ^ data[0].first:
                         myMasons[i] = [myMasons[i][0]-dif[0],
                                        myMasons[i][1]-dif[1]]

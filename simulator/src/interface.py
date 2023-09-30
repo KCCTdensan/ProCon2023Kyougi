@@ -1,13 +1,14 @@
-import httpx, json, datetime, platform
+import os, httpx, json, datetime, platform
 import pandas as pd
 from requests.exceptions import Timeout, ConnectionError
 from simulator import MatchInfo
 dataBool = True
 
+filePath = os.path.dirname(__file__)
 if platform.system() == "Windows":
-    logFile = "..\\interfaceLogs\\"
+    logFile = f"{filePath}\\..\\interfaceLogs\\"
 else:
-    logFile = "../interfaceLogs/"
+    logFile = f"{filePath}/../interfaceLogs/"
 
 class LogFileId:
     def __init__(self):
@@ -45,14 +46,15 @@ class LogList:
         self.len = 0
     def add(self, method, url, **kwargs):
         newData = pd.DataFrame({"method": method, "url": url, \
-                      "reqTime": datetime.datetime.now(), **kwargs}, \
-                      index=[self.len])
+                      "reqTime": datetime.datetime.now().strftime(
+                          "%y-%m-%d %H:%M:%S.%f"), **kwargs}, index=[self.len])
         if not dataBool and "data" in newData: del newData["data"]
         self.data = pd.concat([self.data, newData])
         self.len += 1
         return self.len-1
     def set(self, logId, status, data):
-        self.data.at[logId, "resTime"] = datetime.datetime.now()
+        self.data.at[logId, "resTime"] = datetime.datetime.now().strftime(
+            "%y-%m-%d %H:%M:%S.%f")
         self.data.at[logId, "status"] = status
         if dataBool and data is not None: self.data.at[logId, "resData"] = data
     def __del__(self):

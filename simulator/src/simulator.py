@@ -1,10 +1,14 @@
 from collections import deque, defaultdict
-directionList = ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1),
-                (0, -1))
-directionSet = ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1),
-                (6, 1, 0), (7, 1, -1), (8, 0, -1))
+directionList = ((-1, 0), (0, 1), (1, 0), (0, -1), (1, -1),
+                 (-1, -1), (1, 1), (-1, 1))
+directionSet = ((2, -1, 0), (4, 0, 1), (6, 1, 0), (8, 0, -1),
+                (1, -1, -1), (3, -1, 1), (5, 1, 1), (7, 1, -1))
 fourDirectionList = ((-1, 0), (0, 1), (1, 0), (0, -1))
 fourDirectionSet = ((2, -1, 0), (4, 0, 1), (6, 1, 0), (8, 0, -1))
+eightDirectionList = ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0),
+                      (1, -1), (0, -1))
+eightDirectionSet = ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1),
+                     (6, 1, 0), (7, 1, -1), (8, 0, -1))
 def inField(board, x, y=None):
     if y is None: x, y = x
     return 0 <= x < board.height and 0 <= y < board.width
@@ -122,12 +126,12 @@ class Board:
             while len(targets) > 0:
                 target = targets.popleft()
                 now = ans[target[0]][target[1]]+1
-                for x, y in self.allDirection(directionList, target):
-                    field = self.all[x][y]
-                    if ans[x][y] == -1 and field.wall != 2 and \
+                for pos in self.allDirection(directionList, target):
+                    field = self.all[pos[0]][pos[1]]
+                    if ans[pos[0]][pos[1]] == -1 and field.wall != 2 and \
                        field.structure != 1:
-                        ans[x][y] = now
-                        targets.appendleft([x, y])
+                        ans[pos[0]][pos[1]] = now
+                        targets.append(pos)
             ans = tuple(tuple(a) for a in ans)
             self.log_distance[x][y] = ans
         return self.log_distance[x][y]

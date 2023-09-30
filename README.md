@@ -137,11 +137,14 @@ simulator.set(name, solver): None
   solverをsolver関数として登録する
   control.pyではnameを用いて管理するため注意すること 拡張子は不要 ファイル名に指定できない文字は指定不可
 
-directionList: ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1))
-directionSet: ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1), (6, 1, 0), (7, 1, -1), (8, 0, -1))
+directionList: ((-1, 0), (0, 1), (1, 0), (0, -1), (1, -1), (-1, -1), (1, 1), (-1, 1))
+directionSet: ((2, -1, 0), (4, 0, 1), (6, 1, 0), (8, 0, -1), (1, -1, -1), (3, -1, 1), (5, 1, 1), (7, 1, -1))
 fourDirectionList: ((-1, 0), (0, 1), (1, 0), (0, -1))
 fourDirectionSet: ((2, -1, 0), (4, 0, 1), (6, 1, 0), (8, 0, -1))
+eightDirectionList: ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1))
+eightDirectionSet: ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1), (6, 1, 0), (7, 1, -1), (8, 0, -1))
   全方位にアクセスする際のインデックスの差分及びそのidをタプルにしたもの
+  for文で回した際、directionList,Setは上下左右が先に、eightDirectionList,Setはインデックス通りになっています
 
 simulator.inField(board, x, y): bool
   与えられた座標がBoardクラスの中に存在するか否かを返す
@@ -167,6 +170,7 @@ simulator.distance(board, x, y): tuple<tuple<int>>
   与えられた座標からの距離を幅探索し、2次元配列で返します 到達できない箇所は-1が返されます また、存在しない座標が与えられるとNoneを返します
   引数を2つにして座標の配列で渡すこともできます
   simulator.distance(board, [500000, -123]) -> None
+  O(height*width), メモ化を行っているため同じboard、地点で2回目以降O(1)
 
 simulator.nearest(board, pos, targets): targets[...]
 simulator.nearest(distance, targets): targets[...]
@@ -176,6 +180,7 @@ simulator.nearest(distance, targets): targets[...]
     castle = simulator.nearest(simulator.distance(board, mason), castles)
   座標は必ず配列にする必要はなく、targetsも複数の引数として渡して構いません(targets内で複数の形式を混合するのはやめてください)
   simulator.nearest(board, 500000, -123, castle1, castle2, castle3) -> None
+  O(|targets|) distanceを内部で呼び出すため、distanceが計算されていない地点ではO(height*width)
 
 simulator.calcPoint(board): list<list<int>>
   与えられたBoardクラスでの現在の自チームの点数、相手チームの点数を返します
@@ -190,7 +195,6 @@ Board.allDirection(directions, x, y): iter<list<int>>
 Board.distance(x, y): tuple<tuple<int>>
 Board.nearest(pos, targets): targets[...]
 Board.calcPoint(): list<list<int>>
-distanceのみはBoardクラス内でメモ化しているため2回目以降はO(1)です
 ```
 
 ## 試合結果について

@@ -1,7 +1,7 @@
 import interface, view, simulator
 import solveList as solveListPack
 import pandas as pd
-import sys, platform, subprocess, threading, time, traceback
+import sys, os, platform, subprocess, threading, time, traceback
 mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
@@ -25,7 +25,7 @@ match mode:
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
         matchList = [["all", "all"]]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = False
+        replace = True
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
     case 2:
@@ -49,14 +49,32 @@ match mode:
 
 assert threadLen > 0, "threadLenが0以下なので何も実行出来ません！！"
 
+filePath = os.path.dirname(__file__)
+
+
+if platform.system() == "Windows":
+    pathSep = "\\"
+    serverName = f"{filePath}\\..\\server\\procon-server_win.exe"
+elif platform.system() == "Linux":
+    pathSep = "/"
+    serverName = f"{filePath}/../server/procon-server_linux"
+elif "AMD" in platform.machine().upper():
+    pathSep = "/"
+    serverName = f"{filePath}/../server/procon-server_darwin_amd"
+else:
+    pathSep = "/"
+    serverName = f"{filePath}/../server/procon-server_darwin_arm"
+resultPath = f"{filePath}{pathSep}result{pathSep}"
+fieldPath = f"{filePath}{pathSep}..{pathSep}fieldDatas{pathSep}"
+
 solverList, disabledList = None, None
 while solverList is None:
-    with open("result\solverList.txt", "r") as f:
+    with open(f"{resultPath}solverList.txt", "r") as f:
         solverList = f.read().split("\n")
 solverList = [solver.split(",") for solver in solverList if solver != ""]
 solverDict = dict(solverList)
 while disabledList is None:
-    with open("result\disabledList.txt", "r") as f:
+    with open(f"{resultPath}disabledList.txt", "r") as f:
         disabledList = f.read().split("\n")
 disabledList = [solver.split(",") for solver in disabledList if solver != ""]
 allList = [solver[0] for solver in [*solverList, *disabledList]]
@@ -66,24 +84,9 @@ fieldList = []
 for c in "ABC":
     fieldList.extend([f"{c}{i}" for i in [11,13,15,17,21,25]])
 
-if platform.system() == "Windows":
-    serverName = "..\\server\\procon-server_win.exe"
-elif platform.system() == "Linux":
-    serverName = "../server/procon-server_linux"
-elif "AMD" in platform.machine().upper():
-    serverName = "../server/procon-server_darwin_amd"
-else:
-    serverName = "../server/procon-server_darwin_arm"
-if platform.system() == "Windows":
-    csvFile = "result\\"
-    fieldFile = "..\\fieldDatas\\"
-else:
-    csvFile = "result/"
-    fieldFile = "../fieldDatas/"
-
 class Result:
     def __init__(self, solver, *, new=False):
-        self.file = f"{csvFile}{solver.split('.')[0]}.csv"
+        self.file = f"{resultPath}{solver.split('.')[0]}.csv"
         if new: self.result = pd.DataFrame(index=allName,
                                            columns=fieldList)
         else:
@@ -147,11 +150,11 @@ if mode == 2:
     newSolverList = [",".join(solver) for solver in newSolverList]
     newDisabledList = [",".join(solver) for solver in newDisabledList]
     while newSolverList is not None:
-        with open(f"{csvFile}solverList.txt", "w") as f:
+        with open(f"{resultPath}solverList.txt", "w") as f:
             f.write("\n".join(newSolverList))
             newSolverList = None
     while newDisabledList is not None:
-        with open(f"{csvFile}disabledList.txt", "w") as f:
+        with open(f"{resultPath}disabledList.txt", "w") as f:
             f.write("\n".join(newDisabledList))
             newDisabledList = None
     allList = [solver[0] for solver in [*solverList, *disabledList]]
@@ -308,7 +311,7 @@ class Practice(Match):
         self.interface2 = interface.Interface(check=False)
         self.cantRecord = self.cantStart = False
         self.process = subprocess.Popen([serverName, "-c",
-            f"{fieldFile}{field}.txt", "-l", f":{port}", "-start", "1s"])
+            f"{fieldPath}{field}.txt", "-l", f":{port}", "-start", "1s"])
         processes.append(self.process)
         time.sleep(1)
         self.field = field
