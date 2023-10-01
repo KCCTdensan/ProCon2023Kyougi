@@ -3,3 +3,5 @@ solve1.py-first,WIN: 560-380,WIN: 560-380,WIN: 560-380,WIN: 560-280,LOSE: 340-55
 solve1.py-second,LOSE: 380-560,LOSE: 380-560,LOSE: 380-560,LOSE: 280-560,WIN: 550-340,WIN: 600-340,LOSE: 140-280,LOSE: 270-580,LOSE: 410-550,LOSE: 410-550,LOSE: 690-820,LOSE: 130-820,LOSE: 130-160,LOSE: 20-40,LOSE: 280-410,WIN: 550-410,WIN: 430-210,LOSE: 80-310
 solve2.py-first,WIN: 560-270,WIN: 560-10,WIN: 560-10,WIN: 560-10,WIN: 210-0,,,,,,,,,,,,,
 solve2.py-second,,,,,,,,,,,,,,,,,,
+solve3.py-first,WIN: 560-340,,,,,,,,,,,,,,,,,
+solve3.py-second,WIN: 380-320,WIN: 0--1,WIN: 380-290,,,,,,,,,,,,,,,

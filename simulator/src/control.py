@@ -16,14 +16,14 @@ recordData = False
 match mode:
     case 0:
         token = ""
-        solver = ["solve1.py"]
+        solver = ["solve1.py","solve2.py"]
         baseUrl = ""
     case 1:
         # solverを2つずつ入れた2次元配列
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["all", "all"]]
+        matchList = [["all","solve3.py"]]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
         replace = True
         # 観戦を行うか否か TrueでGUI表示します
@@ -36,7 +36,7 @@ match mode:
         #     -> solveXはBタイプフィールド専用, solveKingは全対応
         
         # 追加
-        newSolver = []
+        newSolver = [["solve3.py","all"]]
         # 変更(記録をリセットする)
         changedSolver = []
         # 削除(記録を消去する) ファイルの削除は手動でやること
