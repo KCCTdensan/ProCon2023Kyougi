@@ -10,48 +10,19 @@ eightDirectionList = ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0),
 eightDirectionSet = ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1),
                      (6, 1, 0), (7, 1, -1), (8, 0, -1))
 def inField(board, x, y=None):
-    if y is None: x, y = x
-    return 0 <= x < board.height and 0 <= y < board.width
+    return board.inField(x, y)
 
-def allDirection(board, directions, x, y=None):
-    if y is None: x, y = x
-    for d in directions:
-        pos = (x+d[-2], y+d[-1])
-        if not inField(board, *pos): continue
-        if len(d) == 2: yield pos
-        if len(d) == 3: yield (d[0], *pos)
+def allDirection(board, *args):
+    return board.allDirection(*args)
 
 def distance(board, x, y=None):
     return board.distance(x, y)
 
 def nearest(board, *targets):
-    if hasattr(board, 'nearest'): return board.nearest(*targets)
-    distance = board
-    if len(targets) == 1: targets = targets[0]
-    if not hasattr(targets[0], '__len__'): targets = (targets, )
-    ans, newDistance = None, 999
-    for target in targets:
-        if -1 < distance[target[0]][target[1]] < newDistance:
-            ans = target
-            newDistance = distance[target[0]][target[1]]
-    return ans
+    return board.nearest(*targets)
 
 def calcPoint(board):
-    ans = [0, 0, 0]
-    other = [0, 0, 0]
-    for row in board.all:
-        for field in row:
-            point = 100 if field.structure == 2 else 30
-            if field.territory % 2 == 1:
-                ans[0] += point
-                ans[1+(field.structure!=2)] += point
-            if field.territory >= 2:
-                other[0] += point
-                other[1+(field.structure!=2)] += point
-            match field.wall:
-                case 1: ans[0] += 10
-                case 2: other[0] += 10
-    return [ans, other]
+    return board.calcPoint()
 
 class Field:
     def __init__(self, wall, territory, structure, mason):
@@ -100,8 +71,13 @@ class Board:
         if y is None: x, y = x
         return 0 <= x < self.height and 0 <= y < self.width
 
-    def allDirection(self, *args):
-        return allDirection(self, *args)
+    def allDirection(self, directions, x, y=None):
+        if y is None: x, y = x
+        for d in directions:
+            pos = (x+d[-2], y+d[-1])
+            if not self.inField(*pos): continue
+            if len(d) == 2: yield pos
+            if len(d) == 3: yield (d[0], *pos)
 
     def nearest(self, *args):
         if hasattr(args[0], '__len__'): pos, targets = args[0], args[1:]
@@ -136,8 +112,32 @@ class Board:
             self.log_distance[x][y] = ans
         return self.log_distance[x][y]
 
+    def around(self, targets, directions):
+        ans = []
+        targetBool = [[False]*self.width for _ in range(self.height)]
+        for x, y in targets:
+            targetBool[x][y] = True
+        for target in targets:
+            for x, y in self.allDirection(target, directions):
+                if not targetBool[x][y]: ans.append([x, y])
+        return ans
+
     def calcPoint(self):
-        return calcPoint(self)
+        ans = [0, 0, 0]
+        other = [0, 0, 0]
+        for row in self.all:
+            for field in row:
+                point = 100 if field.structure == 2 else 30
+                if field.territory % 2 == 1:
+                    ans[0] += point
+                    ans[1+(field.structure!=2)] += point
+                if field.territory >= 2:
+                    other[0] += point
+                    other[1+(field.structure!=2)] += point
+                match field.wall:
+                    case 1: ans[0] += 10
+                    case 2: other[0] += 10
+        return [ans, other]
     
     def __str__(self):
         return "[\n  [{}]\n]".format(
