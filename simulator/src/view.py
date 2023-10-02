@@ -96,8 +96,8 @@ def main():
                 canvas.create_text(300, 650, text=f"{data[1]}を実行中")
             if len(data) == 4:
                 canvas.create_text(300, 630, text=f"{data[1]} vs {data[2]}")
-                canvas.create_text(300, 670, text=f"{data[3]}  "
-                                   f"turn{data[0].turn}")
+                canvas.create_text(300, 670, text=f"{data[3][0]}   {data[3][1]}"
+                    f" turns  {data[3][2]} seconds   turn {data[0].turn}")
         if finishBool: root.destroy()
         else: root.after(200, update)
     update()

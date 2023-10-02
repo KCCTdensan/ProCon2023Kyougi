@@ -1,18 +1,34 @@
 import simulator
 from simulator import *
 import time
+from collections import deque
 def solve1(interface, solver):
     matchInfo = interface.getMatchInfo()
     while solver.isAlive() and matchInfo is not None and \
           interface.turn <= matchInfo.turns:
         board = matchInfo.board
         movement = []
+        castles = []
+        for castle in board.castles:
+            if board.territories[castle[0]][castle[1]] != 1:
+                castles.append(castle)
+        walls = board.outline(castles, fourDirectionList)
+        targetWall = []
+        for target in walls:
+            if board.walls[target[0]][target[1]] != 1:
+                targetWall.append(target)
+        targets = board.around(targetWall, fourDirectionList)
         for mason in board.myMasons:
-            castle = board.nearest(mason, board.castles)
-            if castle is None:
+            target = board.nearest(mason, targets)
+            if target is None:
                 movement.append([0, 0])
-            elif mason == castle:
-                for i, x, y in board.allDirection(fourDirectionSet, mason):
+                continue
+            elif mason == target:
+                for i, x, y in board.allDirection(mason, fourDirectionSet):
+                    if board.walls[x][y] == 1: continue
+                    for x1, y1 in board.allDirection(x, y, fourDirectionList):
+                        if board.structures[x1][y1] == 2: break
+                    else: continue
                     match board.walls[x][y]:
                         case 0: movement.append([2, i])
                         case 2: movement.append([3, i])
@@ -21,10 +37,10 @@ def solve1(interface, solver):
                 else: movement.append([0, 0])
             else:
                 ans = None
-                newDistance = board.distance(castle)[mason[0]][mason[1]]
-                for i, x, y in board.allDirection(directionSet, mason):
-                    if -1 < board.distance(castle)[x][y] < newDistance:
-                        newDistance = board.distance(castle)[x][y]
+                newDistance = board.distance(target)[mason[0]][mason[1]]
+                for i, x, y in board.allDirection(mason, directionSet):
+                    if -1 < board.distance(target)[x][y] < newDistance:
+                        newDistance = board.distance(target)[x][y]
                         ans = i
                 if ans is None: movement.append([0, 0])
                 else: movement.append([1, ans])

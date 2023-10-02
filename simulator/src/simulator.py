@@ -9,20 +9,6 @@ eightDirectionList = ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0),
                       (1, -1), (0, -1))
 eightDirectionSet = ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1),
                      (6, 1, 0), (7, 1, -1), (8, 0, -1))
-def inField(board, x, y=None):
-    return board.inField(x, y)
-
-def allDirection(board, *args):
-    return board.allDirection(*args)
-
-def distance(board, x, y=None):
-    return board.distance(x, y)
-
-def nearest(board, *targets):
-    return board.nearest(*targets)
-
-def calcPoint(board):
-    return board.calcPoint()
 
 class Field:
     def __init__(self, wall, territory, structure, mason):
@@ -61,9 +47,9 @@ class Board:
         self.castles = []
         for x, row in enumerate(self.all):
             for y, ans in enumerate(row):
-                if ans.mason > 0: self.myMasons[ans.mason-1] = [x, y]
-                if ans.mason < 0: self.otherMasons[-ans.mason-1] = [x, y]
-                if ans.structure == 2: self.castles.append([x, y])
+                if ans.mason > 0: self.myMasons[ans.mason-1] = (x, y)
+                if ans.mason < 0: self.otherMasons[-ans.mason-1] = (x, y)
+                if ans.structure == 2: self.castles.append((x, y))
     
         self.log_distance = defaultdict(dict)
         
@@ -71,8 +57,8 @@ class Board:
         if y is None: x, y = x
         return 0 <= x < self.height and 0 <= y < self.width
 
-    def allDirection(self, directions, x, y=None):
-        if y is None: x, y = x
+    def allDirection(self, x, y, directions = None):
+        if directions is None: x, y, directions = (*x, y)
         for d in directions:
             pos = (x+d[-2], y+d[-1])
             if not self.inField(*pos): continue
@@ -83,6 +69,7 @@ class Board:
         if hasattr(args[0], '__len__'): pos, targets = args[0], args[1:]
         else: pos, targets = args[:2], args[2:]
         if len(targets) == 1: targets = targets[0]
+        if len(targets) == 0: return None
         if not hasattr(targets[0], '__len__'): targets = (targets, )
         ans, newDistance, distance = None, 999, self.distance(pos)
         if distance is None: return None
@@ -102,7 +89,7 @@ class Board:
             while len(targets) > 0:
                 target = targets.popleft()
                 now = ans[target[0]][target[1]]+1
-                for pos in self.allDirection(directionList, target):
+                for pos in self.allDirection(target, directionList):
                     field = self.all[pos[0]][pos[1]]
                     if ans[pos[0]][pos[1]] == -1 and field.wall != 2 and \
                        field.structure != 1:
@@ -112,14 +99,23 @@ class Board:
             self.log_distance[x][y] = ans
         return self.log_distance[x][y]
 
-    def around(self, targets, directions):
+    def outline(self, targets, directions):
         ans = []
         targetBool = [[False]*self.width for _ in range(self.height)]
         for x, y in targets:
             targetBool[x][y] = True
         for target in targets:
-            for x, y in self.allDirection(target, directions):
-                if not targetBool[x][y]: ans.append([x, y])
+            for t in self.allDirection(target, directions):
+                if not targetBool[t[-2]][t[-1]]: ans.append(t[-2:])
+        return ans
+
+    def around(self, targets, directions):
+        ans = []
+        targetBool = [[True]*self.width for _ in range(self.height)]
+        for target in targets:
+            for t in self.allDirection(target, directions):
+                if targetBool[t[-2]][t[-1]]: ans.append(t[-2:])
+                targetBool[t[-2]][t[-1]] = False
         return ans
 
     def calcPoint(self):
@@ -144,6 +140,21 @@ class Board:
             "],\n  [".join("|".join([*map(str, line)]) for line in self.all))
     def __repr__(self):
         return "[{}]".format(",\n".join(map(repr, self.all)))
+
+def inField(board, x, y=None):
+    return board.inField(x, y)
+
+def allDirection(board, *args):
+    return board.allDirection(*args)
+
+def distance(board, x, y=None):
+    return board.distance(x, y)
+
+def nearest(board, *targets):
+    return board.nearest(*targets)
+
+def calcPoint(board):
+    return board.calcPoint()
 
 class MatchInfo:
     def __init__(self, info, match):

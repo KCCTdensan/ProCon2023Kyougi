@@ -22,7 +22,7 @@ def solve2(interface, solver):
         for mason in board.myMasons:
             targets = []
             for target in frame:
-                for x, y in board.allDirection(fourDirectionList, target):
+                for x, y in board.allDirection(target, fourDirectionList):
                     if 0 < x < board.height-1 and 0 < y < board.width-1:
                         continue
                     if board.walls[x][y] != 1: break
@@ -32,7 +32,7 @@ def solve2(interface, solver):
             if target is None:
                 movement.append([0, 0])
             elif mason == target:
-                for i, x, y in board.allDirection(fourDirectionSet, mason):
+                for i, x, y in board.allDirection(mason, fourDirectionSet):
                     if 0 < x < board.height-1 and 0 < y < board.width-1:
                         continue
                     match board.walls[x][y]:
@@ -44,7 +44,7 @@ def solve2(interface, solver):
             else:
                 ans = None
                 newDistance = board.distance(target)[mason[0]][mason[1]]
-                for i, x, y in board.allDirection(directionSet, mason):
+                for i, x, y in board.allDirection(mason, directionSet):
                     if -1 < board.distance(target)[x][y] < newDistance:
                         newDistance = board.distance(target)[x][y]
                         ans = i
