@@ -6,6 +6,10 @@ def solve1(interface, solver):
     matchInfo = interface.getMatchInfo()
     while solver.isAlive() and matchInfo is not None and \
           interface.turn <= matchInfo.turns:
+        while not matchInfo.myTurn:
+            time.sleep(0.1)
+            matchInfo = interface.getMatchInfo()
+            if matchInfo is None or not solver.isAlive(): return
         board = matchInfo.board
         movement = []
         castles = []
@@ -47,10 +51,6 @@ def solve1(interface, solver):
         interface.postMovement(movement)
         turn = matchInfo.turn
         while turn == matchInfo.turn:
-            time.sleep(0.1)
-            matchInfo = interface.getMatchInfo()
-            if matchInfo is None or not solver.isAlive(): return
-        while matchInfo.myTurn:
             time.sleep(0.1)
             matchInfo = interface.getMatchInfo()
             if matchInfo is None or not solver.isAlive(): return

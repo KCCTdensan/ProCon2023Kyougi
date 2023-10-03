@@ -6,7 +6,7 @@ mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 1
+threadLen = 18
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
@@ -23,7 +23,7 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["normalRandomWalk.py", "normalRandomWalk.py"]]
+        matchList = [["all", "all"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -33,9 +33,9 @@ match mode:
         # "all"を指定することで全ての組み合わせを試
         turnList = ["all"]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = True
+        replace = False
         # 観戦を行うか否か TrueでGUI表示します
-        watch = True
+        watch = False
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -44,9 +44,9 @@ match mode:
         #     -> solveXはBタイプフィールド専用, solveKingは全対応
         
         # 追加
-        newSolver = [["normalRandomWalk.py","all"]]
+        newSolver = []
         # 変更(記録をリセットする)
-        changedSolver = []
+        changedSolver = [["solve1.py", "all"], ["solve2.py", "all"], ["solve3.py", "all"], ["normalRandomWalk.py","all"]]
         # 削除(記録を消去する) ファイルの削除は手動でやること
         deletedSolver = []
         # 無効化・有効化("all"に含まれなくなる)
@@ -233,6 +233,12 @@ interface.dataBool = recordData
 
 if mode == 1:
     results = dict([(solver[0], Result(solver[0])) for solver in solverList])
+
+startupinfo = None
+if os.name == "nt":
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
 processes = []
 class Solver:
     def __init__(self, solver):
@@ -347,7 +353,7 @@ class Practice(Match):
         self.cantRecord = self.cantStart = False
         self.process = subprocess.Popen([serverName, "-c",
             f"{fieldPath}{field[0]}-{field[1]}-{field[2]}.txt",
-            "-l", f":{port}", "-start", "1s"])
+            "-l", f":{port}", "-start", "1s"], startupinfo=startupinfo)
         processes.append(self.process)
         time.sleep(1)
         self.field = field

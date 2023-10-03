@@ -19,7 +19,7 @@ def drawField(canvas, field, x, y, x0, length):
         case 2: color="yellow"
     canvas.create_rectangle(x0+x*length+1, 50+y*length+1, x0+(x+1)*length-1,
                             50+(y+1)*length-1, fill=color, outline=line,
-                            width=2)
+                            width=4)
     match field.wall:
         case 1: color="tomato"
         case 2: color="RoyalBlue1"

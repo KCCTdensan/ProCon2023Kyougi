@@ -1,6 +1,6 @@
 ,A11,A13,A15,A17,A21,A25,B11,B13,B15,B17,B21,B25,C11,C13,C15,C17,C21,C25
-solve1.py-first,LOSE: 510-640,,,,,,,,,,,,,,,,,
-solve1.py-second,WIN: 640-510,,,,,,,,,,,,,,,,,
+solve1.py-first,LOSE: 510-650,LOSE: 520-640,WIN: 760-760,WIN: 1080-940,WIN: 730-670,LOSE: 1200-1620,LOSE: 190-230,WIN: 180-110,LOSE: 210-360,,,,,,,,,
+solve1.py-second,WIN: 650-510,WIN: 640-520,LOSE: 760-760,LOSE: 940-1080,LOSE: 670-730,WIN: 1620-1200,WIN: 230-190,LOSE: 110-180,WIN: 360-210,,,,,,,,,
 solve2.py-first,,,,,,,,,,,,,,,,,,
 solve2.py-second,,,,,,,,,,,,,,,,,,
 solve3.py-first,,,,,,,,,,,,,,,,,,
