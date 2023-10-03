@@ -4,3 +4,4 @@ def getSolver(name):
 import solve1
 import solve2
 import solve3
+import normalRandomWalk

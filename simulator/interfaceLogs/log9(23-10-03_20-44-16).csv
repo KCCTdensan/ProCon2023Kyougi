@@ -1,0 +1,3 @@
+,method,url,headers,params,status,reqTime,resTime,data,resData
+0,GET,http://localhost:3000/matches,{'procon-token': 'token2'},,200,23-10-03 20:44:16.949248,23-10-03 20:44:16.958126,,
+1,GET,http://localhost:3000/matches/10,{'procon-token': 'token2'},,200,23-10-03 20:44:16.974324,23-10-03 20:44:16.984708,,

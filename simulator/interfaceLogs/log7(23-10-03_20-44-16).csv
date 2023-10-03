@@ -1,0 +1,7 @@
+,method,url,headers,params,status,reqTime,resTime,data,resData
+0,GET,http://localhost:3000/matches,{'procon-token': 'token1'},,200,23-10-03 20:44:16.945275,23-10-03 20:44:16.957470,,
+1,GET,http://localhost:3000/matches/10,{'procon-token': 'token1'},,200,23-10-03 20:44:16.958246,23-10-03 20:44:16.966794,,
+2,GET,http://localhost:3000/matches,{'procon-token': 'token1'},,200,23-10-03 20:44:16.975433,23-10-03 20:44:16.984946,,
+3,GET,http://localhost:3000/matches/10,{'procon-token': 'token1'},,200,23-10-03 20:44:16.985043,23-10-03 20:44:16.993961,,
+4,GET,http://localhost:3000/matches/10,{'procon-token': 'token1'},,200,23-10-03 20:44:16.994278,23-10-03 20:44:17.003583,,
+5,GET,http://localhost:3000/matches/10,{'procon-token': 'token1'},,200,23-10-03 20:44:17.004672,23-10-03 20:44:17.013580,,

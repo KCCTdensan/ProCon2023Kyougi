@@ -43,8 +43,8 @@ def move(id,mason,initMasons,nextMasons,board):
     for dir,dx,dy in simulator.directionSet:
         newX,newY = x+dx,y+dy
         if simulator.inField(board,newX,newY) :
-            if minCost>newDistance[newX][newY] and newDistance[newX][newY] is not -1 and \
-            board.masons[newX][newY] is 0:
+            if minCost>newDistance[newX][newY] and newDistance[newX][newY] != -1 and \
+            board.masons[newX][newY] == 0:
                 minCost = newDistance[newX][newY]
                 nextDir = dir
     if minCost != 10**9:
