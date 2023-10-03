@@ -1,12 +1,12 @@
 import interface, view, simulator
 import solveList as solveListPack
 import pandas as pd
-import sys, os, platform, subprocess, threading, time, traceback
-mode = 1
+import sys, os, glob, platform, subprocess, threading, time, traceback
+mode = 2
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 1
+threadLen = 18
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
@@ -31,11 +31,11 @@ match mode:
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試
-        turnList = [30]
+        turnList = ["all"]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = False
+        replace = True
         # 観戦を行うか否か TrueでGUI表示します
-        watch = True
+        watch = False
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -46,9 +46,9 @@ match mode:
         # 追加
         newSolver = []
         # 変更(記録をリセットする)
-        changedSolver = [["solve1.py", "all"]]
+        changedSolver = []
         # 削除(記録を消去する) ファイルの削除は手動でやること
-        deletedSolver = []
+        deletedSolver = ["solve4.py"]
         # 無効化・有効化("all"に含まれなくなる)
         switchSolver = []
     case 3:
@@ -100,11 +100,12 @@ allTimeList = [3]
 timeList = allTimeList
 
 class Result:
-    def __init__(self, solver, *, new=False):
+    def __init__(self, solver, *, update=False):
         self.name = solver.split('.')[0]
         self.result = {}
         for file in self.all():
-            if new: self.result[file] = pd.DataFrame(index=allName,
+            if update:
+                self.result[file] = pd.DataFrame(index=allName,
                         columns=fieldList, dtype=object)
             else:
                 self.result[file] = pd.read_csv(
@@ -112,7 +113,7 @@ class Result:
                 if list(self.result[file].index) != allName:
                     old = set(self.result[file].index)
                     new = [solver for solver in allName if solver in old]
-                    self.result = pd.concat([pd.DataFrame(index=allName,
+                    self.result[file] = pd.concat([pd.DataFrame(index=allName,
                         dtype=object), self.result[file].loc[new]], axis=1)
 
     def all(self):
@@ -147,7 +148,7 @@ if mode == 2:
     nS, cS, dS, sS = newSolver.copy(), [], [], []
     for solver in solverList:
         if solver[0] in changedSolver:
-            a = Result(solver[0], new=True); del a
+            a = Result(solver[0], update=True); del a
             cS.append(solver[0])
             solver[1] = changedSolver.pop(solver[0])
         if solver[0] in deletedSolver:
@@ -160,7 +161,7 @@ if mode == 2:
         newSolverList.append(solver)
     for solver in disabledList:
         if solver[0] in changedSolver:
-            a = Result(solver[0], new=True); del a
+            a = Result(solver[0], update=True); del a
             cS.append(solver[0])
             solver[1] = changedSolver.pop(solver[0])
         if solver[0] in deletedSolver:
@@ -184,12 +185,16 @@ if mode == 2:
         with open(f"{resultPath}disabledList.txt", "w") as f:
             f.write("\n".join(newDisabledList))
             newDisabledList = None
+    for solver in dS:
+        for p in glob.glob(f"{resultPath}{solver.split('.')[0]}*.csv"):
+            if os.path.isfile(p):
+                os.remove(p)
     allList = [solver[0] for solver in [*solverList, *disabledList]]
     allName = sum([[f"{solver}-first", f"{solver}-second"] for solver \
                    in allList], start=[])
     newSolver = [solver[0] for solver in newSolver]
     for solver in newSolver:
-        a = Result(solver, new=True); del a
+        a = Result(solver, update=True); del a
     print("処理を終了しました")
     if len(newSolver) != 0:
         print("\n以下のデータが新規に追加されました")

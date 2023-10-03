@@ -145,56 +145,71 @@ eightDirectionList: ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)
 eightDirectionSet: ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1), (6, 1, 0), (7, 1, -1), (8, 0, -1))
   全方位にアクセスする際のインデックスの差分及びそのidをタプルにしたもの
   for文で回した際、directionList,Setは上下左右が先に、eightDirectionList,Setはインデックス通りになっています
-
-simulator.inField(board, x, y): bool
+```
+また、Boardクラスには様々なメソッドが用意されています
+```
+Board.inField(x, y): bool
   与えられた座標がBoardクラスの中に存在するか否かを返す
   次のように使ってください
     for dir, dx, dy in simulator.directionSet:
       newX, newY = x+dx, y+dy
-      if not simulator.inField(board, newX, newY)
+      if not Board.inField(newX, newY)
 
   引数を2つにして座標の配列で渡すこともできます
-  simulator.inField(board, [500000, -123]) -> False
+  Board.inField([500000, -123]) -> False
 
-simulator.allDirection(board, directions, x, y): iter<list<int>>
+Board.allDirection(x, y, directions): iter<list<int>>
   directionsにdirectionList及びその種類のものを入れることで全方位に対する数値を出してくれる
-  また、boardの情報を見て範囲外のものは返さない
+  また、boardの範囲外のものは返さない
   次のように使えます
-    for dir, x, y in simulator.allDirection(board, directionSet, oldX, oldY):
-    for x, y in simulator.allDirection(board, directionList, oldX, oldY):
+    for dir, x, y in Board.allDirection(oldX, oldY, directionSet):
+    for x, y in Board.allDirection(oldX, oldY, directionList):
   なおイテレータ型なので繰り返し使う際はlistに変換してください
   引数を3つにして座標の配列で渡すこともできます
-  simulator.allDirection(board, directionSet, [-1, -1]) -> iter([(5, 0, 0)])
+  Board.allDirection([-1, -1], directionSet) -> iter([(5, 0, 0)])
 
-simulator.distance(board, x, y): tuple<tuple<int>>
+Board.distance(x, y): tuple<tuple<int>>
   与えられた座標からの距離を幅探索し、2次元配列で返します 到達できない箇所は-1が返されます また、存在しない座標が与えられるとNoneを返します
   引数を2つにして座標の配列で渡すこともできます
-  simulator.distance(board, [500000, -123]) -> None
+  Board.distance([500000, -123]) -> None
   O(height*width), メモ化を行っているため同じboard、地点で2回目以降O(1)
 
-simulator.nearest(board, pos, targets): targets[...]
-simulator.nearest(distance, targets): targets[...]
+Board.nearest(pos, targets): targets[...]
   与えられたBoardクラス、または距離を表す2次元配列から、targetsのうち最も近いものを返します また、存在しない座標が与えられるとNoneを返します
   次のように使えます
-    castle = simulator.nearest(board, mason, castles)
-    castle = simulator.nearest(simulator.distance(board, mason), castles)
+    castle = Board.nearest(mason, castles)
   座標は必ず配列にする必要はなく、targetsも複数の引数として渡して構いません(targets内で複数の形式を混合するのはやめてください)
-  simulator.nearest(board, 500000, -123, castle1, castle2, castle3) -> None
+  Board.nearest(500000, -123, castle1, castle2, castle3) -> None
   O(|targets|) distanceを内部で呼び出すため、distanceが計算されていない地点ではO(height*width)
 
-simulator.calcPoint(board): list<list<int>>
+Board.outline(targets, directions): list<list<int>>
+  与えられたtargetsの輪郭を返します
+  城を囲むときに必要な城壁の位置を確認したい時などに便利です
+  directionsによって輪郭の方角を変えることが出来ます
+  次のように使えます
+    walls = Board.outline(castles, simulator.fourDirectionList)
+  O(|targets|)
+
+Board.around(targets, directions): list<list<int>>
+  与えられたtargetsに対してdirectionsだけ座標をずらしたときの全ての位置を返します
+  城壁を建てるために移動すべき位置を確認したい時などに便利です
+  次のように使えます
+    targets = Board.around(walls, simulator.fourDirectionList)
+  O(|targets|)
+
+Board.calcPoint(): list<list<int>>
   与えられたBoardクラスでの現在の自チームの点数、相手チームの点数を返します
   [
     [自チームの合計点数, 自チームの城のみの点数, 自チームの陣地のみの点数],
     [相手チームの合計点数, 相手チームの城のみの点数, 相手チームの陣地のみの点数]
   ]
 
-また、boardを引数にとる関数はBoardクラスからメソッドとして呼び出せます
-Board.inField(x, y): bool
-Board.allDirection(directions, x, y): iter<list<int>>
-Board.distance(x, y): tuple<tuple<int>>
-Board.nearest(pos, targets): targets[...]
-Board.calcPoint(): list<list<int>>
+また、いくつかのBoardクラスのメソッドはsimulatorの関数から呼び出せます
+simulator.inField(board, x, y): bool
+simulator.allDirection(board, x, y, directions): iter<list<int>>
+simulator.distance(board, x, y): tuple<tuple<int>>
+simulator.nearest(board, pos, targets): targets[...]
+simulator.calcPoint(board): list<list<int>>
 ```
 
 ## 試合結果について
