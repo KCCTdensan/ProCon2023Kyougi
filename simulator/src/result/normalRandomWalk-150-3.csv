@@ -1,8 +1,8 @@
 ,A11,A13,A15,A17,A21,A25,B11,B13,B15,B17,B21,B25,C11,C13,C15,C17,C21,C25
 solve1.py-first,,,,,,,,,,,,,,,,,,
-solve1.py-second,,,,,,,,,,,,,,,,,,
+solve1.py-second,WIN: 1000-460,LOSE: 540-850,LOSE: 1210-1410,LOSE: 620-1550,WIN: 2350-780,WIN: 3970-2090,LOSE: 360-730,WIN: 1160-690,WIN: 1280-1010,LOSE: 1040-1360,LOSE: 1680-1970,LOSE: 1770-3280,WIN: 730-340,WIN: 940-80,WIN: 1730-1050,WIN: 1840-1640,WIN: 3480-1120,LOSE: 1270-2320
 solve2.py-first,,,,,,,,,,,,,,,,,,
-solve2.py-second,,,,,,,,,,,,,,,,,,
+solve2.py-second,WIN: 1310-0,WIN: 1620-0,,,,,,,,,,,,,,,,
 solve3.py-first,,,,,,,,,,,,,,,,,,
 solve3.py-second,,,,,,,,,,,,,,,,,,
 normalRandomWalk.py-first,,,,,,,,,,,,,,,,,,

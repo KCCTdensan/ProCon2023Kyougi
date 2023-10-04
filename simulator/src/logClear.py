@@ -4,7 +4,7 @@ filePath = os.path.dirname(__file__)
 if platform.system() == "Windows":
     path = f"{filePath}\\..\\interfaceLogs\\"
 else:
-    path = f"{filePath}../interfaceLogs/"
+    path = f"{filePath}/../interfaceLogs/"
     
 for p in glob.glob(f"{path}*.csv"):
     if os.path.isfile(p):

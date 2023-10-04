@@ -1,9 +1,9 @@
 ,A11,A13,A15,A17,A21,A25,B11,B13,B15,B17,B21,B25,C11,C13,C15,C17,C21,C25
-solve1.py-first,,,,,,,,,,,,,,,,,,
-solve1.py-second,,,,,,,,,,,,,,,,,,
-solve2.py-first,,,,,,,,,,,,,,,,,,
-solve2.py-second,,,,,,,,,,,,,,,,,,
-solve3.py-first,,,,,,,,,,,,,,,,,,
+solve1.py-first,LOSE: 0-1300,LOSE: 0-1300,LOSE: 0-2220,LOSE: 0-3220,LOSE: 0-3560,LOSE: 0-1670,LOSE: 0-380,LOSE: 0-1910,LOSE: 0-2910,LOSE: 0-3990,LOSE: 0-2660,LOSE: 0-2750,LOSE: 0-1260,LOSE: 0-150,LOSE: 0-2290,LOSE: 0-3340,LOSE: 0-3620,LOSE: 0-1510
+solve1.py-second,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-2150,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-2650,LOSE: 0-4130,LOSE: 0-2960,LOSE: 0-4370,LOSE: 0-370,LOSE: 0-80,LOSE: 0-1050,LOSE: 0-1380,LOSE: 0-1120,LOSE: 0-2500
+solve2.py-first,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0,WIN: 0-0
+solve2.py-second,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0,LOSE: 0-0
+solve3.py-first,LOSE: 0-300,LOSE: 0-320,LOSE: 0-300,LOSE: 0-300,LOSE: 0-340,,LOSE: 0-300,,,LOSE: 0-300,LOSE: 0-770,,LOSE: 0-290,LOSE: 0-220,,LOSE: 0-300,,
 solve3.py-second,,,,,,,,,,,,,,,,,,
-normalRandomWalk.py-first,,,,,,,,,,,,,,,,,,
+normalRandomWalk.py-first,,,,,,,,,,,,,,LOSE: 0-300,,,,
 normalRandomWalk.py-second,,,,,,,,,,,,,,,,,,

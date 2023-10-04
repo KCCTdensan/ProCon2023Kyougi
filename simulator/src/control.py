@@ -2,15 +2,19 @@ import interface, view, simulator
 import solveList as solveListPack
 import pandas as pd
 import sys, os, glob, platform, subprocess, threading, time, traceback
+from collections import deque
 mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 18
+threadLen = 100
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
 recordData = False
+# サーバ通信のデータを記録するかどうか選べます
+# 試合数が多いとかなりデータ量がとられます また、データ記録処理は結構時間がかかります
+recordAll = False
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
 match mode:
@@ -46,7 +50,7 @@ match mode:
         # 追加
         newSolver = []
         # 変更(記録をリセットする)
-        changedSolver = [["solve1.py", "all"], ["solve2.py", "all"], ["solve3.py", "all"], ["normalRandomWalk.py","all"]]
+        changedSolver = []
         # 削除(記録を消去する) ファイルの削除は手動でやること
         deletedSolver = []
         # 無効化・有効化("all"に含まれなくなる)
@@ -98,6 +102,8 @@ if mode != 1 or turnList == "all" or turnList == ["all"]:
     turnList = allTurnList
 allTimeList = [3]
 timeList = allTimeList
+
+startPortNumber = 49152
 
 class Result:
     def __init__(self, solver, *, update=False):
@@ -229,7 +235,8 @@ if mode == 3:
         print(Result(solver)[file].result)
     sys.exit()
 
-interface.dataBool = recordData
+interface.dataBool = recordAll
+interface.recordBool = recordData
 
 if mode == 1:
     results = dict([(solver[0], Result(solver[0])) for solver in solverList])
@@ -240,6 +247,7 @@ if os.name == "nt":
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
 processes = []
+runningThreads = []
 class Solver:
     def __init__(self, solver):
         self._isAlive, self.main, self.dead = False, None, False
@@ -283,16 +291,23 @@ class Match(object):
     def __init__(self):
         self.thread = []
         self.process = None
+        self.returned = None
     def interfaceStart(self, interface, matchId, token, **kwargs):
         try:
             interface.__init__(token, **kwargs)
             interface.setTo(matchId)
+        except AssertionError:
+            if self.mode == "practice": self.portFailed = True
+            else: traceback.print_exc()
+        except KeyboardInterrupt: raise KeyboardInterrupt
         except: traceback.print_exc()
     def threading(self, func, *args, **kwargs):
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
         self.thread.append(thread)
         thread.start()
         return thread
+    def keep(self, func, *args, **kwargs):
+        self.returned = func(*args, **kwargs)
     def show(self):
         if not self.isAlive(): return False
         if self.mode == "real":
@@ -309,6 +324,7 @@ class Match(object):
 class Real(Match):
     def __init__(self, solver, matchId):
         super().__init__()
+        self.mode="real"
         self.cantStart = False
         self.interface = interface.Interface(check=False)
         self.interface1 = interface.Interface(check=False)
@@ -317,7 +333,6 @@ class Real(Match):
         thread1 = self.threading(self.interfaceStart, self.interface1, matchId,
                                 token, baseUrl=baseUrl)
         self.solver = solver
-        self.mode="real"
         try:
             thread.join()
             thread1.join()
@@ -339,6 +354,7 @@ class Real(Match):
 class Practice(Match):
     def __init__(self, solver1, solver2, field, port):
         super().__init__()
+        self.mode="practice"
         if not(solver1.targetAs(field) and solver2.targetAs(field)):
             self.cantStart = True
             return
@@ -350,27 +366,17 @@ class Practice(Match):
         self.interface = interface.Interface(check=False)
         self.interface1 = interface.Interface(check=False)
         self.interface2 = interface.Interface(check=False)
-        self.cantRecord = self.cantStart = False
+        self.cantRecord = self.cantStart = self.portFailed = False
         self.process = subprocess.Popen([serverName, "-c",
             f"{fieldPath}{field[0]}-{field[1]}-{field[2]}.txt",
-            "-l", f":{port}", "-start", "1s"], startupinfo=startupinfo)
+            "-l", f":{port}", "-start", "0s"], startupinfo=startupinfo)
         processes.append(self.process)
-        time.sleep(1)
         self.field = field
-        thread = self.threading(
-            self.interfaceStart, self.interface, 10, "token1", port=port)
-        thread1 = self.threading(
-            self.interfaceStart, self.interface1, 10, "token1", port=port)
-        thread2 = self.threading(
-            self.interfaceStart, self.interface2, 10, "token2", port=port)
+        self.interfaceStart(self.interface, 10, "token1", port=port)
+        self.interfaceStart(self.interface1, 10, "token1", port=port)
+        self.interfaceStart(self.interface2, 10, "token2", port=port)
         
-        self.mode="practice"
         self.allTurn = None
-        try:
-            thread.join()
-            thread1.join()
-            thread2.join()
-        except RuntimeError: pass
         if not self.interface1.checked or not self.interface2.checked:
             self.cantRecord = True
             return
@@ -441,44 +447,75 @@ def pattern(solver1, solver2):
             for time in timeList:
                 yield [solver1, solver2, field, turn, time]
 
+matches = []
+match1 = None
+def practiceStart(target, po):
+    global matches, match1
+    matches.append([Practice(Solver(target[0]),
+                    Solver(target[1]), target[2:], po), po])
+    if po == startPortNumber: match1 = matches[-1][0]
+
 try:
     if mode == 1:
         queue, p = iter(matchList), iter([])
-        matches = []
         port = set()
-        match1 = None
+        failedPort = set()
+        failedMatch = deque([])
+        matchesLen = 0
         if watch: view.start()
         while True:
             if watch and match1 is not None: match1.show()
-            for i, m in enumerate(matches):
-                if not m[0].isAlive():
-                    port.discard(m[1])
-                    if m[1] == 3000: match1 = None
-                    del m, matches[i]
-            if len(matches) < threadLen:
-                target = next(p, None)
-                if target is None:
-                    target = next(queue, None)
-                    if target is None: break
-                    p = pattern(*target)
-                    continue
+            if len(matches) < threadLen and len(matches) <= matchesLen+10:
+                if len(failedMatch) > 0: target = failedMatch.popleft()
+                else:
+                    target = next(p, None)
+                    if target is None:
+                        target = next(queue, None)
+                        if target is None: break
+                        p = pattern(*target)
+                        continue
                 if replace or not results[target[0][0]].match(target[1][0],
                                                               target[2:])[0]:
-                    for po in range(3000, 4000):
-                        if po not in port: break
-                    matches.append([Practice(Solver(target[0]),
-                                    Solver(target[1]), target[2:], po), po])
+                    for po in range(startPortNumber, startPortNumber+threadLen):
+                        if po not in failedPort and po not in port: break
+                    runningThreads.append(threading.Thread(
+                        target=practiceStart, args=(target, po)))
+                    runningThreads[-1].start()
                     port.add(po)
-                    if po == 3000: match1 = matches[-1][0]
                 continue
-            time.sleep(0.1)
+            matchesLen = len(matches)
+            print(f"現在の試合数: {matchesLen}")
+            print("試合の再読み込み中…")
+            aliveDict = {}
+            for m in matches:
+                aliveDict[m[1]] = m[0].threading(m[0].keep, m[0].isAlive)
+            for i, m in enumerate(matches):
+                if m[1] not in aliveDict: continue
+                aliveDict[m[1]].join()
+                if not m[0].returned:
+                    if m[0].portFailed:
+                        failedPort.add(m[1])
+                        solver1 = m[0].solver1.name
+                        solver2 = m[0].solver2.name
+                        failedMatch.append([[solver1, solverDict[solver1]],
+                                            [solver2, solverDict[solver2]],
+                                            *m[0].field])
+                    port.discard(m[1])
+                    if m[1] == startPortNumber: match1 = None
+                    del m, matches[i]
+            matchesLen = len(matches)
+            matchesLen -= matchesLen%10
+            matchesLen += 10
     while len(matches) > 0:
         for i, m in enumerate(matches):
             if not m[0].isAlive(): del m, matches[i]
         time.sleep(0.1)
+        if len(matches) % 10 == 0: print(f"現在の試合数: {len(matches)}")
     print("正常終了しました。")
 except KeyboardInterrupt: print("終了します")
 finally:
+    for thread in runningThreads:
+        thread.join()
     for m in matches: m[0].cantRecord = True
     if match1 is not None: del match1, m
     del matches

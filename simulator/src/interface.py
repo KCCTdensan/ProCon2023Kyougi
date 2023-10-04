@@ -3,6 +3,7 @@ import pandas as pd
 from requests.exceptions import Timeout, ConnectionError
 from simulator import MatchInfo
 dataBool = True
+recordBool = True
 
 filePath = os.path.dirname(__file__)
 if platform.system() == "Windows":
@@ -38,6 +39,7 @@ def release():
 
 class LogList:
     def __init__(self):
+        if not recordBool: return
         self.time = datetime.datetime.now().strftime("%y-%m-%d_%H-%M-%S")
         self.id = logFileId.get()
         self.data = pd.DataFrame(columns=["method", "url", "headers", \
@@ -45,6 +47,7 @@ class LogList:
                                           "resTime", "data", "resData"])
         self.len = 0
     def add(self, method, url, **kwargs):
+        if not recordBool: return
         newData = pd.DataFrame({"method": method, "url": url, \
                       "reqTime": datetime.datetime.now().strftime(
                           "%y-%m-%d %H:%M:%S.%f"), **kwargs}, index=[self.len])
@@ -53,11 +56,13 @@ class LogList:
         self.len += 1
         return self.len-1
     def set(self, logId, status, data):
+        if not recordBool: return
         self.data.at[logId, "resTime"] = datetime.datetime.now().strftime(
             "%y-%m-%d %H:%M:%S.%f")
         self.data.at[logId, "status"] = status
         if dataBool and data is not None: self.data.at[logId, "resData"] = data
     def __del__(self):
+        if not recordBool: return
         if len(self.data) == 0:
             if logFileId.now() != self.id+1: return
             logFileId.set(self.id)
@@ -71,8 +76,8 @@ def matchInfo(info, match):
 class Interface:
     def __init__(self, token=None, *, baseUrl="http://localhost:", port=3000, \
                  check=True):
-        self.log, self.token, self.id, self.turn, self.baseUrl = \
-                  None, token, None, 0, f"{baseUrl}{port}"
+        self.log, self.token, self.id, self.turn, self.baseUrl, self.port = \
+                  None, token, None, 0, f"{baseUrl}{port}", port
         self.headers, self.released = {"procon-token": token}, False
         assert not check or self.getMatches(test=True) is not None, \
                f"token({token})が不正である可能性があります"
@@ -137,7 +142,7 @@ class Interface:
             code = res.status_code
         except (httpx.TimeoutException, httpx.NetworkError): code = 404
         if self.log is not None: self.log.set(logId, code, "")
-        print(f"サーバとの通信に失敗しました。({logId}: {code})")
+        print(f"サーバとの通信に失敗しました。({self.port}-{logId}: {code})")
         return None
     def post(self, url, data):
         if self.released:
@@ -158,7 +163,7 @@ class Interface:
             code = res.status_code
         except (httpx.TimeoutException, httpx.NetworkError): code = 404
         if self.log is not None: self.log.set(logId, code, "")
-        print(f"サーバとの通信に失敗しました。({logId}: {code})")
+        print(f"サーバとの通信に失敗しました。({self.port}-{logId}: {code})")
         return False
     def release(self):
         self.log = None
