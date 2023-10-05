@@ -7,14 +7,14 @@ mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 100
+threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
-recordData = False
+recordData = True
 # サーバ通信のデータを記録するかどうか選べます
 # 試合数が多いとかなりデータ量がとられます また、データ記録処理は結構時間がかかります
-recordAll = False
+recordAll = True
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
 match mode:
@@ -34,12 +34,12 @@ match mode:
         fieldList = ["all"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
-        # "all"を指定することで全ての組み合わせを試
+        # "all"を指定することで全ての組み合わせを試行する
         turnList = ["all"]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = False
+        replace = True
         # 観戦を行うか否か TrueでGUI表示します
-        watch = False
+        watch = True
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -247,7 +247,7 @@ if os.name == "nt":
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
 processes = []
-runningThreads = []
+runningThreads = deque([])
 class Solver:
     def __init__(self, solver):
         self._isAlive, self.main, self.dead = False, None, False
@@ -462,10 +462,14 @@ try:
         failedPort = set()
         failedMatch = deque([])
         matchesLen = 0
+        targetLen = 10
         if watch: view.start()
         while True:
             if watch and match1 is not None: match1.show()
-            if len(matches) < threadLen and len(matches) <= matchesLen+10:
+            while len(runningThreads) > 0 and not runningThreads[0].is_alive():
+                runningThreads.popleft()
+            matchesLen = len(runningThreads) + len(matches)
+            if matchesLen < threadLen and matchesLen < targetLen:
                 if len(failedMatch) > 0: target = failedMatch.popleft()
                 else:
                     target = next(p, None)
@@ -483,9 +487,10 @@ try:
                     runningThreads[-1].start()
                     port.add(po)
                 continue
-            matchesLen = len(matches)
-            print(f"現在の試合数: {matchesLen}")
-            print("試合の再読み込み中…")
+            matchesLen = len(runningThreads) + len(matches)
+            if matchesLen < threadLen:
+                print(f"現在の試合数: {matchesLen}")
+                print("試合の再読み込み中…")
             aliveDict = {}
             for m in matches:
                 aliveDict[m[1]] = m[0].threading(m[0].keep, m[0].isAlive)
@@ -503,9 +508,9 @@ try:
                     port.discard(m[1])
                     if m[1] == startPortNumber: match1 = None
                     del m, matches[i]
-            matchesLen = len(matches)
-            matchesLen -= matchesLen%10
-            matchesLen += 10
+            targetLen = len(runningThreads) + len(matches)
+            targetLen -= targetLen%10
+            targetLen += 10
     while len(matches) > 0:
         for i, m in enumerate(matches):
             if not m[0].isAlive(): del m, matches[i]
@@ -514,14 +519,17 @@ try:
     print("正常終了しました。")
 except KeyboardInterrupt: print("終了します")
 finally:
-    for thread in runningThreads:
-        thread.join()
-    for m in matches: m[0].cantRecord = True
-    if match1 is not None: del match1, m
-    del matches
-    for result in results.values():
-        result.release()
-    for p in processes:
-        if p.poll() is None: p.kill()
-    if watch: view.release()
-    interface.release()
+    try:
+        for thread in runningThreads:
+            thread.join()
+        for m in matches: m[0].cantRecord = True
+        if match1 is not None: del match1, m
+        del matches
+        for result in results.values():
+            result.release()
+        if watch: view.release()
+    except: traceback.print_exc()
+    finally:
+        for p in processes:
+            if p.poll() is None: p.kill()
+        interface.release()
