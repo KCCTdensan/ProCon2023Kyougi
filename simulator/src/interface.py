@@ -2,6 +2,7 @@ import os, httpx, json, datetime, platform
 import pandas as pd
 from requests.exceptions import Timeout, ConnectionError
 from simulator import MatchInfo
+from simulator import print
 dataBool = True
 recordBool = True
 
@@ -165,6 +166,6 @@ class Interface:
         if self.log is not None: self.log.set(logId, code, "")
         print(f"サーバとの通信に失敗しました。({self.port}-{logId}: {code})")
         return False
-    def release(self):
-        self.log = None
+    def release(self, *, safety=True):
+        if safety: self.log = None
         self.released = True

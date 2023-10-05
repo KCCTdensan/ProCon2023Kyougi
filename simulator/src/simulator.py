@@ -192,6 +192,10 @@ class MatchInfo:
                         ",\nboard:\n",
                         repr(self.board)])
 
+_print = print
+def print(*args, sep=" ", end="\n", file=None):
+    _print(sep.join(map(str, args))+end, end="", file=file)
+
 solverList = {}
 def set(name, solver):
     solverList[name] = solver

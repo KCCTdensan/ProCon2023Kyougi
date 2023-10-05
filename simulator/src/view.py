@@ -115,4 +115,4 @@ def show(*new):
 def release():
     global finishBool, thread
     finishBool = True
-    thread.join()
+    if thread is not None: thread.join()

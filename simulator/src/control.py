@@ -3,18 +3,19 @@ import solveList as solveListPack
 import pandas as pd
 import sys, os, glob, platform, subprocess, threading, time, traceback
 from collections import deque
+from simulator import print
 mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 1
+threadLen = 100
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
-recordData = True
+recordData = False
 # サーバ通信のデータを記録するかどうか選べます
 # 試合数が多いとかなりデータ量がとられます また、データ記録処理は結構時間がかかります
-recordAll = True
+recordAll = False
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
 match mode:
@@ -39,7 +40,7 @@ match mode:
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
         replace = True
         # 観戦を行うか否か TrueでGUI表示します
-        watch = True
+        watch = False
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -269,7 +270,7 @@ class Solver:
         try: func(*args, **kwargs)
         except:
             self.dead = True
-            traceback.print_exc()
+            print(traceback.format_exc(), file=sys.stderr)
     def start(self, interface):
         self._isAlive = True
         if self.lang == "python":
@@ -298,9 +299,9 @@ class Match(object):
             interface.setTo(matchId)
         except AssertionError:
             if self.mode == "practice": self.portFailed = True
-            else: traceback.print_exc()
+            else: print(traceback.format_exc(), file=sys.stderr)
         except KeyboardInterrupt: raise KeyboardInterrupt
-        except: traceback.print_exc()
+        except: print(traceback.format_exc(), file=sys.stderr)
     def threading(self, func, *args, **kwargs):
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
         self.thread.append(thread)
@@ -377,10 +378,12 @@ class Practice(Match):
         self.interfaceStart(self.interface2, 10, "token2", port=port)
         
         self.allTurn = None
-        if not self.interface1.checked or not self.interface2.checked:
+        if not self.interface.checked or not self.interface1.checked or \
+           not self.interface2.checked:
             self.cantRecord = True
             return
-        while self.interface.getMatchInfo() is None: pass
+        while self.interface.getMatchInfo() is None:
+            if self.interface.released: return
         solver1.start(self.interface1)
         solver2.start(self.interface2)
     def isAlive(self):
@@ -396,18 +399,25 @@ class Practice(Match):
         elif returned.turn == self.allTurn: return False
         if self.cantRecord: return False
         return not self.solver1.dead and not self.solver2.dead
+    def release(self, *, safety=False):
+        self.solver1.release()
+        self.solver2.release()
+        if safety:
+            self.threading(lambda: self.interface.release())
+            self.threading(lambda: self.interface1.release())
+            self.threading(lambda: self.interface2.release())
+        else:
+            self.interface.release(safety=False)
+            self.interface1.release(safety=False)
+            self.interface2.release(safety=False)
     def __del__(self):
         if self.cantStart:
             super().__del__()
             return
+        self.release(safety=True)
         solver1, solver2 = self.solver1, self.solver2
-        solver1.release()
-        solver2.release()
-        self.threading(lambda: self.interface1.release())
-        self.threading(lambda: self.interface2.release())
         returned = None
         if not self.cantRecord: returned = self.interface.getMatchInfo()
-        self.threading(lambda: self.interface.release())
         if returned:
             point = simulator.calcPoint(returned.board)
             if solver1.dead: point[0] = [-1, -1, -1]
@@ -462,7 +472,7 @@ try:
         failedPort = set()
         failedMatch = deque([])
         matchesLen = 0
-        targetLen = 10
+        targetLen = 50
         if watch: view.start()
         while True:
             if watch and match1 is not None: match1.show()
@@ -480,7 +490,7 @@ try:
                         continue
                 if replace or not results[target[0][0]].match(target[1][0],
                                                               target[2:])[0]:
-                    for po in range(startPortNumber, startPortNumber+threadLen):
+                    for po in range(startPortNumber, startPortNumber+10000):
                         if po not in failedPort and po not in port: break
                     runningThreads.append(threading.Thread(
                         target=practiceStart, args=(target, po)))
@@ -509,8 +519,8 @@ try:
                     if m[1] == startPortNumber: match1 = None
                     del m, matches[i]
             targetLen = len(runningThreads) + len(matches)
-            targetLen -= targetLen%10
-            targetLen += 10
+            targetLen -= targetLen%50
+            targetLen += 50
     while len(matches) > 0:
         for i, m in enumerate(matches):
             if not m[0].isAlive(): del m, matches[i]
@@ -525,11 +535,15 @@ finally:
         for m in matches: m[0].cantRecord = True
         if match1 is not None: del match1, m
         del matches
+        matches = []
         for result in results.values():
             result.release()
         if watch: view.release()
-    except: traceback.print_exc()
+    except KeyboardInterrupt: print("\nKeyboardInterrupt\n", end="")
+    except: print(traceback.format_exc(), file=sys.stderr)
     finally:
+        for match in matches: match[0].release(safety=False)
         for p in processes:
             if p.poll() is None: p.kill()
         interface.release()
+        if watch: view.release()
