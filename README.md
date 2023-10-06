@@ -97,16 +97,16 @@ Board.height, Board.width: int
   フィールドの大きさ フィールドを2次元配列で表す際は長さheightの配列の中に長さwidthの配列が入る形になる
 Board.mason: int
   職人の人数 自他共に同じ人数の職人がいる
-Board.walls: list<list<int>>
+Board.walls: Matrix<list<list<int>>>
   城壁の存在を表す2次元配列 {0: なし, 1: 自チームの城壁, 2: 他チームの城壁}
-Board.territories: list<list<int>>
+Board.territories: Matrix<list<list<int>>>
   陣地の情報を表す2次元配列 {0: なし, 1: 自チーム, 2: 他チーム, 3: 両チーム}
-Board.structures: list<list<int>>
+Board.structures: Matrix<list<list<int>>>
   構造物の情報を表す2次元配列 {0: 平地, 1: 池, 2: 城}
-Board.masons: list<list<int>>
+Board.masons: Matrix<list<list<int>>>
   職人の存在を表す2次元配列
   自然数は自チームの職人、負の数は他チームの職人 絶対値が職人のidを表す 0の時不在
-Board.all: list<list<Fieldクラス>>
+Board.all: Matrix<list<list<Fieldクラス>>>
   2次元配列で表される情報をまとめたもの Fieldクラスは以下の通り
     Field.wall: int    Field.territory: int    Field.structure: int    Field.mason: int
     いずれも2次元配列から取り出す場合の値と同じ
@@ -147,6 +147,10 @@ eightDirectionList: ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)
 eightDirectionSet: ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1), (6, 1, 0), (7, 1, -1), (8, 0, -1))
   全方位にアクセスする際のインデックスの差分及びそのidをタプルにしたもの
   for文で回した際、directionList,Setは上下左右が先に、eightDirectionList,Setはインデックス通りになっています
+
+simulator.Matrix: listを継承したクラス
+2次元配列に対して容易にアクセスできる
+Matrix[(x, y)]のような配列での指定が可能に
 ```
 また、Boardクラスには様々なメソッドが用意されています
 ```
@@ -170,14 +174,21 @@ Board.allDirection(x, y, directions): iter<list<int>>
   引数を3つにして座標の配列で渡すこともできます
   Board.allDirection([-1, -1], directionSet) -> iter([(5, 0, 0)])
 
-Board.distance(x, y): tuple<tuple<int>>
-  与えられた座標からの距離を幅探索し、2次元配列で返します 到達できない箇所は-1が返されます また、存在しない座標が与えられるとNoneを返します
+Board.distance(x, y, *, destroy=False): Matrix<tuple<tuple<int>>>
+  与えられた座標への距離を幅探索し、2次元配列で返します 到達できない箇所は-1が返されます また、存在しない座標が与えられるとNoneを返します
+  destroyをTrueにすることで城壁を破壊する行動を考慮に入れます(が、destroyをTrueにすると必ずposからの移動となるので必要な場合はreverseDistanceを使ってください)
   引数を2つにして座標の配列で渡すこともできます
   Board.distance([500000, -123]) -> None
   O(height*width), メモ化を行っているため同じboard、地点で2回目以降O(1)
 
-Board.nearest(pos, targets): targets[...]
+Board.reverseDistance(x, y): Matrix<tuple<tuple<int>>>
+  ほぼdistanceと同じですが、distanceとは逆に、指定された地点にどのくらいのターン数で到達可能かを返します
+  これはrouteメソッドなどの実装に大いに役に立ちます
+  O(height*width), メモ化を行っているため同じboard、地点で2回目以降O(1)
+
+Board.nearest(pos, targets, *, destroy=False): targets[...]
   与えられたBoardクラス、または距離を表す2次元配列から、targetsのうち最も近いものを返します また、存在しない座標が与えられるとNoneを返します
+  destroyをTrueにすることで城壁を破壊する行動を考慮に入れます
   次のように使えます
     castle = Board.nearest(mason, castles)
   座標は必ず配列にする必要はなく、targetsも複数の引数として渡して構いません(targets内で複数の形式を混合するのはやめてください)
@@ -198,6 +209,12 @@ Board.around(targets, directions): list<list<int>>
   次のように使えます
     targets = Board.around(walls, simulator.fourDirectionList)
   O(|targets|)
+
+Board.route(pos, target, directions=directionSet, destroy=True): list<list<int>>
+  posからtargetに移動する際のルートをポストするmovementと同じ形式で返します
+  destroy=Falseとすると壁破壊を行わなくなります
+  O(Board.distance(...)) ルートの長さによって変動します
+  reverseDistanceを内部で呼び出すため、計算されていない地点ではO(height*width)
 
 Board.calcPoint(): list<list<int>>
   与えられたBoardクラスでの現在の自チームの点数、相手チームの点数を返します

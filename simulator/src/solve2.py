@@ -47,7 +47,7 @@ def solve2(interface, solver):
                 else: movement.append([0, 0])
             else:
                 ans = None
-                newDistance = board.distance(target)[mason[0]][mason[1]]
+                newDistance = board.distance(target)[mason]
                 for i, x, y in board.allDirection(mason, directionSet):
                     if -1 < board.distance(target)[x][y] < newDistance:
                         newDistance = board.distance(target)[x][y]

@@ -14,16 +14,16 @@ def solve1(interface, solver):
         movement = []
         castles = []
         for castle in board.castles:
-            if board.territories[castle[0]][castle[1]] != 1:
+            if board.territories[castle] != 1:
                 castles.append(castle)
         walls = board.outline(castles, fourDirectionList)
         targetWall = []
         for target in walls:
-            if board.walls[target[0]][target[1]] != 1:
+            if board.walls[target] != 1:
                 targetWall.append(target)
         targets = board.around(targetWall, fourDirectionList)
         for mason in board.myMasons:
-            target = board.nearest(mason, targets)
+            target = board.nearest(mason, targets, destroy=True)
             if target is None:
                 movement.append([0, 0])
                 continue
@@ -40,14 +40,9 @@ def solve1(interface, solver):
                     break
                 else: movement.append([0, 0])
             else:
-                ans = None
-                newDistance = board.distance(target)[mason[0]][mason[1]]
-                for i, x, y in board.allDirection(mason, directionSet):
-                    if -1 < board.distance(target)[x][y] < newDistance:
-                        newDistance = board.distance(target)[x][y]
-                        ans = i
+                ans = board.route(mason, target)
                 if ans is None: movement.append([0, 0])
-                else: movement.append([1, ans])
+                else: movement.append(ans[0])
         interface.postMovement(movement)
         turn = matchInfo.turn
         while turn == matchInfo.turn:

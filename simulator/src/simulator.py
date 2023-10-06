@@ -10,6 +10,18 @@ eightDirectionList = ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0),
 eightDirectionSet = ((1, -1, -1), (2, -1, 0), (3, -1, 1), (4, 0, 1), (5, 1, 1),
                      (6, 1, 0), (7, 1, -1), (8, 0, -1))
 
+class Matrix(list):
+    def __getitem__(self, target):
+        if type(target) is int: return list.__getitem__(self, target)
+        while len(target) == 1 and hasattr(target[0], '__len__'):
+            target = target[0]
+        if any(type(t) is not int for t in target):
+            raise TypeError(f"{target}は正しい形式ではありません")
+        if len(target) > 2 or len(target) == 0:
+            raise IndexError(f"{len(target)}個の引数は許容されません")
+        if len(target) == 1: return list.__getitem__(self, target)
+        return list.__getitem__(self, target[0])[target[1]]
+        
 class Field:
     def __init__(self, wall, territory, structure, mason):
         self.wall, self.territory, self.structure, self.mason = \
@@ -33,15 +45,15 @@ class Field:
 
 class Board:
     def __init__(self, board):
-        self.walls = board["walls"]
-        self.territories = board["territories"]
+        self.walls = Matrix(board["walls"])
+        self.territories = Matrix(board["territories"])
         self.width = board["width"]
         self.height = board["height"]
         self.mason = board["mason"]
-        self.structures = board["structures"]
-        self.masons = board["masons"]
-        self.all = [[Field(*data) for data in zip(*datas)] for datas \
-            in zip(self.walls, self.territories, self.structures, self.masons)]
+        self.structures = Matrix(board["structures"])
+        self.masons = Matrix(board["masons"])
+        self.all = Matrix([Field(*data) for data in zip(*datas)] for datas \
+            in zip(self.walls, self.territories, self.structures, self.masons))
         self.myMasons = [None]*self.mason
         self.otherMasons = [None]*self.mason
         self.castles = []
@@ -51,7 +63,7 @@ class Board:
                 if ans.mason < 0: self.otherMasons[-ans.mason-1] = (x, y)
                 if ans.structure == 2: self.castles.append((x, y))
     
-        self.log_distance = defaultdict(dict)
+        self.log_distance = defaultdict(lambda: defaultdict(dict))
         
     def inField(self, x, y=None):
         if y is None: x, y = x
@@ -65,24 +77,25 @@ class Board:
             if len(d) == 2: yield pos
             if len(d) == 3: yield (d[0], *pos)
 
-    def nearest(self, *args):
+    def nearest(self, *args, destroy=False):
         if hasattr(args[0], '__len__'): pos, targets = args[0], args[1:]
         else: pos, targets = args[:2], args[2:]
         if len(targets) == 1: targets = targets[0]
         if len(targets) == 0: return None
         if not hasattr(targets[0], '__len__'): targets = (targets, )
-        ans, newDistance, distance = None, 999, self.distance(pos)
+        ans, newDistance = None, 999
+        distance = self.distance(pos, destroy=destroy)
         if distance is None: return None
         for target in targets:
-            if -1 < distance[target[0]][target[1]] < newDistance:
+            if -1 < distance[target] < newDistance:
                 ans = target
-                newDistance = distance[target[0]][target[1]]
+                newDistance = distance[target]
         return ans
         
-    def distance(self, x, y = None):
+    def distance(self, x, y = None, *, destroy=False):
         if y is None: x, y = x
         if not self.inField(x, y): return None
-        if y not in self.log_distance[x]:
+        if destroy not in self.log_distance[x][y]:
             ans = [[-1]*self.width for _ in range(self.height)]
             ans[x][y] = 0
             targets = deque([[x, y]])
@@ -90,14 +103,48 @@ class Board:
                 target = targets.popleft()
                 now = ans[target[0]][target[1]]+1
                 for pos in self.allDirection(target, directionList):
-                    field = self.all[pos[0]][pos[1]]
+                    field = self.all[pos]
                     if ans[pos[0]][pos[1]] == -1 and field.wall != 2 and \
                        field.structure != 1:
                         ans[pos[0]][pos[1]] = now
                         targets.append(pos)
+                if not destroy: continue
+                for pos in self.allDirection(target, fourDirectionList):
+                    field = self.all[pos]
+                    if ans[pos[0]][pos[1]] == -1 and field.wall == 2 and \
+                       field.structure != 1:
+                        ans[pos[0]][pos[1]] = now+1
+                        targets.append(pos)
             ans = tuple(tuple(a) for a in ans)
-            self.log_distance[x][y] = ans
-        return self.log_distance[x][y]
+            self.log_distance[x][y][destroy] = ans
+        return Matrix(self.log_distance[x][y][destroy])
+        
+    def reverseDistance(self, x, y = None):
+        if y is None: x, y = x
+        if not self.inField(x, y): return None
+        if "reverse" not in self.log_distance[x][y]:
+            ans = [[-1]*self.width for _ in range(self.height)]
+            ans[x][y] = 0
+            targets = deque([[x, y]])
+            while len(targets) > 0:
+                target = targets.popleft()
+                now = ans[target[0]][target[1]]+1
+                if self.walls[target] == 2:
+                    for pos in self.allDirection(target, fourDirectionList):
+                        field = self.all[pos]
+                        if not(-1 < ans[pos[0]][pos[1]] < now+1) and \
+                               field.structure != 1:
+                            ans[pos[0]][pos[1]] = now+1
+                            targets.append(pos)
+                else:
+                    for pos in self.allDirection(target, directionList):
+                        field = self.all[pos]
+                        if ans[pos[0]][pos[1]] == -1 and field.structure != 1:
+                            ans[pos[0]][pos[1]] = now
+                            targets.append(pos)
+            ans = tuple(tuple(a) for a in ans)
+            self.log_distance[x][y]["reverse"] = ans
+        return Matrix(self.log_distance[x][y]["reverse"])
 
     def outline(self, targets, directions):
         ans = []
@@ -116,6 +163,24 @@ class Board:
             for t in self.allDirection(target, directions):
                 if targetBool[t[-2]][t[-1]]: ans.append(t[-2:])
                 targetBool[t[-2]][t[-1]] = False
+        return ans
+
+    def route(self, pos, target, directions=directionSet, destroy=True):
+        if destroy: distance = self.reverseDistance(target)
+        else: distance = self.distance(target)
+        if distance[pos] == -1: return None
+        ans = []
+        while pos != target:
+            newDistance = distance[pos]
+            nextPos, targetI = None, None
+            for i, x, y in self.allDirection(pos, directions):
+                if -1 < distance[x][y] < newDistance:
+                    newDistance = distance[x][y]
+                    nextPos = (x, y)
+                    targetI = i
+            if self.walls[nextPos] == 2: ans.append([3, targetI])
+            ans.append([1, targetI])
+            pos = nextPos
         return ans
 
     def calcPoint(self):

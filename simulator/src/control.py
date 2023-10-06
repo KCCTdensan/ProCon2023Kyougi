@@ -113,15 +113,16 @@ class Result:
         for file in self.all():
             if update:
                 self.result[file] = pd.DataFrame(index=allName,
-                        columns=fieldList, dtype=object)
+                        columns=fieldList)
             else:
                 self.result[file] = pd.read_csv(
                     f"{resultPath}{file}.csv", index_col=0)
                 if list(self.result[file].index) != allName:
                     old = set(self.result[file].index)
                     new = [solver for solver in allName if solver in old]
-                    self.result[file] = pd.concat([pd.DataFrame(index=allName,
-                        dtype=object), self.result[file].loc[new]], axis=1)
+                    self.result[file] = pd.concat([pd.DataFrame(index=allName),
+                        self.result[file].loc[new]], axis=1)
+            self.result[file] = self.result[file].astype('object')
 
     def all(self):
         for turn in allTurnList:

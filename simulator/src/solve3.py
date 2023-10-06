@@ -27,8 +27,8 @@ def nextMason(initMasons,board):
         for j,mason2 in enumerate(initMasons):
             if i == j:
                 continue
-            if minCost>newDistance[mason2[0]][mason2[1]] and j not in used and pair[j] != i:
-                minCost = newDistance[mason2[0]][mason2[1]]
+            if minCost>newDistance[mason2] and j not in used and pair[j] != i:
+                minCost = newDistance[mason2]
                 id = j
         res.append(id)
         used.add(id)
