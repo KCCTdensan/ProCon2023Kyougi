@@ -8,7 +8,7 @@ mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 100
+threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
@@ -28,19 +28,19 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["all", "all"]]
+        matchList = [["solve1.py", "solve4.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["all"]
+        fieldList = ["A11"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = ["all"]
+        turnList = ["90"]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = True
+        replace = False
         # 観戦を行うか否か TrueでGUI表示します
-        watch = False
+        watch = True
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -49,7 +49,7 @@ match mode:
         #     -> solveXはBタイプフィールド専用, solveKingは全対応
         
         # 追加
-        newSolver = []
+        newSolver = [["solve4.py","all"]]
         # 変更(記録をリセットする)
         changedSolver = []
         # 削除(記録を消去する) ファイルの削除は手動でやること

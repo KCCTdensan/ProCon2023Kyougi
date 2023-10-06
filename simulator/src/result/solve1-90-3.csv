@@ -7,3 +7,5 @@ solve3.py-first,WIN: 1260-340,WIN: 1260-340,WIN: 1100-560,WIN: 1930-230,WIN: 146
 solve3.py-second,,,,,,,,,,,,,,,,,,
 normalRandomWalk.py-first,LOSE: 580-950,LOSE: 590-640,WIN: 1460-770,WIN: 1440-780,LOSE: 1480-1970,LOSE: 1820-3040,LOSE: 440-490,WIN: 830-770,WIN: 880-880,WIN: 1420-650,WIN: 2040-1470,WIN: 1950-1390,LOSE: 330-480,LOSE: 80-930,LOSE: 1050-1090,LOSE: 1180-1280,LOSE: 1120-2270,WIN: 2340-1100
 normalRandomWalk.py-second,,,,,,,,,,,,,,,,,,
+solve4.py-first,,,,,,,,,,,,,,,,,,
+solve4.py-second,,,,,,,,,,,,,,,,,,

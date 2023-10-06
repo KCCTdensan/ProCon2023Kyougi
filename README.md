@@ -1,5 +1,7 @@
 # ProCon2023Kyougi
 
+システムの詳しい内容は /System.md を参照
+
 ## 必要なライブラリ
 
 httpx, pandas, requests
