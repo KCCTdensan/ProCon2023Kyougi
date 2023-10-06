@@ -141,7 +141,7 @@ class Interface:
                 self.log.set(logId, res.status_code, res.json())
                 return res.json()
             code = res.status_code
-        except (httpx.TimeoutException, httpx.NetworkError): code = 404
+        except (httpx.TimeoutException, httpx.NetworkError): code = "(failed)"
         if self.log is not None: self.log.set(logId, code, "")
         print(f"サーバとの通信に失敗しました。({self.port}-{logId}: {code})")
         return None
@@ -162,7 +162,7 @@ class Interface:
                 self.log.set(logId, res.status_code, res.json())
                 return True
             code = res.status_code
-        except (httpx.TimeoutException, httpx.NetworkError): code = 404
+        except (httpx.TimeoutException, httpx.NetworkError): code = "(failed)"
         if self.log is not None: self.log.set(logId, code, "")
         print(f"サーバとの通信に失敗しました。({self.port}-{logId}: {code})")
         return False

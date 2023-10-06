@@ -49,7 +49,7 @@ match mode:
         #     -> solveXはBタイプフィールド専用, solveKingは全対応
         
         # 追加
-        newSolver = [["solve4.py","all"]]
+        newSolver = []
         # 変更(記録をリセットする)
         changedSolver = []
         # 削除(記録を消去する) ファイルの削除は手動でやること
@@ -202,6 +202,20 @@ if mode == 2:
     newSolver = [solver[0] for solver in newSolver]
     for solver in newSolver:
         a = Result(solver, update=True); del a
+    allList = [solver[0] for solver in [*solverList, *disabledList]]
+    setCS = set(cS)
+    targetList, allList = allList, []
+    for solver in targetList:
+        if solver not in setCS: allList.append(solver)
+    allName = sum([[f"{solver}-first", f"{solver}-second"] for solver \
+                   in allList], start=[])
+    for solver in allList:
+        a = Result(solver); del a
+    
+    allList = [solver[0] for solver in [*solverList, *disabledList]]
+    allName = sum([[f"{solver}-first", f"{solver}-second"] for solver \
+                   in allList], start=[])
+    
     print("処理を終了しました")
     if len(newSolver) != 0:
         print("\n以下のデータが新規に追加されました")
@@ -414,10 +428,10 @@ class Practice(Match):
         if self.cantStart:
             super().__del__()
             return
-        self.release(safety=True)
         solver1, solver2 = self.solver1, self.solver2
         returned = None
         if not self.cantRecord: returned = self.interface.getMatchInfo()
+        self.release(safety=True)
         if returned:
             point = simulator.calcPoint(returned.board)
             if solver1.dead: point[0] = [-1, -1, -1]
@@ -521,11 +535,15 @@ try:
             targetLen = len(runningThreads) + len(matches)
             targetLen -= targetLen%50
             targetLen += 50
-    while len(matches) > 0:
+    while len(matches) > 0 or len(runningThreads) > 0:
+        if watch and match1 is not None: match1.show()
+        while len(runningThreads) > 0 and not runningThreads[0].is_alive():
+            runningThreads.popleft()
         for i, m in enumerate(matches):
             if not m[0].isAlive(): del m, matches[i]
         time.sleep(0.1)
-        if len(matches) % 10 == 0: print(f"現在の試合数: {len(matches)}")
+        if (len(matches)+len(runningThreads)) % 10 == 0:
+            print(f"現在の試合数: {len(matches)+len(runningThreads)}")
     print("正常終了しました。")
 except KeyboardInterrupt: print("終了します")
 finally:
@@ -533,7 +551,8 @@ finally:
         for thread in runningThreads:
             thread.join()
         for m in matches: m[0].cantRecord = True
-        if match1 is not None: del match1, m
+        m = None
+        if match1 is not None: del match1
         del matches
         matches = []
         for result in results.values():
