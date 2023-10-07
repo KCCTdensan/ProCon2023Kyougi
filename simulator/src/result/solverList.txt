@@ -3,3 +3,4 @@ solve2.py,all
 solve3.py,all
 normalRandomWalk.py,all
 solve4.py,all
+solve5.py,all

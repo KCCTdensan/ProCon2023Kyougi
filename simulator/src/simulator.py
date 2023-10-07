@@ -165,6 +165,43 @@ class Board:
                 targetBool[t[-2]][t[-1]] = False
         return ans
 
+    def frame(self, targets, directions):
+        ans = []
+        targetBool = [[False]*self.width for _ in range(self.height)]
+        for x, y in targets:
+            targetBool[x][y] = True
+        for target in targets:
+            poses = list(self.allDirection(target, directions))
+            if len(poses) == len(directions):
+                for t in poses:
+                    if not targetBool[t[-2]][t[-1]]: break
+                else: continue
+            ans.append(target)
+        return ans
+
+    def area(self, outline, directions):
+        ans = []
+        reached = [[False]*self.width for _ in range(self.height)]
+        for x, y in outline:
+            reached[x][y] = True
+        allPos = ((x, y) for x in range(self.height) for y in range(self.width))
+        while True:
+            for pos in allPos:
+                if not reached[pos[0]][pos[1]]: break
+            else: break
+            ans.append([])
+            targets = deque([pos])
+            reached[pos[0]][pos[1]] = True
+            ans[-1].append(pos)
+            while len(targets) > 0:
+                target = targets.popleft()
+                for pos in self.allDirection(target, directions):
+                    if not reached[pos[-2]][pos[-1]]:
+                        targets.append(pos[-2:])
+                        ans[-1].append(pos[-2:])
+                        reached[pos[-2]][pos[-1]] = True
+        return ans
+
     def route(self, pos, target, directions=directionSet, destroy=True):
         if destroy: distance = self.reverseDistance(target)
         else: distance = self.distance(target)
@@ -172,7 +209,7 @@ class Board:
         ans = []
         while pos != target:
             newDistance = distance[pos]
-            nextPos, targetI = None, None
+            nextPos = targetI = None
             for i, x, y in self.allDirection(pos, directions):
                 if -1 < distance[x][y] < newDistance:
                     newDistance = distance[x][y]
@@ -182,6 +219,20 @@ class Board:
             ans.append([1, targetI])
             pos = nextPos
         return ans
+
+    def firstMovement(self, pos, target, directions=directionSet, destroy=True):
+        if destroy: distance = self.reverseDistance(target)
+        else: distance = self.distance(target)
+        if distance[pos] == -1: return None
+        ans = nextPos = None
+        newDistance = distance[pos]
+        for i, x, y in self.allDirection(pos, directions):
+            if -1 < distance[x][y] < newDistance:
+                newDistance = distance[x][y]
+                nextPos = (x, y)
+                ans = i
+        if self.walls[nextPos] == 2: return [3, ans]
+        return [1, ans]
 
     def calcPoint(self):
         ans = [0, 0, 0]
@@ -262,5 +313,5 @@ def print(*args, sep=" ", end="\n", file=None):
     _print(sep.join(map(str, args))+end, end="", file=file)
 
 solverList = {}
-def set(name, solver):
+def solverSet(name, solver):
     solverList[name] = solver

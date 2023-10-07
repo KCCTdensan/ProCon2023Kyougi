@@ -60,4 +60,4 @@ def normalRandomWalk(interface, solver):
             if matchInfo is None or not solver.isAlive(): return
     if matchInfo is None: return
     while solver.isAlive(): time.sleep(0.1)
-simulator.set("normalRandomWalk", normalRandomWalk)
+simulator.solverSet("normalRandomWalk", normalRandomWalk)

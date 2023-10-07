@@ -57,4 +57,4 @@ def solve4(interface, solver):
             if matchInfo is None or not solver.isAlive(): return
     if matchInfo is None: return
     while solver.isAlive(): time.sleep(0.1)
-simulator.set("solve4", solve4)
+simulator.solverSet("solve4", solve4)

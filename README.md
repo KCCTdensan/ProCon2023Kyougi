@@ -16,7 +16,7 @@ httpx, pandas, requests
 
 solverファイルは必ずsimulatorをインポートすること(行頭に`import simulator`)
 
-ファイルの終端に`simulator.set("solver_name", solverFunc)`が必要
+ファイルの終端に`simulator.setSimulator("solver_name", solverFunc)`が必要
 
 ### 2. solveList.pyに追記する
 
@@ -135,7 +135,7 @@ Falseが返された場合即座にsolver関数を終了してください(終�
 solverファイルに必ずインポートする必要があるsimulatorモジュールには便利な変数及び関数を用意しておきました 以下に示します
 
 ```
-simulator.set(name, solver): None
+simulator.setSimulator(name, solver): None
   solverをsolver関数として登録する
   control.pyではnameを用いて管理するため注意すること 拡張子は不要 ファイル名に指定できない文字は指定不可
 

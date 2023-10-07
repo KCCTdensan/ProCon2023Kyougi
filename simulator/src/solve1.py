@@ -40,9 +40,9 @@ def solve1(interface, solver):
                     break
                 else: movement.append([0, 0])
             else:
-                ans = board.route(mason, target)
+                ans = board.firstMovement(mason, target)
                 if ans is None: movement.append([0, 0])
-                else: movement.append(ans[0])
+                else: movement.append(ans)
         interface.postMovement(movement)
         turn = matchInfo.turn
         while turn == matchInfo.turn:
@@ -51,4 +51,4 @@ def solve1(interface, solver):
             if matchInfo is None or not solver.isAlive(): return
     if matchInfo is None: return
     while solver.isAlive(): time.sleep(0.1)
-simulator.set("solve1", solve1)
+simulator.solverSet("solve1", solve1)

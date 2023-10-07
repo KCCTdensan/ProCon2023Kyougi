@@ -135,4 +135,4 @@ def solve3(interface, solver):
             if matchInfo is None or not solver.isAlive(): return
     if matchInfo is None: return
     while solver.isAlive(): time.sleep(0.1)
-simulator.set("solve3", solve3)
+simulator.solverSet("solve3", solve3)
