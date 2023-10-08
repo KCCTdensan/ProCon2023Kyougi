@@ -51,7 +51,9 @@ match mode:
         # 追加
         newSolver = []
         # 変更(記録をリセットする)
-        changedSolver = []
+        changedSolver = [["solve1.py", "all"], ["solve2.py", "all"],
+                         ["solve3.py", "all"], ["solve4.py", "all"],
+                         ["solve5.py", "all"], ["normalRandomWalk.py", "all"]]
         # 削除(記録を消去する) ファイルの削除は手動でやること
         deletedSolver = []
         # 無効化・有効化("all"に含まれなくなる)
@@ -137,12 +139,12 @@ class Result:
             if pd.isnull(data): ans.append(None)
             else:
                 data = data.split(": ")
-                ans.append([data[0] == "WIN", *map(int, data[1].split("-"))])
+                ans.append([data[0] == "WIN", *map(int, data[1].split(" - "))])
         return ans
     def set(self, other, field, point1, point2, result, *, first=True):
         self.result[f"{self.name}-{field[1]}-{field[2]}"].at[
             f"{other}-{'first' if first else 'second'}",field[0]] \
-                = f"{'WIN' if result else 'LOSE'}: {point1}-{point2}"
+                = f"{'WIN' if result else 'LOSE'}: {point1} - {point2}"
     def release(self):
         for file in self.all():
             self.result[file].to_csv(f"{resultPath}{file}.csv")
