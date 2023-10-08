@@ -38,7 +38,7 @@ match mode:
         # "all"を指定することで全ての組み合わせを試行する
         turnList = ["90"]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = False
+        replace = True
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
     case 2:

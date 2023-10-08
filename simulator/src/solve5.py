@@ -115,11 +115,10 @@ def solve5(interface, solver):
             if matchInfo.turn < matchInfo.turns/2 and len(areas) != 1:
                 i = areaIndex[mason]
                 if i in otherAreas or i in protectedArea:
-                    if len(newAreas) == 0: movement.append(building(board,
+                    target = board.nearest(mason, newAreas, destroy=True)
+                    if target is None: movement.append(building(board,
                         mason, frame, targetPos, walls, targets))
-                    else:
-                        target = board.nearest(mason, newAreas, destroy=True)
-                        movement.append(board.firstMovement(mason, target))
+                    else: movement.append(board.firstMovement(mason, target))
                 else:
                     target = board.nearest(mason,
                                 board.around(nowPointPos[i], fourDirectionList),
