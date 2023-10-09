@@ -53,7 +53,6 @@ def solve5(interface, solver):
                 if areaIndex[x][y] != -1 and areaIndex[x][y] != i: break
             else: continue
             pointPos[-1].append(pos)
-    notProtectedArea = set(range(len(areas)))
     protectedArea = set()
     
     while solver.isAlive() and matchInfo is not None and \
@@ -68,23 +67,20 @@ def solve5(interface, solver):
         for mason in board.otherMasons:
             otherAreas.add(areaIndex[mason])
         nowPointPos = dict()
-        for i in notProtectedArea:
+        for i, p in enumerate(pointPos):
             targets = []
-            for target in pointPos[i]:
+            for target in p:
                 if board.walls[target] != 1: targets.append(target)
             nowPointPos[i] = targets
         if len(areas) != 1:
             for i, j in nowPointPos.items():
-                if len(j) == 0:
-                    protectedArea.add(i)
-                    notProtectedArea.discard(i)
+                if len(j) == 0: protectedArea.add(i)
         
         newAreas = []
         protectedAreas = []
         for i, area in enumerate(areas):
-            if i not in otherAreas and i in notProtectedArea:
-                newAreas.extend(area)
-            elif i in protectedArea: protectedAreas.extend(area)
+            if i in protectedArea: protectedAreas.extend(area)
+            elif i not in otherAreas: newAreas.extend(area)
         frame = board.frame(protectedAreas, fourDirectionList)
         allFrame = []
         for pos in frame:
@@ -114,15 +110,16 @@ def solve5(interface, solver):
         for mason in board.myMasons:
             if matchInfo.turn < matchInfo.turns/2 and len(areas) != 1:
                 i = areaIndex[mason]
-                if i in otherAreas or i in protectedArea:
+                target = board.nearest(mason,
+                            board.around(nowPointPos[i], fourDirectionList),
+                            destroy=True)
+                if i in otherAreas or target is None:
+                    if mason in newAreas: newAreas.remove(mason)
                     target = board.nearest(mason, newAreas, destroy=True)
                     if target is None: movement.append(building(board,
                         mason, frame, targetPos, walls, targets))
                     else: movement.append(board.firstMovement(mason, target))
                 else:
-                    target = board.nearest(mason,
-                                board.around(nowPointPos[i], fourDirectionList),
-                                destroy=True)
                     if mason == target:
                         for j, x, y in board.allDirection(mason,
                                                           fourDirectionSet):
