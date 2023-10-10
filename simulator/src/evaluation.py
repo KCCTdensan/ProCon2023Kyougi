@@ -2,7 +2,7 @@ import simulator as sim
 
 def wallsPoints(pos,board):
     count = 0
-    pointDict = dict([(0,50),(1,300),(2,150),(3,100),(4,20),(5,10),(6,1),(7,1),(8,0)])
+    pointDict = dict([(0,50),(1,1000),(2,800),(3,100),(4,20),(5,10),(6,1),(7,1),(8,0)])
     for x,y in board.allDirection(pos,sim.directionList):
         if board.walls[x][y] == 1 or board.territories[x][y] == 1:
             count+=1
@@ -10,7 +10,7 @@ def wallsPoints(pos,board):
 
 def isCastel(pos,board):
     if board.structures[pos[0]][pos[1]] == 2 and board.territories[pos[0]][pos[1]] != 1:
-        return 1000
+        return 5000
     else:
         return 0
 
