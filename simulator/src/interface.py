@@ -99,12 +99,14 @@ class Interface:
             raise IndexError(f"このid({matchId})の試合が見つかりませんでした\n"
                              "getMatches関数で確認してください")
         self.id, self.match = matchId, match
-    def getMatchInfo(self):
+    def getMatchInfo(self, *, raw=False):
         assert self.id is not None, \
                "試合Idを先に設定してください"
-        res = matchInfo(self.get(f"/matches/{self.id}"), self.match)
+        res = self.get(f"/matches/{self.id}")
         if res is None: return None
-        self.turn = res.turn+1+int(res.turn%2 == 0 ^ self.match["first"])
+        if not raw:
+            res = matchInfo(res, self.match)
+            self.turn = res.turn+1+int(res.turn%2 == 0 ^ self.match["first"])
         return res
     def setTurn(self, turn):
         self.turn = turn

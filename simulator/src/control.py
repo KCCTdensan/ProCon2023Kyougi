@@ -8,7 +8,7 @@ mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 72
+threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
@@ -28,15 +28,15 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve1.py","solve1.py"]]
+        matchList = [["solve1.py","solve5.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["all"]
+        fieldList = ["A11"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = ["all"]
+        turnList = ["30"]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
         replace = True
         # 観戦を行うか否か TrueでGUI表示します
@@ -104,7 +104,7 @@ allTurnList = [30,90,150,200]
 if mode != 1 or turnList == "all" or turnList == ["all"]:
     turnList = allTurnList
 allTimeList = [3, 8]
-timeList = allTimeList
+timeList = [3]
 
 startPortNumber = 49152
 
@@ -434,7 +434,9 @@ class Practice(Match):
             return
         solver1, solver2 = self.solver1, self.solver2
         returned = None
-        if not self.cantRecord: returned = self.interface.getMatchInfo()
+        if not self.cantRecord:
+            mStr = self.interface.getMatchInfo(raw=True)
+            returned = interface.matchInfo(mStr, self.interface.match)
         self.release(safety=True)
         if returned:
             point = simulator.calcPoint(returned.board)
@@ -445,6 +447,22 @@ class Practice(Match):
                                       point[1][0], result)
             results[solver2.name].set(solver1.name, self.field, point[1][0],
                                       point[0][0], not result, first=False)
+            name1 = solver1.name.split(".")[0]
+            name2 = solver2.name.split(".")[0]
+            boolean = True
+            while boolean:
+                with open(f"{resultPath}{name1}{pathSep}{name2}{pathSep}"
+                          f"{self.field[0]}-{self.field[1]}-"
+                          f"{self.field[2]}.txt", "w") as f:
+                    f.write(str(mStr["logs"]))
+                    boolean = False
+            boolean = name1 != name2
+            while boolean:
+                with open(f"{resultPath}{name2}{pathSep}{name1}{pathSep}"
+                          f"{self.field[0]}-{self.field[1]}-"
+                          f"{self.field[2]}.txt", "w") as f:
+                    f.write(str(mStr["logs"]))
+                    boolean = False
             print(f"recorded {solver1.name} - {solver2.name} match "
                   f"in {self.field[0]}-{self.field[1]}-{self.field[2]}")
         else:
@@ -572,8 +590,8 @@ finally:
     except KeyboardInterrupt: print("\nKeyboardInterrupt\n", end="")
     except: print(traceback.format_exc(), file=sys.stderr)
     finally:
+        interface.release()
         for match in matches: match[0].release(safety=False)
         for p in processes:
             if p.poll() is None: p.kill()
-        interface.release()
         if watch: view.release()

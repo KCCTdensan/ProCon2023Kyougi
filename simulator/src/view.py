@@ -93,11 +93,22 @@ def main():
             canvas.create_line(x0-4, 46, x1, 46, x1, y1, x0-4, y1, x0-4, 46,
                                fill = "#ddd", width = 4)
             if len(data) == 2:
-                canvas.create_text(300, 650, text=f"{data[1]}を実行中")
+                canvas.create_text(300, 620,
+                    text=f"{data[1]} vs {data[0].other}")
+                points = board.calcPoint()
+                canvas.create_text(300, 640,
+                    text=f"{points[0][0]} - {points[1][0]}")
+                canvas.create_text(300, 660,
+                    text=f"{data[0].turns} turns  "
+                         f"{data[0].turnTime} seconds   turn {data[0].turn}")
             if len(data) == 4:
-                canvas.create_text(300, 630, text=f"{data[1]} vs {data[2]}")
-                canvas.create_text(300, 670, text=f"{data[3][0]}   {data[3][1]}"
-                    f" turns  {data[3][2]} seconds   turn {data[0].turn}")
+                canvas.create_text(300, 620, text=f"{data[1]} vs {data[2]}")
+                points = board.calcPoint()
+                canvas.create_text(300, 640,
+                    text=f"{points[0][0]} - {points[1][0]}")
+                canvas.create_text(300, 660,
+                    text=f"{data[3][0]}   {data[3][1]} turns  "
+                         f"{data[3][2]} seconds   turn {data[0].turn}")
         if finishBool: root.destroy()
         else: root.after(200, update)
     update()

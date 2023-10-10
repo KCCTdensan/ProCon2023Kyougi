@@ -117,6 +117,17 @@ def solve5(interface, solver):
                 target = board.nearest(mason,
                             board.around(nowPointPos[i], fourDirectionList),
                             destroy=True)
+                target, value = None, 1 << 60
+                for t in board.reachAble(mason,
+                        board.around(nowPointPos[i], fourDirectionList),
+                                         mason=True):
+                    v = board.reverseDistance(mason)[t]
+                    for m in board.otherMasons:
+                        v *= min(10, board.reverseDistance(m)[t])
+                    if v < value:
+                        value = v
+                        target = t
+                print(target)
                 if i in otherAreas or target is None:
                     if mason in newAreas: newAreas.remove(mason)
                     target = board.nearest(mason, newAreas, destroy=True)

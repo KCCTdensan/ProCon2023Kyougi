@@ -76,21 +76,6 @@ class Board:
             if not self.inField(*pos): continue
             if len(d) == 2: yield pos
             if len(d) == 3: yield (d[0], *pos)
-
-    def nearest(self, *args, destroy=False):
-        if hasattr(args[0], '__len__'): pos, targets = args[0], args[1:]
-        else: pos, targets = args[:2], args[2:]
-        if len(targets) == 1: targets = targets[0]
-        if len(targets) == 0: return None
-        if not hasattr(targets[0], '__len__'): targets = (targets, )
-        ans, newDistance = None, 999
-        distance = self.distance(pos, destroy=destroy)
-        if distance is None: return None
-        for target in targets:
-            if -1 < distance[target] < newDistance:
-                ans = target
-                newDistance = distance[target]
-        return ans
         
     def distance(self, x, y = None, *, destroy=False):
         if y is None: x, y = x
@@ -145,6 +130,29 @@ class Board:
             ans = tuple(tuple(a) for a in ans)
             self.log_distance[x][y]["reverse"] = ans
         return Matrix(self.log_distance[x][y]["reverse"])
+
+    def reachAble(self, pos, targets, directions=directionSet, mason=False):
+        ans, newDistance = None, 999
+        distance = self.reverseDistance(pos)
+        if distance is None: return None
+        return [target for target in targets if distance[target] != 1 and \
+                (not mason or self.masons[target] == 0)]
+
+    def nearest(self, *args, destroy=False):
+        if hasattr(args[0], '__len__'): pos, targets = args[0], args[1:]
+        else: pos, targets = args[:2], args[2:]
+        if len(targets) == 1: targets = targets[0]
+        if len(targets) == 0: return None
+        if not hasattr(targets[0], '__len__'): targets = (targets, )
+        ans, newDistance = None, 999
+        if destroy: distance = self.reverseDistance(pos)
+        else: distance = self.distance(pos)
+        if distance is None: return None
+        for target in targets:
+            if -1 < distance[target] < newDistance:
+                ans = target
+                newDistance = distance[target]
+        return ans
 
     def outline(self, targets, directions):
         ans = []
@@ -284,6 +292,7 @@ class MatchInfo:
         self.otherLogs = info["logs"][match["first"]::2]
         self.first = match["first"]
         self.turnTime = match["turnSeconds"]
+        self.other = match["opponent"]
     def __str__(self):
         return (f"id: {self.id}\n"
                 f"turn: {self.turn}\n"
