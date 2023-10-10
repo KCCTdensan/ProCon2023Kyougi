@@ -1,7 +1,7 @@
 import simulator
 from simulator import *
 import time
-from collections import deque
+from collections import deque, defaultdict
 
 def building(board, mason, frame, targetPos, walls, targets):
     target = board.nearest(mason, targetPos, destroy=True)
@@ -58,9 +58,9 @@ def solve5(interface, solver):
     while solver.isAlive() and matchInfo is not None and \
           interface.turn <= matchInfo.turns:
         while not matchInfo.myTurn:
-            time.sleep(0.1)
             matchInfo = interface.getMatchInfo()
             if matchInfo is None or not solver.isAlive(): return
+        preTime = time.time()
         board = matchInfo.board
         
         otherAreas = set()
@@ -105,7 +105,11 @@ def solve5(interface, solver):
             if board.walls[target] != 1:
                 targetWall.append(target)
         targets = board.around(targetWall, fourDirectionList)
-        
+
+        broken = defaultdict(set)
+        cantMoveTo = defaultdict(set)
+        for mason in board.myMasons:
+            cantMoveTo[mason[0]].add(mason[1])
         movement = []
         for mason in board.myMasons:
             if matchInfo.turn < matchInfo.turns/2 and len(areas) != 1:
@@ -124,11 +128,15 @@ def solve5(interface, solver):
                         for j, x, y in board.allDirection(mason,
                                                           fourDirectionSet):
                             if (x, y) in nowPointPos[i]:
-                                match board.walls[x][y]:
-                                    case 0: movement.append([2, j])
-                                    case 2: movement.append([3, j])
-                                    case _: continue
-                                break
+                                if board.walls[x][y] == 2 and \
+                                   y not in broken[x]:
+                                    movement.append([3, j])
+                                    broken[x].add(y)
+                                    break
+                                elif board.walls[x][y] != 1:
+                                    movement.append([2, j])
+                                    nowPointPos[i].remove((x, y))
+                                    break
                         else: movement.append([0, 0])
                     else:
                         ans = board.firstMovement(mason, target)
@@ -136,11 +144,17 @@ def solve5(interface, solver):
                         else: movement.append(ans)
             else: movement.append(building(board, mason, frame, targetPos,
                                            walls, targets))
+            t, d = movement[-1]
+            if t == 1:
+                d = eightDirectionList[d-1]
+                x, y = d[0]+mason[0], d[1]+mason[1]
+                if y in cantMoveTo[x]: movement[-1] = [0, 0]
+                else: cantMoveTo[x].add(y)
         
         interface.postMovement(movement)
         turn = matchInfo.turn
+        time.sleep(preTime+matchInfo.turnTime*2-0.2-time.time())
         while turn == matchInfo.turn:
-            time.sleep(0.1)
             matchInfo = interface.getMatchInfo()
             if matchInfo is None or not solver.isAlive(): return
     if matchInfo is None: return

@@ -18,9 +18,9 @@ def solve2(interface, solver):
     while solver.isAlive() and matchInfo is not None and \
           interface.turn <= matchInfo.turns:
         while not matchInfo.myTurn:
-            time.sleep(0.1)
             matchInfo = interface.getMatchInfo()
             if matchInfo is None or not solver.isAlive(): return
+        preTime = time.time()
         board = matchInfo.board
         movement = []
         for mason in board.myMasons:

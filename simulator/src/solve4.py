@@ -31,6 +31,10 @@ def solve4(interface, solver):
     matchInfo = interface.getMatchInfo()
     while solver.isAlive() and matchInfo is not None and \
         interface.turn <= matchInfo.turns:
+        while not matchInfo.myTurn:
+            matchInfo = interface.getMatchInfo()
+            if matchInfo is None or not solver.isAlive(): return
+        preTime = time.time()
         board = matchInfo.board
         movement = []
 
@@ -47,12 +51,8 @@ def solve4(interface, solver):
 
         interface.postMovement(movement)
         turn = matchInfo.turn
+        time.sleep(preTime+matchInfo.turnTime*2-0.2-time.time())
         while turn == matchInfo.turn:
-            time.sleep(0.1)
-            matchInfo = interface.getMatchInfo()
-            if matchInfo is None or not solver.isAlive(): return
-        while matchInfo.myTurn:
-            time.sleep(0.1)
             matchInfo = interface.getMatchInfo()
             if matchInfo is None or not solver.isAlive(): return
     if matchInfo is None: return

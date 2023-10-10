@@ -8,14 +8,14 @@ mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 100
+threadLen = 72
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
-recordData = False
+recordData = True
 # サーバ通信のデータを記録するかどうか選べます
 # 試合数が多いとかなりデータ量がとられます また、データ記録処理は結構時間がかかります
-recordAll = False
+recordAll = True
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
 match mode:
@@ -28,7 +28,7 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve4.py", "solve5.py"]]
+        matchList = [["solve1.py","solve1.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -36,11 +36,11 @@ match mode:
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = ["90"]
+        turnList = ["all"]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
         replace = True
         # 観戦を行うか否か TrueでGUI表示します
-        watch = False
+        watch = True
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -103,7 +103,7 @@ if mode != 1 or fieldList == "all" or fieldList == ["all"]:
 allTurnList = [30,90,150,200]
 if mode != 1 or turnList == "all" or turnList == ["all"]:
     turnList = allTurnList
-allTimeList = [3]
+allTimeList = [3, 8]
 timeList = allTimeList
 
 startPortNumber = 49152
@@ -386,7 +386,8 @@ class Practice(Match):
         self.interface2 = interface.Interface(check=False)
         self.cantRecord = self.cantStart = self.portFailed = False
         self.process = subprocess.Popen([serverName, "-c",
-            f"{fieldPath}{field[0]}-{field[1]}-{field[2]}.txt",
+            f"{fieldPath}{field[2]}{pathSep}{field[0]}-{field[1]}-"
+                        f"{field[2]}.txt",
             "-l", f":{port}", "-start", "0s"], startupinfo=startupinfo)
         processes.append(self.process)
         self.field = field
@@ -490,6 +491,8 @@ try:
         failedMatch = deque([])
         matchesLen = 0
         targetLen = 50
+        finishLen = 0
+        preFinish = 0
         if watch: view.start()
         while True:
             if watch and match1 is not None: match1.show()
@@ -535,9 +538,14 @@ try:
                     port.discard(m[1])
                     if m[1] == startPortNumber: match1 = None
                     del m, matches[i]
+                    finishLen += 1
             targetLen = len(runningThreads) + len(matches)
             targetLen -= targetLen%50
             targetLen += 50
+            if finishLen >= preFinish+100:
+                print("結果を自動保存中…")
+                for result in results.values():
+                    result.release()
     while len(matches) > 0 or len(runningThreads) > 0:
         if watch and match1 is not None: match1.show()
         while len(runningThreads) > 0 and not runningThreads[0].is_alive():
