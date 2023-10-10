@@ -283,6 +283,7 @@ class MatchInfo:
         self.myLogs = info["logs"][1-int(match["first"])::2]
         self.otherLogs = info["logs"][match["first"]::2]
         self.first = match["first"]
+        self.turnTime = match["turnSeconds"]
     def __str__(self):
         return (f"id: {self.id}\n"
                 f"turn: {self.turn}\n"
