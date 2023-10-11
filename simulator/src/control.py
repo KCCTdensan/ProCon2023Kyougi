@@ -549,12 +549,13 @@ try:
                 if not m.isAlive() and not m.released:
                     print(f"{m.url}:{m.port}, {m.matchId}の試合について"
                           "試合の終了を検知しました")
-                    if match1 != match1: m.release()
+                    if m != match1: m.release()
                 if m.isAlive(): aliveBool = True
             if not aliveBool: break
             time.sleep(0.1)
         print("すべての試合が終了しました")
         while True:
+            if watch: match1.show()
             time.sleep(0.1)
     if mode == 1:
         queue, p = iter(matchList), iter([])
