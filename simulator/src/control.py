@@ -386,7 +386,7 @@ class Real(Match):
                 for m in returned:
                     if m["id"] == self.matchId: self.allTurn = m["turns"]
         returned = self.interface.getMatchInfo()
-        if not self.interface.checked not returned: pass
+        if not self.interface.checked or not returned: pass
         elif returned.turn == self.allTurn: return False
         return not self.start or self.solver.isAlive()
     def release(self, *, safety=False):
@@ -489,6 +489,8 @@ class Practice(Match):
             name2 = solver2.name.split(".")[0]
             boolean = True
             while boolean:
+                os.makedirs(f"{resultPath}{name1}{pathSep}{name2}",
+                            exist_ok=True)
                 with open(f"{resultPath}{name1}{pathSep}{name2}{pathSep}"
                           f"{self.field[0]}-{self.field[1]}-"
                           f"{self.field[2]}.txt", "w") as f:
