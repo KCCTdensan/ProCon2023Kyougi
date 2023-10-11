@@ -1,7 +1,7 @@
 import interface, view, simulator
 import solveList as solveListPack
 import pandas as pd
-import sys, os, glob, platform, subprocess, threading, time, traceback
+import sys, os, glob, platform, subprocess, threading, time, traceback, json
 from collections import deque
 from simulator import print
 from preview import *
@@ -29,12 +29,14 @@ match mode:
         # url: 試合URL(例: "http://localhost")
         # port: 試合が行われるポート番号(例: 3000)
         matchList = [["solve1.py", 10, "http://localhost", 3000]]
+        # 観戦を行うか否か TrueでGUI表示します
+        watch = True
     case 1:
         # solverを2つずつ入れた2次元配列
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve1.py","solve5.py"]]
+        matchList = [["solve1.py","solve1.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -379,10 +381,13 @@ class Real(Match):
     def isAlive(self):
         return not self.start or self.solver.isAlive()
     def release(self, *, safety=False):
+        if self.released: return
         self.released = True
         self.solver.release()
+        log = json.dumps(self.interface.getMatchInfo(raw=True)["logs"],
+                         indent=2)
         print(f"{self.url}:{self.port}, {self.matchId}のログを表示します",
-              self.interface.getMatchInfo(raw=True), sep="\n")
+              log, sep="\n")
         if safety:
             self.threading(lambda: self.interface.release())
             self.threading(lambda: self.interface1.release())
@@ -478,14 +483,7 @@ class Practice(Match):
                 with open(f"{resultPath}{name1}{pathSep}{name2}{pathSep}"
                           f"{self.field[0]}-{self.field[1]}-"
                           f"{self.field[2]}.txt", "w") as f:
-                    f.write(str(mStr["logs"]))
-                    boolean = False
-            boolean = name1 != name2
-            while boolean:
-                with open(f"{resultPath}{name2}{pathSep}{name1}{pathSep}"
-                          f"{self.field[0]}-{self.field[1]}-"
-                          f"{self.field[2]}.txt", "w") as f:
-                    f.write(str(mStr["logs"]))
+                    json.dump(mStr["logs"], f, indent=2)
                     boolean = False
             print(f"recorded {solver1.name} - {solver2.name} match "
                   f"in {self.field[0]}-{self.field[1]}-{self.field[2]}")
@@ -527,6 +525,7 @@ def practiceStart(target, po):
 
 try:
     if mode == 0:
+        if watch: view.start()
         for m in matchList:
             matches.append(Real(Solver(m[0]), m[1], m[2], m[3]))
         if len(matchList) == 0: raise KeyboardInterrupt
@@ -623,7 +622,9 @@ finally:
     try:
         for thread in runningThreads:
             thread.join()
-        for m in matches: m[0].cantRecord = True
+        if mode == 1:
+            for m in matches:
+                m[0].cantRecord = True
         m = None
         if match1 is not None: del match1
         del matches
