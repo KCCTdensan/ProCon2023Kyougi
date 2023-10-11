@@ -340,9 +340,9 @@ class Match(object):
     def keep(self, func, *args, **kwargs):
         self.returned = func(*args, **kwargs)
     def show(self):
-        if not self.isAlive(): return False
         if self.mode == "real" and self.start:
             view.show(self.interface.getMatchInfo(), self.solver.name)
+        if not self.isAlive(): return False
         if self.mode == "practice":
             view.show(self.interface.getMatchInfo(), self.solver1.name,
                       self.solver2.name, self.field)
