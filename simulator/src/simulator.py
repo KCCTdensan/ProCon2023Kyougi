@@ -21,7 +21,17 @@ class Matrix(list):
             raise IndexError(f"{len(target)}個の引数は許容されません")
         if len(target) == 1: return list.__getitem__(self, target)
         return list.__getitem__(self, target[0])[target[1]]
-        
+    def __setitem__(self, target, value):
+        if type(target) is int: list.__setitem__(self, target, value)
+        while len(target) == 1 and hasattr(target[0], '__len__'):
+            target = target[0]
+        if any(type(t) is not int for t in target):
+            raise TypeError(f"{target}は正しい形式ではありません")
+        if len(target) > 2 or len(target) == 0:
+            raise IndexError(f"{len(target)}個の引数は許容されません")
+        if len(target) == 1: list.__setitem__(self, target, value)
+        list.__setitem__(self[target[0]], target[1], value)
+
 class Field:
     def __init__(self, wall, territory, structure, mason):
         self.wall, self.territory, self.structure, self.mason = \
