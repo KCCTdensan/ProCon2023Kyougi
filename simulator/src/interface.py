@@ -75,10 +75,10 @@ def matchInfo(info, match):
     return MatchInfo(info, match)
 
 class Interface:
-    def __init__(self, token=None, *, baseUrl="http://localhost:", port=3000, \
+    def __init__(self, token=None, *, baseUrl="http://localhost", port=3000, \
                  check=True):
         self.log, self.token, self.id, self.turn, self.baseUrl, self.port = \
-                  None, token, None, 0, f"{baseUrl}{port}", port
+                  None, token, None, 0, f"{baseUrl}:{port}", port
         self.headers, self.released = {"procon-token": token}, False
         assert not check or self.getMatches(test=True) is not None, \
                f"token({token})が不正である可能性があります"

@@ -4,6 +4,7 @@ import pandas as pd
 import sys, os, glob, platform, subprocess, threading, time, traceback
 from collections import deque
 from simulator import print
+from preview import *
 mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
@@ -21,8 +22,13 @@ recordAll = True
 match mode:
     case 0:
         token = ""
-        solver = ["solve1.py","solve2.py"]
-        baseUrl = ""
+        # 試合を指定する2次元配列
+        # [solver, matchId, url, port]のように指定すること
+        # solver: solver関数(例: "solve1.py")
+        # matchId: 試合Id(例: 10)
+        # url: 試合URL(例: "http://localhost")
+        # port: 試合が行われるポート番号(例: 3000)
+        matchList = [["solve1.py", 10, "http://localhost", 3000]]
     case 1:
         # solverを2つずつ入れた2次元配列
         # 0番目の要素が先手に設定される
@@ -37,6 +43,10 @@ match mode:
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
         turnList = ["30"]
+        # ターン時間の組み合わせ
+        # [3, 8]を指定可能
+        # "all"を指定することで全ての組み合わせを試行する
+        timeList = [3]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
         replace = True
         # 観戦を行うか否か TrueでGUI表示します
@@ -104,7 +114,8 @@ allTurnList = [30,90,150,200]
 if mode != 1 or turnList == "all" or turnList == ["all"]:
     turnList = allTurnList
 allTimeList = [3, 8]
-timeList = [3]
+if mode != 1 or timeList == "all" or timeList == ["all"]:
+    timeList = allTimeList
 
 startPortNumber = 49152
 
@@ -328,7 +339,7 @@ class Match(object):
         self.returned = func(*args, **kwargs)
     def show(self):
         if not self.isAlive(): return False
-        if self.mode == "real":
+        if self.mode == "real" and self.start:
             view.show(self.interface.getMatchInfo(), self.solver.name)
         if self.mode == "practice":
             view.show(self.interface.getMatchInfo(), self.solver1.name,
@@ -340,33 +351,46 @@ class Match(object):
             except RuntimeError: pass
 
 class Real(Match):
-    def __init__(self, solver, matchId):
+    def __init__(self, solver, matchId, url, port):
         super().__init__()
         self.mode="real"
-        self.cantStart = False
+        self.start=self.released=False
+        print(f"start {solver.name} match at {url}:{port}")
+
+        self.solver = solver
+        self.url = url
+        self.port = port
+        self.matchId = matchId
         self.interface = interface.Interface(check=False)
         self.interface1 = interface.Interface(check=False)
-        thread = self.threading(self.interfaceStart, self.interface, matchId, token,
-                       baseUrl=baseUrl)
-        thread1 = self.threading(self.interfaceStart, self.interface1, matchId,
-                                token, baseUrl=baseUrl)
-        self.solver = solver
-        try:
-            thread.join()
-            thread1.join()
-        except RuntimeError: pass
-        if not self.interface1.checked:
-            self.cantStart = True
-            return
-        while self.interface.getMatchInfo() is None: pass
+        self.interfaceStart(self.interface, matchId, token,
+                            baseUrl=url, port=port)
+        self.interfaceStart(self.interface1, matchId, token,
+                            baseUrl=url, port=port)
+
+        print("{url}:{port}, {matchId}: サーバーに接続中…")
+        while not self.interface.checked:
+            if self.interface.released: return
+        print("{url}:{port}, {matchId}: 試合開始まで待機中…")
+        while self.interface.getMatchInfo() is None:
+            if self.interface.released: return
         solver.start(self.interface1)
+        self.start=True
     def isAlive(self):
-        return self.solver.isAlive()
-    def __del__(self):
-        if self.cantStart: return False
+        return not self.start or self.solver.isAlive()
+    def release(self, *, safety=False):
+        self.released = True
         self.solver.release()
-        self.threading(lambda: self.interface.release())
-        self.threading(lambda: self.interface1.release())
+        print(f"{self.url}:{self.port}, {self.matchId}のログを表示します",
+              self.interface.getMatchInfo(raw=True), sep="\n")
+        if safety:
+            self.threading(lambda: self.interface.release())
+            self.threading(lambda: self.interface1.release())
+        else:
+            self.interface.release(safety=False)
+            self.interface1.release(safety=False)
+    def __del__(self):
+        self.release()
         super().__del__()
 
 class Practice(Match):
@@ -502,6 +526,25 @@ def practiceStart(target, po):
     if po == startPortNumber: match1 = matches[-1][0]
 
 try:
+    if mode == 0:
+        for m in matchList:
+            matches.append(Real(Solver(m[0]), m[1], m[2], m[3]))
+        if len(matchList) == 0: raise KeyboardInterrupt
+        if watch: match1 = matches[0]
+        while True:
+            if watch: match1.show()
+            aliveBool = False
+            for m in matches:
+                if not m.isAlive() and not m.released:
+                    print(f"{m.url}:{m.port}, {m.matchId}の試合について"
+                          "試合の終了を検知しました")
+                    m.release()
+                if m.isAlive(): aliveBool = True
+            if not aliveBool: break
+            time.sleep(0.1)
+        print("すべての試合が終了しました")
+        while True:
+            time.sleep(0.1)
     if mode == 1:
         queue, p = iter(matchList), iter([])
         port = set()
@@ -539,6 +582,7 @@ try:
             if matchesLen < threadLen:
                 print(f"現在の試合数: {matchesLen}")
                 print("試合の再読み込み中…")
+            elif threadLen < 10: time.sleep(0.1)
             aliveDict = {}
             for m in matches:
                 aliveDict[m[1]] = m[0].threading(m[0].keep, m[0].isAlive)
