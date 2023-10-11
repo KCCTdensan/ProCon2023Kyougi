@@ -179,8 +179,16 @@ def getMatchInfo(turn = None):
 
 def release():
     view.release()
+
+def help():
+    print("read関数: 過去の試合のデータを呼び出して表示します。")
+    print("引数にログデータの文字列を貼り付けることで"
+          "保存されていないデータも呼び出せます。")
+    print("setTurn関数: ターン数を指定するとそのターン数まで盤面を移動します。")
+    print("getMatchInfo関数: 現在の盤面でのMatchInfoを返します。")
+    print("ターン数を指定するとそのターン数でのMatchInfoを返します。")
+
 if __name__ == "__main__":
     print("このプログラムは基本的にインタプリタで実行する形式です。")
     print("試合情報を読み込みたい場合はread関数を呼び出してください")
     print("使用方法を知りたい場合はhelp関数を呼び出してください")
-    print("なお未完成です(重要)。")
