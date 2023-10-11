@@ -5,7 +5,7 @@ import sys, os, glob, platform, subprocess, threading, time, traceback, json
 from collections import deque
 from simulator import print
 from preview import *
-mode = 1
+mode = 0
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
@@ -370,10 +370,10 @@ class Real(Match):
         self.interfaceStart(self.interface1, matchId, token,
                             baseUrl=url, port=port)
 
-        print("{url}:{port}, {matchId}: サーバーに接続中…")
+        print(f"{url}:{port}, {matchId}: サーバーに接続中…")
         while not self.interface.checked:
             if self.interface.released: return
-        print("{url}:{port}, {matchId}: 試合開始まで待機中…")
+        print(f"{url}:{port}, {matchId}: 試合開始まで待機中…")
         while self.interface.getMatchInfo() is None:
             if self.interface.released: return
         solver.start(self.interface1)
@@ -538,7 +538,8 @@ try:
     if mode == 0:
         if watch: view.start()
         for m in matchList:
-            matches.append(Real(Solver(m[0]), m[1], m[2], m[3]))
+            matches.append(Real(Solver([m[0], solverDict[m[0]]]),
+                                m[1], m[2], m[3]))
         if len(matchList) == 0: raise KeyboardInterrupt
         if watch: match1 = matches[0]
         while True:
@@ -548,7 +549,7 @@ try:
                 if not m.isAlive() and not m.released:
                     print(f"{m.url}:{m.port}, {m.matchId}の試合について"
                           "試合の終了を検知しました")
-                    m.release()
+                    if match1 != match1: m.release()
                 if m.isAlive(): aliveBool = True
             if not aliveBool: break
             time.sleep(0.1)
