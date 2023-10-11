@@ -377,8 +377,17 @@ class Real(Match):
         while self.interface.getMatchInfo() is None:
             if self.interface.released: return
         solver.start(self.interface1)
+        self.allTurn = None
         self.start=True
     def isAlive(self):
+        if self.allTurn is None:
+            returned = self.interface.getMatches()
+            if returned:
+                for m in returned:
+                    if m["id"] == self.matchId: self.allTurn = m["turns"]
+        returned = self.interface.getMatchInfo()
+        if not self.interface.checked not returned: pass
+        elif returned.turn == self.allTurn: return False
         return not self.start or self.solver.isAlive()
     def release(self, *, safety=False):
         if self.released: return
@@ -442,7 +451,7 @@ class Practice(Match):
             else: self.cantRecord = True
         returned = self.interface.getMatchInfo()
         if not self.interface.checked: pass
-        if not returned: self.cantRecord = True
+        elif not returned: self.cantRecord = True
         elif returned.turn == self.allTurn: return False
         if self.cantRecord: return False
         return not self.solver1.dead and not self.solver2.dead
