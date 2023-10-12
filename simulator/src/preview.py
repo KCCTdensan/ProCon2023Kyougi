@@ -130,8 +130,8 @@ def restoration(log, field, opponent, first):
 def read(log=None):
     global nowTurn, value
     if log is None:
-        solver1 = input("先手：")
-        solver2 = input("後手：")
+        solver1 = input("先手：").split(".")[0]
+        solver2 = input("後手：").split(".")[0]
         field = input("フィールド：")
         turn = int(input("ターン数："))
         turnTime = int(input("ターン時間："))
@@ -181,6 +181,36 @@ def getMatchInfo(turn = None):
 def release():
     view.release()
 
+def increment(turn = None):
+    if turn is None: turn = nowTurn
+    else: setTurn(turn)
+    dif = 1
+    try:
+        print("エンターキーを押すと1ターンずつ進みます")
+        print("dを入力すると1ターンずつ進むようになります")
+        print("aを入力すると1ターンずつ戻るようになります")
+        print("endを入力する、またはCtrl-Cによって終了します")
+        while True:
+            s = input().lower()
+            if s == "d" and dif != 1:
+                print("1ターンずつ進めます")
+                dif = 1
+            if s == "a" and dif != -1:
+                print("1ターンずつ戻します")
+                dif = -1
+            if s == "end":
+                print("incrementを終了します")
+                break
+            setTurn(nowTurn+dif)
+            if dif == 1 and nowTurn >= len(pastMatchInfoes):
+                print("試合終了画面です")
+                break
+            if dif == -1 and nowTurn <= 0:
+                print("試合終了画面です")
+                break
+    except KeyboardInterrupt:
+        print("incrementを終了します")
+
 def help():
     print("read関数: 過去の試合のデータを呼び出して表示します。")
     print("引数にログデータの文字列を貼り付けることで"
@@ -188,6 +218,8 @@ def help():
     print("setTurn関数: ターン数を指定するとそのターン数まで盤面を移動します。")
     print("getMatchInfo関数: 現在の盤面でのMatchInfoを返します。")
     print("ターン数を指定するとそのターン数でのMatchInfoを返します。")
+    print("increment関数: 現在の盤面から1ターンずつ"
+          "盤面を変化させることができます")
 
 if __name__ == "__main__":
     print("このプログラムは基本的にインタプリタで実行する形式です。")
