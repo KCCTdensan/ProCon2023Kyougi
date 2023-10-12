@@ -1,13 +1,13 @@
 ,A11,A13,A15,A17,A21,A25,B11,B13,B15,B17,B21,B25,C11,C13,C15,C17,C21,C25
 solve1.py-first,,,,,,,,,,,,,,,,,,
-solve1.py-second,,,,,,,,,,,,,,,,,,
+solve1.py-second,WIN: 790 - -1,WIN: 910 - 580,LOSE: 1050 - 1310,LOSE: 930 - 1780,WIN: 1870 - 990,WIN: 3550 - 1280,LOSE: 430 - 700,WIN: 980 - 700,WIN: 1150 - 880,WIN: 1260 - 1020,WIN: 1890 - 1120,WIN: 1770 - 1320,WIN: 560 - 360,WIN: 720 - 80,WIN: 870 - -1,WIN: 1580 - 1010,WIN: 3410 - 1120,WIN: 1690 - 1400
 solve2.py-first,,,,,,,,,,,,,,,,,,
 solve2.py-second,,,,,,,,,,,,,,,,,,
 solve3.py-first,,,,,,,,,,,,,,,,,,
-solve3.py-second,,,,,,,,,,,,,,,,,,
+solve3.py-second,,WIN: 1200 - 330,WIN: 1690 - 570,,WIN: 3060 - 1170,WIN: 1960 - 870,WIN: 610 - 170,WIN: 1110 - 200,WIN: 1370 - 410,WIN: 1580 - 270,WIN: 1980 - 730,WIN: 1390 - 800,WIN: 510 - 210,WIN: 870 - 290,WIN: 1640 - 610,WIN: 1630 - 500,WIN: 1650 - 520,WIN: 1260 - 490
 normalRandomWalk.py-first,,,,,,,,,,,,,,,,,,
 normalRandomWalk.py-second,,,,,,,,,,,,,,,,,,
 solve4.py-first,,,,,,,,,,,,,,,,,,
-solve4.py-second,,,,,,,,,,,,,,,,,,
+solve4.py-second,,LOSE: 1040 - 1410,,,,LOSE: 2250 - 4170,LOSE: 640 - 1170,,,LOSE: 1230 - 2680,LOSE: 1360 - 2600,,LOSE: 510 - 1300,,,,,
 solve5.py-first,,,,,,,,,,,,,,,,,,
-solve5.py-second,,,,,,,,,,,,,,,,,,
+solve5.py-second,WIN: 950 - -1,WIN: 1120 - -1,WIN: 1150 - 330,WIN: 2230 - -1,WIN: 2590 - -1,WIN: 2800 - 1410,WIN: 510 - 320,WIN: 450 - 400,WIN: 1090 - 920,WIN: 1570 - 1100,WIN: 2210 - 1650,WIN: 2740 - -1,WIN: 540 - 200,WIN: 720 - 110,WIN: 1530 - 1130,WIN: 2260 - -1,WIN: 2220 - -1,LOSE: 1700 - 2470
