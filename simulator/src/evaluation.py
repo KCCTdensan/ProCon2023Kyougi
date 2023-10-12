@@ -2,7 +2,7 @@ import simulator as sim
 
 def wallsPoints(pos,board):
     count = 0
-    pointDict = dict([(0,50),(1,1000),(2,800),(3,100),(4,20),(5,10),(6,1),(7,1),(8,0)])
+    pointDict = dict([(0,50),(1,3000),(2,800),(3,100),(4,20),(5,10),(6,1),(7,1),(8,0)])
     for x,y in board.allDirection(pos,sim.directionList):
         if board.walls[x][y] == 1 or board.territories[x][y] == 1:
             count+=1
@@ -15,10 +15,10 @@ def isCastel(pos,board):
         return 0
 
 def isTerritorie(pos,board):
-    if board.walls[pos[0]][pos[0]] == 1 or board.territories[pos[0]][pos[1]] == 1:
+    if board.walls[pos[0]][pos[1]] == 1 or board.territories[pos[0]][pos[1]] == 1:
         return 0
     else:
-        return 500
+        return 10000
     
 def lakeStop(pos,board):
     for i in range(4):
@@ -40,5 +40,5 @@ def evaluationPoints(pos,board,num = 0):
     if num >0:
         for x,y in board.allDirection(pos,sim.directionList):
             if board.structures[x][y] != 1 and board.walls[x][y] != 2:
-                res += evaluationPoints([x,y],board,num-1)*0.3
+                res += evaluationPoints([x,y],board,num-1)/8
     return res
