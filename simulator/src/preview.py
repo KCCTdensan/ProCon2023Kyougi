@@ -198,7 +198,7 @@ def increment(turn = None):
             if s == "a" and dif != -1:
                 print("1ターンずつ戻します")
                 dif = -1
-            if s == "end":
+            if s[:3] == "end" or s[:3] == "exit":
                 print("incrementを終了します")
                 break
             setTurn(nowTurn+dif)
