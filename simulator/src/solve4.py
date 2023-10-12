@@ -4,25 +4,14 @@ import time
 import random
 import queue
 
-# 何回連続で同じところの壁をいじろうとしたら別の行動に移すようにするか
-countLim = 3
-
-def buildAround(mason,buffMv,countMv,board):
+def buildAround(mason,blackList,board):
+    if board.walls[mason] == 1:
+        return []
     for dir,x,y in board.allDirection(mason,simulator.fourDirectionSet):
-        if board.walls[x][y]!=1 and board.structures[x][y] != 2 and board.masons[x][y] == 0:
-            if board.walls[x][y] == 0 and (buffMv != [2,dir] or countMv < countLim):
-                if buffMv == [2,dir]:
-                    countMv+=1
-                else:
-                    buffMv = [2,dir]
-                    countMv = 0
+        if board.territories[x][y] != 1 and board.walls[x][y]!=1 and board.structures[x][y] != 2 and board.masons[x][y] == 0 and (x,y) not in blackList:
+            if board.walls[x][y] == 0:
                 return [2,dir]
-            elif board.walls[x][y] == 2 and (buffMv != [3,dir] or countMv < countLim):
-                if buffMv == [3,dir]:
-                    countMv+=1
-                else:
-                    buffMv = [3,dir]
-                    countMv = 0
+            elif board.walls[x][y] == 2:
                 return [3,dir]
             break
     return []
@@ -67,20 +56,30 @@ def randomMove(mason,board):
     else:
         return random.choices(movement,weights=weight)[0]
 
+def makeBlackList(oldWalls,board):
+    blackList = dict()
+    for p,v in oldWalls.items():
+        if (v == 0 and board.walls[p] == 2) or (v == 1 and board.walls[p] == 2):
+            blackList[p] = 1
+    return blackList
+
+def oldWallsUpdate(mason,oldWalls,board):
+    for x,y in board.allDirection(mason,simulator.fourDirectionList):
+        oldWalls[(x,y)] = board.walls[x][y]
+    return oldWalls
+
 def solve4(interface, solver):
     matchInfo = interface.getMatchInfo()
-    buffMv = []
-    countMv = []
+    oldWalls = dict()
     while solver.isAlive() and matchInfo is not None and \
         interface.turn <= matchInfo.turns:
         board = matchInfo.board
-        if len(buffMv) == 0:
-            buffMv = [[-1,-1] for i in range(board.mason)] 
-        if len(countMv) == 0:
-            countMv = [0 for i in range(board.mason)]
         movement = []
+        blackList = makeBlackList(oldWalls,board)
+        oldWalls = dict()
         for id,mason in enumerate(board.myMasons):
-            nextMovement = buildAround(mason,buffMv[id],countMv[id],board)
+            oldWallsUpdate(mason,oldWalls,board)
+            nextMovement = buildAround(mason,blackList,board)
             if  len(nextMovement) != 0:
                 movement.append(nextMovement)
                 continue
@@ -93,6 +92,7 @@ def solve4(interface, solver):
                 movement.append([0,0])
             else:
                 movement.append([1,dir])
+            
 
         interface.postMovement(movement)
         turn = matchInfo.turn

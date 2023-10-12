@@ -18,7 +18,7 @@ def isTerritorie(pos,board):
     if board.walls[pos[0]][pos[0]] == 1 or board.territories[pos[0]][pos[1]] == 1:
         return 0
     else:
-        return 40
+        return 500
     
 def lakeStop(pos,board):
     for i in range(4):
@@ -28,7 +28,7 @@ def lakeStop(pos,board):
         y2 = sim.fourDirectionList[(i+1)%4][1]+pos[1]
         if sim.inField(board,x1,y1) and sim.inField(board,x2,y2):
             if board.structures[x1][y1] == 1 and board.structures[x2][y2] == 1:
-                    return 500
+                    return 2000
     return 0
     
 EFList = [wallsPoints,isCastel,isTerritorie,lakeStop]
