@@ -88,6 +88,7 @@ def territories(walls, preData):
     for x in range(len(walls)):
         for y in range(len(walls[0])):
             if not team1[x][y] and not team2[x][y]: continue
+            if walls[x][y] != 0: continue
             i = 0
             if team1[x][y]: i |= 1
             if team2[x][y]: i |= 2
