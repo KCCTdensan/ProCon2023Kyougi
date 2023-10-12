@@ -4,6 +4,7 @@ from simulator import eightDirectionList
 from collections import deque
 finishBool = False
 data = None
+size = 850
 
 def drawField(canvas, field, x, y, x0, length):
     if max(field.territory, field.structure, field.wall, abs(field.mason)) == 0:
@@ -43,16 +44,17 @@ def drawField(canvas, field, x, y, x0, length):
 
 def main():
     root = tk.Tk()
-    root.geometry("850x950")
-    canvas = tk.Canvas(root, width=850, height=950, bg="#eee")
+    height, width = size+100, size
+    root.geometry(f"{width}x{height}")
+    canvas = tk.Canvas(root, width=width, height=height, bg="#eee")
     canvas.place(x=0, y=0)
     def update():
         global data, finishBool
         canvas.delete("all")
         if data is not None:
             board = data[0].board
-            length = 750//board.height
-            x0 = (850-board.height*length)/2
+            length = (width-100)//board.height
+            x0 = (width-board.height*length)/2
             for y, row in enumerate(board.all):
                 for x, field in enumerate(row):
                     drawField(canvas, field, x, y, x0, length)
@@ -89,24 +91,24 @@ def main():
                 canvas.create_line(*args, fill = "SlateBlue2",
                                    activewidth = 7, width = 3, arrow=tk.LAST)
 
-            x1, y1 = 850-x0+4, 50+board.width*length+4
+            x1, y1 = width-x0+4, 50+board.width*length+4
             canvas.create_line(x0-4, 46, x1, 46, x1, y1, x0-4, y1, x0-4, 46,
                                fill = "#ddd", width = 4)
             if len(data) == 2:
-                canvas.create_text(425, 880,
+                canvas.create_text(width/2, height-70,
                     text=f"{data[1]} vs {data[0].other}")
                 points = board.calcPoint()
-                canvas.create_text(425, 900,
+                canvas.create_text(width/2, height-50,
                     text=f"{points[0][0]} - {points[1][0]}")
-                canvas.create_text(425, 920,
+                canvas.create_text(width/2, height-30,
                     text=f"{data[0].turns} turns  "
                          f"{data[0].turnTime} seconds   turn {data[0].turn}")
             if len(data) == 4:
-                canvas.create_text(425, 880, text=f"{data[1]} vs {data[2]}")
+                canvas.create_text(width/2, height-70, text=f"{data[1]} vs {data[2]}")
                 points = board.calcPoint()
-                canvas.create_text(425, 900,
+                canvas.create_text(width/2, height-50,
                     text=f"{points[0][0]} - {points[1][0]}")
-                canvas.create_text(425, 920,
+                canvas.create_text(width/2, height-30,
                     text=f"{data[3][0]}   {data[3][1]} turns  "
                          f"{data[3][2]} seconds   turn {data[0].turn}")
         if finishBool: root.destroy()

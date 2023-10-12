@@ -11,6 +11,9 @@ resultPath = f"{filePath}{pathSep}result{pathSep}"
 fieldPath = f"{filePath}{pathSep}..{pathSep}fieldDatas{pathSep}"
 value = []
 nowTurn = 0
+size = None
+# GUIの大きさ(横幅)を指定します
+# Noneを指定するとデフォルト(850px)になります
 
 def makeMatch(field, opponent, first):
     ans = {"id": 0, "turns": field[1], "turnSeconds": field[2],
@@ -220,6 +223,10 @@ def help():
     print("ターン数を指定するとそのターン数でのMatchInfoを返します。")
     print("increment関数: 現在の盤面から1ターンずつ"
           "盤面を変化させることができます")
+    print("GUIのサイズ変更はインタプリタからは不可能です。")
+    print("変更したい場合はこのファイルを変更してください。")
+
+if size is not None: view.size = size
 
 if __name__ == "__main__":
     print("このプログラムは基本的にインタプリタで実行する形式です。")

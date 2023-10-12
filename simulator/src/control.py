@@ -5,7 +5,7 @@ import sys, os, glob, platform, subprocess, threading, time, traceback, json
 from collections import deque
 from simulator import print
 from preview import *
-mode = 0
+mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
@@ -13,12 +13,15 @@ threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
-recordData = True
+recordData = False
 # サーバ通信のデータを記録するかどうか選べます
 # 試合数が多いとかなりデータ量がとられます また、データ記録処理は結構時間がかかります
-recordAll = True
+recordAll = False
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
+size = None
+# GUIの大きさ(横幅)を指定します
+# Noneを指定するとデフォルト(850px)になります
 match mode:
     case 0:
         token = ""
@@ -534,6 +537,7 @@ def practiceStart(target, po):
                     Solver(target[1]), target[2:], po), po])
     if po == startPortNumber: match1 = matches[-1][0]
 
+if size is not None: view.size = size
 try:
     if mode == 0:
         if watch: view.start()
