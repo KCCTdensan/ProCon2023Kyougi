@@ -142,11 +142,12 @@ class Board:
         return Matrix(self.log_distance[x][y]["reverse"])
 
     def reachAble(self, pos, targets, directions=directionSet, mason=False):
-        ans, newDistance = None, 999
         distance = self.reverseDistance(pos)
         if distance is None: return None
-        return [target for target in targets if distance[target] != 1 and \
+        ans = [target for target in targets if distance[target] != -1 and \
                 (not mason or self.masons[target] == 0)]
+        if pos not in ans and pos in targets: ans.append(pos)
+        return ans
 
     def nearest(self, *args, destroy=False):
         if hasattr(args[0], '__len__'): pos, targets = args[0], args[1:]

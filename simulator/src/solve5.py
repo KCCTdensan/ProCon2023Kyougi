@@ -53,6 +53,9 @@ def solve5(interface, solver):
                 if areaIndex[x][y] != -1 and areaIndex[x][y] != i: break
             else: continue
             pointPos[-1].append(pos)
+        if len(pointPos[-1]) == 0:
+            pass
+    print(pointPos)
     protectedArea = set()
     
     while solver.isAlive() and matchInfo is not None and \
@@ -111,23 +114,24 @@ def solve5(interface, solver):
         for mason in board.myMasons:
             cantMoveTo[mason[0]].add(mason[1])
         movement = []
+        alreadyTarget = []
         for mason in board.myMasons:
             if matchInfo.turn < matchInfo.turns/2 and len(areas) != 1:
                 i = areaIndex[mason]
-                target = board.nearest(mason,
-                            board.around(nowPointPos[i], fourDirectionList),
-                            destroy=True)
                 target, value = None, 1 << 60
                 for t in board.reachAble(mason,
                         board.around(nowPointPos[i], fourDirectionList),
                                          mason=True):
-                    v = board.reverseDistance(mason)[t]
+                    v = board.reverseDistance(mason)[t]**1.5
                     for m in board.otherMasons:
-                        v *= min(10, board.reverseDistance(m)[t])
+                        v *= min(10, board.reverseDistance(t)[m])
+                    v *= 1 << 30
+                    for x in alreadyTarget:
+                        v /= 1+min(10, board.distance(t, destroy=True)[x])
                     if v < value:
                         value = v
                         target = t
-                print(target)
+                print(mason, ":", target)
                 if i in otherAreas or target is None:
                     if mason in newAreas: newAreas.remove(mason)
                     target = board.nearest(mason, newAreas, destroy=True)
@@ -135,6 +139,7 @@ def solve5(interface, solver):
                         mason, frame, targetPos, walls, targets))
                     else: movement.append(board.firstMovement(mason, target))
                 else:
+                    alreadyTarget.append(target)
                     if mason == target:
                         for j, x, y in board.allDirection(mason,
                                                           fourDirectionSet):
