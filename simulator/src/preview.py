@@ -202,7 +202,7 @@ def increment(turn = None):
                 print("incrementを終了します")
                 break
             setTurn(nowTurn+dif)
-            if dif == 1 and nowTurn >= len(pastMatchInfoes):
+            if dif == 1 and nowTurn >= len(pastMatchInfoes)-1:
                 print("試合終了画面です")
                 break
             if dif == -1 and nowTurn <= 0:
