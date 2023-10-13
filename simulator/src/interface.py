@@ -145,6 +145,7 @@ class Interface:
             code = res.status_code
         except (httpx.TimeoutException, httpx.NetworkError): code = "(failed)"
         if self.log is not None: self.log.set(logId, code, "")
+        if code == 403: return None
         print(f"サーバとの通信に失敗しました。({self.port}-{logId}: {code})")
         return None
     def post(self, url, data):
@@ -166,6 +167,7 @@ class Interface:
             code = res.status_code
         except (httpx.TimeoutException, httpx.NetworkError): code = "(failed)"
         if self.log is not None: self.log.set(logId, code, "")
+        if code == 403: return None
         print(f"サーバとの通信に失敗しました。({self.port}-{logId}: {code})")
         return False
     def release(self, *, safety=True):
