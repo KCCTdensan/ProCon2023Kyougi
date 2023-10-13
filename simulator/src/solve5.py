@@ -5,12 +5,15 @@ from collections import deque, defaultdict
 from itertools import product
 import view
 
-def building(board, mason, notProtectedCastles, targets):
-    target = board.nearest(mason, targets, destroy=True)
+def building(board, mason, notProtectedCastles, targets, alreadyTarget):
+    target = board.nearest(mason, [target for target in board.around(targets,
+            fourDirectionList) if target not in alreadyTarget], destroy=True)
     if target is None:
-        print("solve1")
         # solve1
-        target = board.nearest(mason, notProtectedCastles, destroy=True)
+        target = board.nearest(mason,
+            board.around(board.around(notProtectedCastles, fourDirectionList),
+                         fourDirectionList),
+                               destroy=True)
         if target is None: return [0, 0]
         if mason == target:
             for i, x, y in board.allDirection(mason, fourDirectionSet):
@@ -26,15 +29,18 @@ def building(board, mason, notProtectedCastles, targets):
         ans = board.firstMovement(mason, target)
         if ans is None: return [0, 0]
         return ans
-    print(mason, ":", target)
     if mason == target:
+        alreadyTarget.append(target)
         for i, x, y in board.allDirection(mason, fourDirectionSet):
-            if (x, y) not in frame: continue
+            if (x, y) not in targets: continue
             match board.walls[x][y]:
                 case 0: return [2, i]
                 case 2: return [3, i]
+        return [0, 0]
     ans = board.firstMovement(mason, target)
-    if ans is not None: return ans
+    if ans is not None:
+        alreadyTarget.append(target)
+        return ans
     return [0, 0]
 
 def solve5(interface, solver):
@@ -50,7 +56,7 @@ def solve5(interface, solver):
     pointPos = []
     for i, area in enumerate(areas):
         for pos in area:
-            areaIndex[pos] = i
+            if board.structures[pos] != 1: areaIndex[pos] = i
 
     cantProtectArea = set()
     for i, area in enumerate(areas):
@@ -98,9 +104,7 @@ def solve5(interface, solver):
             targets = []
             for target in p:
                 if board.walls[target] != 1: targets.append(target)
-            nowPointPoses.append(target)
-
-        view.viewPos = nowPointPoses
+            nowPointPoses.extend(targets)
 
         protectedAreas = []
         notProtectedCastles = []
@@ -116,7 +120,6 @@ def solve5(interface, solver):
                 continue
             if board.structures[pos] == 2 and board.territories[pos]&1 == 0:
                 notProtectedCastles.append(pos)
-
         targetArea = []
         for pos in protectedAreas:
             for pos1 in board.allDirection(pos, fourDirectionList):
@@ -126,7 +129,10 @@ def solve5(interface, solver):
                 break
             else: continue
             targetArea.append(pos)
-        targets = board.frame(targetArea, fourDirectionList)
+        targetWall = board.frame(targetArea, fourDirectionList)
+        targets = []
+        for target in targetWall:
+            if board.walls[target] != 1: targets.append(target)
         
         broken = defaultdict(set)
         cantMoveTo = defaultdict(set)
@@ -135,22 +141,26 @@ def solve5(interface, solver):
         movement = []
         alreadyTarget = []
         for mason in board.myMasons:
-            if matchInfo.turn < matchInfo.turns/2 and len(areas) != 1:
+            if matchInfo.turn < matchInfo.turns/2:
                 i = areaIndex[mason]
                 target, value = None, 1 << 60
-                for t in board.reachAble(mason, nowPointPoses, mason=True):
-                    v = board.reverseDistance(mason)[t]**1.5
+                for t in board.reachAble(mason,
+                        board.around(nowPointPoses, fourDirectionList),
+                                         mason=True):
+                    v = 1 << 30
+                    v *= 1+board.distance(mason, destroy=True)[t]**2
                     for m in board.otherMasons:
-                        v *= min(10, board.reverseDistance(t)[m])
-                    v *= 1 << 30
+                        if board.reverseDistance(t)[m] == -1: continue
+                        v /= 1+min(10, board.reverseDistance(t)[m])
                     for x in alreadyTarget:
-                        v /= 1+min(10, board.distance(t, destroy=True)[x])
+                        if board.distance(t, destroy=True)[x] == -1: continue
+                        v /= 1+min(10, board.distance(t, destroy=True)[x])**0.25
                     if v < value:
                         value = v
                         target = t
                 if target is None:
-                    movement.append(building(board, mason,
-                                             notProtectedCastles, targets))
+                    movement.append(building(board, mason, notProtectedCastles,
+                                    targets, alreadyTarget))
                 else:
                     alreadyTarget.append(target)
                     if mason == target:
@@ -164,15 +174,14 @@ def solve5(interface, solver):
                                     break
                                 elif board.walls[x][y] != 1:
                                     movement.append([2, j])
-                                    nowPointPos[i].remove((x, y))
                                     break
                         else: movement.append([0, 0])
                     else:
                         ans = board.firstMovement(mason, target)
                         if ans is None: movement.append([0, 0])
                         else: movement.append(ans)
-            else: movement.append(building(board, mason, frame, targetPos,
-                                           walls, targets))
+            else: movement.append(building(board, mason, notProtectedCastles,
+                                           targets, alreadyTarget))
             t, d = movement[-1]
             if t == 1:
                 d = eightDirectionList[d-1]
