@@ -78,6 +78,10 @@ def drawField(canvas, field, x, y, x0, length):
         canvas.create_oval(x0+(x+0.3)*length+2, 50+(y+0.3)*length+2,
                        x0+(x+0.7)*length-2, 50+(y+0.7)*length-2,
                        fill="green2", outline="green2")
+    if (y, x) in viewPos:
+        canvas.create_oval(x0+(x+0.3)*length+2, 50+(y+0.3)*length+2,
+                       x0+(x+0.7)*length-2, 50+(y+0.7)*length-2,
+                       fill="pink", outline="pink")
     
 
 def selecting():

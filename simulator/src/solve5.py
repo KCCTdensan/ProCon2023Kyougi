@@ -93,7 +93,8 @@ def solve5(interface, solver):
         
         nowPointPoses = []
         for i, p in enumerate(pointPos):
-            if i in otherAreas or i in protectedArea: continue
+            if i in otherAreas or i in protectedArea or i in cantProtectArea:
+                continue
             targets = []
             for target in p:
                 if board.walls[target] != 1: targets.append(target)
