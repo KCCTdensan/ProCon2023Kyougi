@@ -2,13 +2,15 @@ import simulator
 from simulator import *
 import time
 from collections import deque, defaultdict
+from itertools import product
+import view
 
-def building(board, mason, frame, targetPos, walls, targets):
-    target = board.nearest(mason, targetPos, destroy=True)
+def building(board, mason, notProtectedCastles, targets):
+    target = board.nearest(mason, targets, destroy=True)
     if target is None:
         print("solve1")
         # solve1
-        target = board.nearest(mason, targets, destroy=True)
+        target = board.nearest(mason, notProtectedCastles, destroy=True)
         if target is None: return [0, 0]
         if mason == target:
             for i, x, y in board.allDirection(mason, fourDirectionSet):
@@ -49,19 +51,6 @@ def solve5(interface, solver):
     for i, area in enumerate(areas):
         for pos in area:
             areaIndex[pos] = i
-    willBeAreas = defaultdict(set)
-    for i, area in enumerate(areas):
-        for pos in area:
-            for pos1 in board.allDirection(pos, directionList[4:]):
-                if areaIndex[pos1] != -1 and areaIndex[pos1] != i:
-                    willBeAreas[i].add(areaIndex[pos1])
-    for i, area in enumerate(areas):
-        if len(willBeAreas) == 1:
-            areas[list(willBeAreas)[0]].extend(area)
-    newAreas = []
-    for i, area in enumerate(areas):
-        if len(willBeAreas) != 1: newAreas.append(area)
-    areas = newAreas
 
     cantProtectArea = set()
     for i, area in enumerate(areas):
@@ -70,10 +59,14 @@ def solve5(interface, solver):
             for x, y in board.allDirection(pos, directionList[4:]):
                 if areaIndex[x][y] != -1 and areaIndex[x][y] != i:
                     if board.structures[pos] == 2: cantProtectArea.add(i)
-                    else: break
+                    else:
+                        for pos1 in board.allDirection(pos, fourDirectionList):
+                            if board.structures[pos1] != 1: break
+                        else: cantProtectArea.add(i)
+                        break
             else: continue
             pointPos[-1].append(pos)
-    print(pointPos)
+    
     protectedArea = set()
     
     while solver.isAlive() and matchInfo is not None and \
@@ -87,60 +80,53 @@ def solve5(interface, solver):
         otherAreas = set()
         for mason in board.otherMasons:
             otherAreas.add(areaIndex[mason])
-        nowPointPos = dict()
+            
+        for i, j in enumerate(pointPos):
+            if i not in protectedArea:
+                for mason in board.otherMasons:
+                    for pos in areas[i]:
+                        if board.distance(mason, destroy=True,
+                                          other=True)[pos] != -1: break
+                    else: continue
+                    break
+                else: protectedArea.add(i)
+        
+        nowPointPoses = []
         for i, p in enumerate(pointPos):
+            if i in otherAreas or i in protectedArea: continue
             targets = []
             for target in p:
                 if board.walls[target] != 1: targets.append(target)
-            nowPointPos[i] = targets
-        if len(areas) != 1:
-            for i, j in nowPointPos.items():
-                if i in protectedArea:
-                    protectedArea.add(i)
-                else:
-                    for mason in board.otherMasons:
-                        for pos in areas[i]:
-                            if board.distance(mason, destroy=True,
-                                              other=True)[pos] != -1:
-                                print(mason, pos, i,
-                                      board.distance(mason, destroy=True)[pos])
-                                break
-                        else: continue
-                        break
-                    else: protectedArea.add(i)
-        newAreas = []
+            nowPointPoses.append(target)
+
+        view.viewPos = nowPointPoses
+
         protectedAreas = []
-        for i, area in enumerate(areas):
-            if i in protectedArea: protectedAreas.extend(area)
-            elif i not in otherAreas and i not in cantProtectArea:
-                newAreas.extend(area)
-        print(protectedArea)
-        frame = board.frame(protectedAreas, fourDirectionList)
-        allFrame = []
-        for pos in frame:
-            if board.walls[pos] != 1: allFrame.append(pos)
-        frameBool = [[False]*board.width for _ in range(board.height)]
-        for x, y in allFrame: frameBool[x][y] = True
-        frame = []
-        for pos in allFrame:
-            for x, y in board.allDirection(pos, fourDirectionList):
-                if not frameBool[x][y] and board.structures[x][y] != 1: break
+        notProtectedCastles = []
+        for pos in product(range(board.height), range(board.width)):
+            for pos1 in board.allDirection(pos, fourDirectionList):
+                for mason in board.otherMasons:
+                    if board.distance(mason, destroy=True,
+                        other=True)[pos1] != -1: break
+                else: continue
+                break
+            else:
+                protectedAreas.append(pos)
+                continue
+            if board.structures[pos] == 2 and board.territories[pos]&1 == 0:
+                notProtectedCastles.append(pos)
+
+        targetArea = []
+        for pos in protectedAreas:
+            for pos1 in board.allDirection(pos, fourDirectionList):
+                for mason in board.myMasons:
+                    if board.distance(mason, destroy=True)[pos1] != -1: break
+                else: continue
+                break
             else: continue
-            frame.append(pos)
-        targetPos = board.around(frame, fourDirectionList)
-
-        castles = []
-        for castle in board.castles:
-            if board.territories[castle] != 1:
-                castles.append(castle)
-        walls = board.outline(castles, fourDirectionList)
-        targetWall = []
-        for target in walls:
-            if board.walls[target] != 1:
-                targetWall.append(target)
-        #print(targetWall)
-        targets = board.around(targetWall, fourDirectionList)
-
+            targetArea.append(pos)
+        targets = board.frame(targetArea, fourDirectionList)
+        
         broken = defaultdict(set)
         cantMoveTo = defaultdict(set)
         for mason in board.myMasons:
@@ -148,13 +134,10 @@ def solve5(interface, solver):
         movement = []
         alreadyTarget = []
         for mason in board.myMasons:
-            print(areaIndex[mason])
             if matchInfo.turn < matchInfo.turns/2 and len(areas) != 1:
                 i = areaIndex[mason]
                 target, value = None, 1 << 60
-                for t in board.reachAble(mason,
-                        board.around(nowPointPos[i], fourDirectionList),
-                                         mason=True):
+                for t in board.reachAble(mason, nowPointPoses, mason=True):
                     v = board.reverseDistance(mason)[t]**1.5
                     for m in board.otherMasons:
                         v *= min(10, board.reverseDistance(t)[m])
@@ -164,19 +147,15 @@ def solve5(interface, solver):
                     if v < value:
                         value = v
                         target = t
-                print(mason, ":", target)
-                if i in otherAreas or i in cantProtectArea or target is None:
-                    if mason in newAreas: newAreas.remove(mason)
-                    target = board.nearest(mason, newAreas, destroy=True)
-                    if target is None: movement.append(building(board,
-                        mason, frame, targetPos, walls, targets))
-                    else: movement.append(board.firstMovement(mason, target))
+                if target is None:
+                    movement.append(building(board, mason,
+                                             notProtectedCastles, targets))
                 else:
                     alreadyTarget.append(target)
                     if mason == target:
                         for j, x, y in board.allDirection(mason,
                                                           fourDirectionSet):
-                            if (x, y) in nowPointPos[i]:
+                            if (x, y) in nowPointPoses:
                                 if board.walls[x][y] == 2 and \
                                    y not in broken[x]:
                                     movement.append([3, j])

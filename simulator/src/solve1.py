@@ -14,7 +14,7 @@ def solve1(interface, solver):
         movement = []
         castles = []
         for castle in board.castles:
-            if board.territories[castle] != 1:
+            if board.territories[castle]&1 == 0:
                 castles.append(castle)
         walls = board.outline(castles, fourDirectionList)
         targetWall = []
