@@ -1,4 +1,5 @@
 from collections import deque, defaultdict
+from copy import deepcopy
 directionList = ((-1, 0), (0, 1), (1, 0), (0, -1), (1, -1),
                  (-1, -1), (1, 1), (-1, 1))
 directionSet = ((2, -1, 0), (4, 0, 1), (6, 1, 0), (8, 0, -1),
@@ -32,7 +33,7 @@ class Matrix(list):
         if len(target) == 1: list.__setitem__(self, target, value)
         list.__setitem__(self[target[0]], target[1], value)
     def __copy__(self):
-        return Matrix([list(item) for item in self])
+        return Matrix(deepcopy(list(*self)))
     def copy(self):
         return self.__copy__()
 
@@ -56,6 +57,10 @@ class Field:
                         ", mason: ",
                         str(self.mason),
                         "})"])
+    def __copy__(self):
+        return Field(self.wall, self.territory, self.structure, self.mason)
+    def copy(self):
+        return self.__copy__()
 
 class Board:
     def __init__(self, board):
@@ -279,6 +284,18 @@ class Board:
             "],\n  [".join("|".join([*map(str, line)]) for line in self.all))
     def __repr__(self):
         return "[{}]".format(",\n".join(map(repr, self.all)))
+    def __copy__(self):
+        board = {}
+        board["walls"] = self.walls.copy()
+        board["territories"] = self.territories.copy()
+        board["width"] = self.width
+        board["height"] = self.height
+        board["mason"] = self.mason
+        board["structures"] = self.structures.copy()
+        board["masons"] = self.masons.copy()
+        return Board(board)
+    def copy(self):
+        return self.__copy__()
 
 def inField(board, x, y=None):
     return board.inField(x, y)
@@ -332,6 +349,15 @@ class MatchInfo:
                         repr(self.otherLogs),
                         ",\nboard:\n",
                         repr(self.board)])
+    def __copy__(self):
+        info = {"id": self.id, "turn": self.turn}
+        info["board"] = board.copy()
+        info["logs"] = deepcopy(self.logs)
+        match = {"turns": self.turns, "first": self.first,
+                 "turnSeconds": self.turnTime, "opponent": self.other}
+        return MatchInfo(self.wall, self.territory, self.structure, self.mason)
+    def copy(self):
+        return self.__copy__()
 
 _print = print
 def print(*args, sep=" ", end="\n", file=None):
