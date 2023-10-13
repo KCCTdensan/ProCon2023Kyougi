@@ -4,18 +4,18 @@ def wallsPoints(pos,board):
     count = 0
     pointDict = dict([(0,50),(1,3000),(2,800),(3,100),(4,20),(5,10),(6,1),(7,1),(8,0)])
     for x,y in board.allDirection(pos,sim.directionList):
-        if board.walls[x][y] == 1 or board.territories[x][y] == 1:
+        if board.walls[x][y] == 1 or board.territories[x][y] & 1 == 1:
             count+=1
     return pointDict[count]
 
 def isCastel(pos,board):
-    if board.structures[pos[0]][pos[1]] == 2 and board.territories[pos[0]][pos[1]] != 1:
+    if board.structures[pos[0]][pos[1]] == 2 and board.territories[pos[0]][pos[1]] & 1 == 0:
         return 5000
     else:
         return 0
 
 def isTerritorie(pos,board):
-    if board.walls[pos[0]][pos[1]] == 1 or board.territories[pos[0]][pos[1]] == 1 or len(list(board.allDirection(pos,sim.directionList))) != 4:
+    if board.walls[pos[0]][pos[1]] == 1 or board.territories[pos[0]][pos[1]] & 1 == 1 or len(list(board.allDirection(pos,sim.directionList))) != 4:
         return 0
     else:
         return 100000
