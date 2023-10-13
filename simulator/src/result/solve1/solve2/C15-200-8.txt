@@ -3,18 +3,18 @@
     "turn": 1,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -44,17 +44,17 @@
     "actions": [
       {
         "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 1,
         "dir": 4,
         "succeeded": true
       },
       {
         "type": 2,
         "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -84,17 +84,17 @@
     "actions": [
       {
         "type": 2,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
         "type": 2,
         "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -124,17 +124,17 @@
     "actions": [
       {
         "type": 2,
-        "dir": 6,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
         "type": 2,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 6,
+        "dir": 8,
         "succeeded": true
       }
     ]
@@ -163,18 +163,18 @@
     "turn": 9,
     "actions": [
       {
-        "type": 2,
-        "dir": 8,
+        "type": 1,
+        "dir": 1,
         "succeeded": true
       },
       {
         "type": 1,
-        "dir": 3,
+        "dir": 1,
         "succeeded": true
       },
       {
-        "type": 2,
-        "dir": 8,
+        "type": 1,
+        "dir": 1,
         "succeeded": true
       }
     ]
@@ -203,18 +203,18 @@
     "turn": 11,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -243,18 +243,18 @@
     "turn": 13,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 3,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       }
     ]
@@ -363,18 +363,18 @@
     "turn": 19,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       }
     ]
@@ -403,18 +403,18 @@
     "turn": 21,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 3,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -443,18 +443,18 @@
     "turn": 23,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       }
     ]
@@ -483,18 +483,18 @@
     "turn": 25,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -523,18 +523,18 @@
     "turn": 27,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
         "succeeded": true
       }
     ]
@@ -563,18 +563,18 @@
     "turn": 29,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
         "succeeded": true
       }
     ]
@@ -603,18 +603,18 @@
     "turn": 31,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -643,18 +643,18 @@
     "turn": 33,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       }
     ]
@@ -683,18 +683,18 @@
     "turn": 35,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -723,18 +723,18 @@
     "turn": 37,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -763,18 +763,18 @@
     "turn": 39,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -923,18 +923,18 @@
     "turn": 47,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       }
     ]
@@ -963,18 +963,18 @@
     "turn": 49,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -1003,18 +1003,18 @@
     "turn": 51,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -1043,18 +1043,18 @@
     "turn": 53,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       }
     ]
@@ -1083,19 +1083,19 @@
     "turn": 55,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1123,19 +1123,19 @@
     "turn": 57,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1163,19 +1163,19 @@
     "turn": 59,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1203,19 +1203,19 @@
     "turn": 61,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1243,19 +1243,19 @@
     "turn": 63,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1283,19 +1283,19 @@
     "turn": 65,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1323,19 +1323,19 @@
     "turn": 67,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1363,19 +1363,19 @@
     "turn": 69,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1403,19 +1403,19 @@
     "turn": 71,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
       }
     ]
   },
@@ -1441,6 +1441,2546 @@
   },
   {
     "turn": 73,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 74,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 75,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 76,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 77,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 78,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 79,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 80,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 81,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 82,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 83,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 84,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 85,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 86,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 87,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 88,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 89,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 90,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 91,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 92,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 93,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 94,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 95,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 96,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 97,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 98,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 99,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 100,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 101,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 102,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 103,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 104,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 105,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 106,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 107,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 108,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 109,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 110,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 111,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 112,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 113,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 114,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 115,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 116,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 117,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 118,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 119,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 120,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 121,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 122,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 123,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 124,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 125,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 126,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 127,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 128,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 129,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 130,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 131,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 132,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 133,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 134,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 135,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 136,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 137,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 138,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 139,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 140,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 141,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 142,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 143,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 144,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 145,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 146,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 147,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 148,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 149,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 150,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 151,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 152,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 153,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 154,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 155,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 156,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 157,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 158,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 159,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 160,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 161,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 162,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 163,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 164,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 165,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 166,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 167,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 168,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 169,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 170,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 171,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 172,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 173,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 174,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 175,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 176,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 177,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 178,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 179,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 180,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 181,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 182,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 183,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 184,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 185,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 186,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 187,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 188,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 189,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 190,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 191,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 192,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 193,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 194,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 195,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 196,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 197,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 198,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 199,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 200,
     "actions": [
       {
         "type": 0,
