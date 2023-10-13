@@ -256,7 +256,8 @@ class Board:
             pos = nextPos
         return ans
 
-    def firstMovement(self, pos, target, directions=directionSet, destroy=True):
+    def firstMovement(self, pos, target, directions=directionSet, destroy=True,
+                      *, other=False):
         if destroy: distance = self.reverseDistance(target, other=other)
         else: distance = self.distance(target, other=other)
         if distance[pos] == -1: return None

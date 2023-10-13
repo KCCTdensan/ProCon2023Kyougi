@@ -99,8 +99,9 @@ def solve5(interface, solver):
                 else:
                     for mason in board.otherMasons:
                         for pos in areas[i]:
-                            if board.distance(mason, destroy=True)[pos] != -1:
-                                print(mason, pos, i, 
+                            if board.distance(mason, destroy=True,
+                                              other=True)[pos] != -1:
+                                print(mason, pos, i,
                                       board.distance(mason, destroy=True)[pos])
                                 break
                         else: continue
