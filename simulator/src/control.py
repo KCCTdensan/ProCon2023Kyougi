@@ -2,7 +2,7 @@ import interface, view, simulator
 import solveList as solveListPack
 import pandas as pd
 import sys, os, glob, platform, subprocess, threading, time, traceback, json
-from collections import deque
+from collections import deque, defaultdict
 from simulator import print
 from preview import *
 mode = 1
@@ -24,7 +24,7 @@ size = None
 # Noneを指定するとデフォルト(850px)になります
 match mode:
     case 0:
-        token = ""
+        token = "token1"
         # 試合を指定する2次元配列
         # [solver, matchId, url, port]のように指定すること
         # solver: solver関数(例: "solve1.py")
@@ -39,7 +39,7 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve4.py","solve1.py"]]
+        matchList = [["solve1.py","solve1.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -47,7 +47,7 @@ match mode:
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = ["150"]
+        turnList = ["30"]
         # ターン時間の組み合わせ
         # [3, 8]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -56,6 +56,8 @@ match mode:
         replace = True
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
+        # Trueだと実際の競技と同様に手動でフラグを設置できるようになります
+        asReal = False
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -274,6 +276,7 @@ interface.recordBool = recordData
 
 if mode == 1:
     results = dict([(solver[0], Result(solver[0])) for solver in solverList])
+else: results = {}
 
 startupinfo = None
 if os.name == "nt":
@@ -294,6 +297,7 @@ class Solver:
         if self.lang == "python":
             self.solver = solveListPack.getSolver(solver[0][:-3])
             assert self.solver is not None, f"{solver[0]}が見つかりません"
+        self.flag = defaultdict(lambda: None)
     def threading(self, func, *args, **kwargs):
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
         self.thread.append(thread)
@@ -347,8 +351,11 @@ class Match(object):
             view.show(self.interface.getMatchInfo(), self.solver.name, "real")
         if not self.isAlive(): return False
         if self.mode == "practice":
-            view.show(self.interface.getMatchInfo(), self.solver1.name,
-                      self.solver2.name, self.field, "practice")
+            if asReal: view.show(self.interface.getMatchInfo(),
+                                 self.solver1.name, "real")
+            else: view.show(self.interface.getMatchInfo(), self.solver1.name,
+                      self.solver2.name, self.field,
+                      "real" if asReal else "practice")
         return True
     def __del__(self):
         for thread in self.thread:
@@ -392,12 +399,14 @@ class Real(Match):
         if not self.interface.checked or not returned: pass
         elif returned.turn == self.allTurn: return False
         return not self.start or self.solver.isAlive()
+    def getFlag(self):
+        return self.solver.flag
     def release(self, *, safety=False):
         if self.released: return
         self.released = True
         self.solver.release()
         log = json.dumps(self.interface.getMatchInfo(raw=True)["logs"],
-                         indent=2)
+                         separators=(',', ':'))
         print(f"{self.url}:{self.port}, {self.matchId}のログを表示します",
               log, sep="\n")
         if safety:
@@ -458,6 +467,8 @@ class Practice(Match):
         elif returned.turn == self.allTurn: return False
         if self.cantRecord: return False
         return not self.solver1.dead and not self.solver2.dead
+    def getFlag(self):
+        return self.solver1.flag
     def release(self, *, safety=False):
         self.solver1.release()
         self.solver2.release()
@@ -528,6 +539,11 @@ def pattern(solver1, solver2):
         for turn in turnList:
             for time in timeList:
                 yield [solver1, solver2, field, turn, time]
+
+def getGUIControl():
+    if match1 is None: return
+    return match1.getFlag()
+view.getGUIControl = getGUIControl
 
 matches = []
 match1 = None

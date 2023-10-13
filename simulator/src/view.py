@@ -4,13 +4,31 @@ from simulator import eightDirectionList
 from collections import deque
 finishBool = False
 data = None
-size = 850
-mouseX, mouseY = 0, 0
-mode = 0
+size, height, width, mouseX, mouseY = 850, 850, 950, 0, 0
+x0, lenght, mode = 50, 0, 0
+nowText = "データ指定"
+infoText = ""
+controlData = []
+def getGUIControl(mason, pos):
+    return None
 
 def drawField(canvas, field, x, y, x0, length):
+    global controlData
     if max(field.territory, field.structure, field.wall, abs(field.mason)) == 0:
+        if (y, x) in controlData:
+            canvas.create_line(x0+(x+0.15)*length+2, 50+(y+0.85)*length-2,
+                               x0+(x+0.85)*length-2, 50+(y+0.15)*length-2,
+                               fill="green2", width = 6)
+            canvas.create_line(x0+(x+0.15)*length+2, 50+(y+0.15)*length-2,
+                               x0+(x+0.85)*length-2, 50+(y+0.85)*length-2,
+                               fill="green2", width = 6)
+        if len(controlData) > 0 and \
+           (y, x) == data[0].board.myMasons[controlData[0]]:
+            canvas.create_oval(x0+(x+0.3)*length+2, 50+(y+0.3)*length+2,
+                           x0+(x+0.7)*length-2, 50+(y+0.7)*length-2,
+                           fill="green2", outline="green2")
         return
+
     match field.territory:
         case 0: line="#eee"
         case 1: line="tomato"
@@ -43,15 +61,71 @@ def drawField(canvas, field, x, y, x0, length):
     canvas.create_oval(x0+(x+0.15)*length+2, 50+(y+0.15)*length+2,
                        x0+(x+0.85)*length-2, 50+(y+0.85)*length-2,
                        fill=color, outline=color)
+    if (y, x) in controlData:
+        canvas.create_line(x0+(x+0.15)*length+2, 50+(y+0.85)*length-2,
+                           x0+(x+0.85)*length-2, 50+(y+0.15)*length-2,
+                           fill="green2", width = 6)
+        canvas.create_line(x0+(x+0.15)*length+2, 50+(y+0.15)*length-2,
+                           x0+(x+0.85)*length-2, 50+(y+0.85)*length-2,
+                           fill="green2", width = 6)
+    if len(controlData) > 0 and \
+       (y, x) == data[0].board.myMasons[controlData[0]]:
+        canvas.create_oval(x0+(x+0.3)*length+2, 50+(y+0.3)*length+2,
+                       x0+(x+0.7)*length-2, 50+(y+0.7)*length-2,
+                       fill="green2", outline="green2")
+    
 
-"""def selecting():
-    global mode, mouseX, mouseY, size
-    x, y = mouseX/size*850, mouseY/size*850
+def selecting():
+    global mode, mouseX, mouseY, size, nowText, infoText, controlData, height, \
+           width, length, data, flag
+    board = data[0].board
     match mode:
         case 0:
-   """         
+            if width/2+50 <= mouseX <= width-50 and \
+               height-90 <= mouseY <= height-60:
+                controlData = []
+                infoText = "職人を指定してください"
+                nowText = "キャンセル"
+                mode = 1
+        case 1:
+            if width/2+50 <= mouseX <= width-50 and \
+               height-90 <= mouseY <= height-60:
+                infoText = "キャンセルしました"
+                nowText = "データ指定"
+                mode = 0
+            if x0 <= mouseX < width-x0 and \
+               50 <= mouseY < 50+board.height*length:
+                pos = ((mouseY-50)//length, int(mouseX-x0)//length)
+                if board.masons[pos] > 0:
+                    controlData.append(board.masons[pos]-1)
+                    flag = getGUIControl()
+                    controlData.append(flag[controlData[0]])
+                    infoText = "対象の地点を指定してください"
+                    nowText = "キャンセル"
+                    mode = 2
+        case 2:
+            if width/2+50 <= mouseX <= width-50 and \
+               height-90 <= mouseY <= height-60:
+                infoText = "キャンセルしました"
+                nowText = "データ指定"
+                mode = 0
+            elif x0 <= mouseX < width-x0 and \
+               50 <= mouseY < 50+board.height*length:
+                controlData[1] = ((mouseY-50)//length, int(mouseX-x0)//length)
+                flag = getGUIControl()
+                flag[controlData[0]] = controlData[1]
+                infoText = "送信しました"
+                nowText = "データ指定"
+                mode = 0
+            else:
+                flag[controlData[0]] = None
+                controlData.pop()
+                infoText = "この職人の目的地を消去しました"
+                nowText = "データ指定"
+                mode = 0
 
 def main():
+    global height, width
     root = tk.Tk()
     height, width = size+100, size
     root.geometry(f"{width}x{height}")
@@ -61,12 +135,11 @@ def main():
         global mouseX, mouseY
         mouseX, mouseY = event.x, event.y
     def mouseClicked(event):
-        pass
-        #print("clicked!")
+        selecting()
     canvas.bind("<Motion>", mouseReload)
     canvas.bind("<Button-1>", mouseClicked)
     def update():
-        global data, finishBool
+        global data, finishBool, nowText, infoText, x0, length
         canvas.delete("all")
         if data is not None:
             board = data[0].board
@@ -111,7 +184,8 @@ def main():
             x1, y1 = width-x0+4, 50+board.width*length+4
             canvas.create_line(x0-4, 46, x1, 46, x1, y1, x0-4, y1, x0-4, 46,
                                fill = "#ddd", width = 4)
-            if data[-1] == "real" and len(data) == 3:
+            if not hasattr(data, '__len__') or len(data) == 0: pass
+            elif data[-1] == "real" and len(data) == 3:
                 canvas.create_text(width/4, height-70,
                     text=f"{data[1]} vs {data[0].other}")
                 points = board.calcPoint()
@@ -121,10 +195,10 @@ def main():
                     text=f"{data[0].turns} turns  "
                          f"{data[0].turnTime} seconds   turn {data[0].turn}")
                 canvas.create_rectangle(width/2+50, height-90,
-                                        width-50, height-60, fill="green",
-                                        outline="green", activefill="green3")
+                                        width-50, height-60, fill="green3",
+                                        outline="green3", activefill="green2")
                 
-            if data[-1] == "preview" and len(data) == 3:
+            elif data[-1] == "preview" and len(data) == 3:
                 canvas.create_text(width/2, height-70,
                     text=f"{data[1]} vs {data[0].other}")
                 points = board.calcPoint()
@@ -133,7 +207,7 @@ def main():
                 canvas.create_text(width/2, height-30,
                     text=f"{data[0].turns} turns  "
                          f"{data[0].turnTime} seconds   turn {data[0].turn}")
-            if len(data) == 5:
+            elif len(data) == 5:
                 canvas.create_text(width/2, height-70, text=f"{data[1]} vs {data[2]}")
                 points = board.calcPoint()
                 canvas.create_text(width/2, height-50,
@@ -141,8 +215,13 @@ def main():
                 canvas.create_text(width/2, height-30,
                     text=f"{data[3][0]}   {data[3][1]} turns  "
                          f"{data[3][2]} seconds   turn {data[0].turn}")
-            """        if data[-1] == "real" and len(data) == 3:
-            canvas.create_text(tag="")"""
+        if not hasattr(data, '__len__') or len(data) == 0: pass
+        elif data[-1] == "real" and len(data) == 3:
+            canvas.delete("control")
+            canvas.create_text(width/4*3, height-75, text=nowText,
+                               tag="control")
+            canvas.create_text(width/4*3, height-25, text=infoText,
+                               tag="control")
         if finishBool: root.destroy()
         else: root.after(200, update)
     update()
