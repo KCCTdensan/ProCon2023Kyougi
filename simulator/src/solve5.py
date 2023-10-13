@@ -12,7 +12,8 @@ def building(board, mason, frame, targetPos, walls, targets):
         if target is None: return [0, 0]
         if mason == target:
             for i, x, y in board.allDirection(mason, fourDirectionSet):
-                if board.walls[x][y] == 1: continue
+                if board.walls[x][y] == 1 or board.structures[x][y] == 2:
+                    continue
                 for x1, y1 in board.allDirection(x, y, fourDirectionList):
                     if board.structures[x1][y1] == 2: break
                 else: continue
