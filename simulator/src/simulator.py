@@ -33,7 +33,7 @@ class Matrix(list):
         if len(target) == 1: list.__setitem__(self, target, value)
         list.__setitem__(self[target[0]], target[1], value)
     def __copy__(self):
-        return Matrix(deepcopy(list(*self)))
+        return Matrix(deepcopy(list(self)))
     def copy(self):
         return self.__copy__()
 

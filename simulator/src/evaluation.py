@@ -15,10 +15,10 @@ def isCastel(pos,board):
         return 0
 
 def isTerritorie(pos,board):
-    if board.walls[pos[0]][pos[1]] == 1 or board.territories[pos[0]][pos[1]] == 1:
+    if board.walls[pos[0]][pos[1]] == 1 or board.territories[pos[0]][pos[1]] == 1 or len(list(board.allDirection(pos,sim.directionList))) != 4:
         return 0
     else:
-        return 10000
+        return 100000
     
 def lakeStop(pos,board):
     for i in range(4):

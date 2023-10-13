@@ -3,6 +3,7 @@ import evaluation
 import time
 import random
 import queue
+import copy
 
 def buildAround(mason,blackList,board):
     if board.walls[mason] == 1:
@@ -51,6 +52,10 @@ def randomMove(mason,board):
         if board.structures[x][y] != 1 and board.masons[x][y] == 0:
             weight.append(int(evaluation.evaluationPoints([x,y],board,3)))
             movement.append(dir)
+    print("-------------------------")
+    print("mason:",mason)
+    print(weight)
+    print("-------------------------")
     if len(movement) == 0:
         return -1
     else:
@@ -68,6 +73,23 @@ def oldWallsUpdate(mason,oldWalls,board):
         oldWalls[(x,y)] = board.walls[x][y]
     return oldWalls
 
+def boardUpdate(mason,movement,board):
+    mode = movement[0]
+    dir = movement[1]
+    if mode == 0:
+        return
+    next = list(map(sum,zip(mason,simulator.eightDirectionList[dir-1])))
+    match mode:
+        case 1:
+            id = board.masons[mason]
+            board.masons[mason] = 0
+            board.masons[next] = id
+        case 2:
+            board.walls[next] = 1
+        case 3:
+            board.walls[next] = 0
+    return
+
 def solve4(interface, solver):
     matchInfo = interface.getMatchInfo()
     oldWalls = dict()
@@ -77,22 +99,22 @@ def solve4(interface, solver):
         movement = []
         blackList = makeBlackList(oldWalls,board)
         oldWalls = dict()
+        buffBoard = copy.copy(board)
         for id,mason in enumerate(board.myMasons):
-            oldWallsUpdate(mason,oldWalls,board)
-            nextMovement = buildAround(mason,blackList,board)
-            if  len(nextMovement) != 0:
-                movement.append(nextMovement)
-                continue
-            dir = surroundCastel(mason,board)
-            if dir != -1:
-                movement.append([1,dir])
-                continue
-            dir = randomMove(mason,board)
-            if dir == -1:
-                movement.append([0,0])
-            else:
-                movement.append([1,dir])
-            
+            oldWallsUpdate(mason,oldWalls,buffBoard)
+            nextMovement = buildAround(mason,blackList,buffBoard)
+            if  len(nextMovement) == 0:
+                dir = surroundCastel(mason,buffBoard)
+                if dir != -1:
+                    nextMovement = [1,dir]
+                else:
+                    dir = randomMove(mason,buffBoard)
+                    if dir == -1:
+                        nextMovement = [0,0]
+                    else:
+                        nextMovement = [1,dir]
+            movement.append(nextMovement)
+            boardUpdate(mason,nextMovement,buffBoard)
 
         interface.postMovement(movement)
         turn = matchInfo.turn

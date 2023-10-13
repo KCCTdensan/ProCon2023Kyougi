@@ -141,7 +141,7 @@ def main():
                 canvas.create_text(width/2, height-30,
                     text=f"{data[3][0]}   {data[3][1]} turns  "
                          f"{data[3][2]} seconds   turn {data[0].turn}")
-"""        if data[-1] == "real" and len(data) == 3:
+            """        if data[-1] == "real" and len(data) == 3:
             canvas.create_text(tag="")"""
         if finishBool: root.destroy()
         else: root.after(200, update)
