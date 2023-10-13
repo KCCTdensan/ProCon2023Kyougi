@@ -1,13 +1,13 @@
 ,A11,A13,A15,A17,A21,A25,B11,B13,B15,B17,B21,B25,C11,C13,C15,C17,C21,C25
-solve1.py-first,LOSE: 210 - 620,LOSE: 230 - 610,WIN: 980 - 830,WIN: 1470 - 1200,LOSE: 920 - 1600,WIN: 1210 - -1,LOSE: 280 - 330,LOSE: 500 - 500,LOSE: 690 - 810,LOSE: 580 - 1450,LOSE: 1010 - 1370,WIN: 1490 - -1,LOSE: 310 - 380,LOSE: -1 - 150,LOSE: 1050 - 1230,LOSE: -1 - 1040,WIN: 210 - -1,WIN: 1150 - 920
-solve1.py-second,WIN: 620 - 210,WIN: 610 - 230,LOSE: 830 - 980,LOSE: 1200 - 1470,WIN: 1600 - 920,LOSE: -1 - 1210,WIN: 330 - 280,WIN: 500 - 500,WIN: 810 - 690,WIN: 1450 - 580,WIN: 1370 - 1010,LOSE: -1 - 1490,WIN: 380 - 310,WIN: 150 - -1,WIN: 1230 - 1050,WIN: 1040 - -1,LOSE: -1 - 210,LOSE: 920 - 1150
+solve1.py-first,,,,,,,,,,,,,,,,,,
+solve1.py-second,,,,,,,,,,,,,,,,,,
 solve2.py-first,,,,,,,,,,,,,,,,,,
 solve2.py-second,,,,,,,,,,,,,,,,,,
-solve3.py-first,WIN: 1010 - 310,WIN: 1010 - 310,LOSE: -1 - 630,WIN: 1930 - 230,WIN: 1100 - 300,LOSE: -1 - 300,LOSE: -1 - 160,WIN: 540 - 330,WIN: 530 - 450,LOSE: -1 - 190,WIN: 1970 - 780,WIN: 1910 - 630,WIN: 370 - 240,LOSE: -1 - 220,WIN: 1050 - 410,WIN: 1030 - 840,LOSE: 1120 - 1770,LOSE: -1 - 410
-solve3.py-second,WIN: 1090 - 450,LOSE: 900 - 3550,WIN: 2150 - 560,WIN: 2030 - 580,WIN: 2720 - 1140,WIN: 2550 - 2120,WIN: 1060 - 100,WIN: 900 - 280,WIN: 890 - 240,WIN: 1220 - 240,WIN: 2370 - 1270,WIN: 2000 - 1060,WIN: 1260 - 210,LOSE: 150 - 350,WIN: 1730 - 700,WIN: 2880 - 560,WIN: 3290 - 480,WIN: 2530 - 410
-normalRandomWalk.py-first,LOSE: -1 - 790,LOSE: 580 - 910,WIN: 1310 - 1050,WIN: 1780 - 930,LOSE: 990 - 1870,LOSE: 1280 - 3550,WIN: 700 - 430,LOSE: 700 - 980,LOSE: 880 - 1150,LOSE: 1020 - 1260,LOSE: 1120 - 1890,LOSE: 1320 - 1770,LOSE: 360 - 560,LOSE: 80 - 720,LOSE: -1 - 870,LOSE: 1010 - 1580,LOSE: 1120 - 3410,LOSE: 1400 - 1690
+solve3.py-first,,,,,,,,,,,,,,,,,,
+solve3.py-second,,,,,,,,,,,,,,,,,,
+normalRandomWalk.py-first,,,,,,,,,,,,,,,,,,
 normalRandomWalk.py-second,,,,,,,,,,,,,,,,,,
-solve4.py-first,LOSE: -1 - 1500,WIN: 1010 - 440,LOSE: 1160 - 2060,LOSE: 1640 - 1650,LOSE: 1140 - 4120,LOSE: 1560 - 5660,LOSE: 630 - 980,LOSE: 750 - 1550,LOSE: -1 - 1430,LOSE: 920 - 1990,LOSE: 630 - 6790,LOSE: 1780 - 3410,LOSE: 370 - 510,LOSE: -1 - 1190,LOSE: 1050 - 2370,LOSE: 870 - 3480,LOSE: 1080 - 4580,LOSE: 1440 - 4630
-solve4.py-second,LOSE: 770 - 1090,,WIN: 1480 - 1190,LOSE: 1510 - 1650,LOSE: 1970 - 3430,,WIN: 850 - 690,LOSE: 870 - 1580,LOSE: 1150 - 1800,LOSE: 1150 - 1790,LOSE: 1940 - 2730,LOSE: 1800 - 2590,WIN: 900 - 660,LOSE: 140 - 1890,WIN: 1550 - 1390,,LOSE: 2620 - 3900,LOSE: 590 - 2410
-solve5.py-first,WIN: 620 - -1,WIN: 560 - -1,WIN: 560 - -1,WIN: 1120 - -1,WIN: 120 - -1,LOSE: 1470 - 2430,LOSE: 160 - 440,LOSE: -1 - 870,LOSE: 480 - 660,WIN: 60 - -1,WIN: 130 - -1,WIN: 180 - -1,WIN: 80 - -1,WIN: 80 - -1,WIN: 510 - -1,WIN: 190 - -1,WIN: 170 - -1,WIN: 1370 - -1
-solve5.py-second,WIN: 660 - -1,WIN: 750 - -1,WIN: 660 - -1,WIN: 860 - -1,WIN: 270 - -1,WIN: 1680 - -1,LOSE: 220 - 300,LOSE: 370 - 1010,WIN: 700 - 360,WIN: 590 - -1,WIN: 170 - -1,WIN: 580 - -1,WIN: 60 - -1,WIN: 110 - -1,WIN: 440 - -1,WIN: 660 - -1,WIN: 540 - -1,LOSE: -1 - -1
+solve4.py-first,,,,,,,,,,,,,,,,,,
+solve4.py-second,,,,,,,,,,,,,,,,,,
+solve5.py-first,,,,,,,,,,,,,,,,,,
+solve5.py-second,,,,,,,,,,,,,,,,,,

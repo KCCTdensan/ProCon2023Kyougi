@@ -1,13 +1,13 @@
 ,A11,A13,A15,A17,A21,A25,B11,B13,B15,B17,B21,B25,C11,C13,C15,C17,C21,C25
-solve1.py-first,LOSE: 0 - 1300,LOSE: 0 - 1300,LOSE: 0 - 2220,LOSE: 0 - 3220,LOSE: 0 - 3560,LOSE: 0 - 3060,LOSE: 0 - 380,LOSE: 0 - 1910,LOSE: 0 - 2910,LOSE: 0 - 3990,LOSE: 0 - 3900,LOSE: 0 - 4610,LOSE: 0 - 1260,LOSE: 0 - 150,LOSE: 0 - 2290,LOSE: 0 - 3340,LOSE: 0 - 3620,LOSE: 0 - 4380
-solve1.py-second,LOSE: 0 - 1160,LOSE: 0 - 1160,LOSE: 0 - 1670,LOSE: 0 - 2150,LOSE: 0 - 3420,LOSE: 0 - 2940,LOSE: 0 - 1070,LOSE: 0 - 1740,LOSE: 0 - 2650,LOSE: 0 - 4130,LOSE: 0 - 2960,LOSE: 0 - 4360,LOSE: 0 - 370,LOSE: 0 - 80,LOSE: 0 - 1050,LOSE: 0 - 1380,LOSE: 0 - 1120,LOSE: 0 - 2500
-solve2.py-first,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0,WIN: 0 - 0
-solve2.py-second,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0,LOSE: 0 - 0
-solve3.py-first,LOSE: 0 - 350,LOSE: 0 - 350,LOSE: 0 - 640,LOSE: 0 - 230,LOSE: 0 - 320,LOSE: 0 - 300,LOSE: 0 - 150,LOSE: 0 - 720,LOSE: 0 - 460,LOSE: 0 - 610,LOSE: 0 - 710,LOSE: 0 - 720,LOSE: 0 - 240,LOSE: 0 - 220,LOSE: 0 - 300,LOSE: 0 - 840,LOSE: 0 - 1750,LOSE: 0 - 480
-solve3.py-second,LOSE: 0 - 320,LOSE: 0 - 360,LOSE: 0 - 530,LOSE: 0 - 560,LOSE: 0 - 1170,LOSE: 0 - 1000,LOSE: 0 - 150,LOSE: 0 - 330,LOSE: 0 - 310,LOSE: 0 - 390,LOSE: 0 - 2250,LOSE: 0 - 1240,LOSE: 0 - 210,LOSE: 0 - 310,LOSE: 0 - 610,LOSE: 0 - 500,LOSE: 0 - 520,LOSE: 0 - 490
-normalRandomWalk.py-first,LOSE: 0 - 1060,LOSE: 0 - 1560,LOSE: 0 - 1750,LOSE: 0 - 2110,LOSE: 0 - 3290,LOSE: 0 - 5300,LOSE: 0 - 1020,LOSE: 0 - 1660,LOSE: 0 - 2630,LOSE: 0 - 2180,LOSE: 0 - 3560,LOSE: 0 - 5040,LOSE: 0 - 720,LOSE: 0 - 1360,LOSE: 0 - 1600,LOSE: 0 - 2090,LOSE: 0 - 2670,LOSE: 0 - 2010
-normalRandomWalk.py-second,LOSE: 0 - 2310,LOSE: 0 - 2020,LOSE: 0 - 2480,LOSE: 0 - 1790,LOSE: 0 - 2090,LOSE: 0 - 2590,LOSE: 0 - 1150,LOSE: 0 - 1600,LOSE: 0 - 1920,LOSE: 0 - 2390,LOSE: 0 - 2940,LOSE: 0 - 3210,LOSE: 0 - 960,LOSE: 0 - 1210,LOSE: 0 - 2030,LOSE: 0 - 2110,LOSE: 0 - 3670,LOSE: 0 - 2050
-solve4.py-first,LOSE: 0 - 300,LOSE: 0 - 930,LOSE: 0 - 3280,LOSE: 0 - 1310,LOSE: 0 - 7790,LOSE: 0 - 9980,LOSE: 0 - 1800,LOSE: 0 - 3130,LOSE: 0 - 3710,LOSE: 0 - 4680,LOSE: 0 - 6700,LOSE: 0 - 7760,LOSE: 0 - 2700,LOSE: 0 - 3630,LOSE: 0 - 5290,LOSE: 0 - 2170,LOSE: 0 - 6210,LOSE: 0 - 10720
+solve1.py-first,,,,,,,,,,,,,,,,,,
+solve1.py-second,,,,,,,,,,,,,,,,,,
+solve2.py-first,,,,,,,,,,,,,,,,,,
+solve2.py-second,,,,,,,,,,,,,,,,,,
+solve3.py-first,,,,,,,,,,,,,,,,,,
+solve3.py-second,,,,,,,,,,,,,,,,,,
+normalRandomWalk.py-first,,,,,,,,,,,,,,,,,,
+normalRandomWalk.py-second,,,,,,,,,,,,,,,,,,
+solve4.py-first,,,,,,,,,,,,,,,,,,
 solve4.py-second,,,,,,,,,,,,,,,,,,
-solve5.py-first,LOSE: 0 - 1580,LOSE: 0 - 1620,LOSE: 0 - 3340,LOSE: 0 - 4820,LOSE: 0 - 4220,LOSE: 0 - 3070,LOSE: 0 - 1230,LOSE: 0 - 1910,LOSE: 0 - 2910,LOSE: 0 - 3990,LOSE: 0 - 2820,LOSE: 0 - 4000,LOSE: 0 - 1030,LOSE: 0 - 30,LOSE: 0 - 2370,LOSE: 0 - 1880,LOSE: 0 - 3460,LOSE: 0 - 2460
+solve5.py-first,,,,,,,,,,,,,,,,,,
 solve5.py-second,,,,,,,,,,,,,,,,,,
