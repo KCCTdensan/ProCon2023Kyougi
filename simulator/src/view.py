@@ -99,7 +99,7 @@ def selecting():
                 if board.masons[pos] > 0:
                     controlData.append(board.masons[pos]-1)
                     flag = getGUIControl()
-                    controlData.append(flag[controlData[0]])
+                    controlData.append(flag[controlData[0]-1])
                     infoText = "対象の地点を指定してください"
                     nowText = "キャンセル"
                     mode = 2
@@ -113,12 +113,12 @@ def selecting():
                50 <= mouseY < 50+board.height*length:
                 controlData[1] = ((mouseY-50)//length, int(mouseX-x0)//length)
                 flag = getGUIControl()
-                flag[controlData[0]] = controlData[1]
+                flag[controlData[0]-1] = controlData[1]
                 infoText = "送信しました"
                 nowText = "データ指定"
                 mode = 0
             else:
-                flag[controlData[0]] = None
+                flag[controlData[0]-1] = None
                 controlData.pop()
                 infoText = "この職人の目的地を消去しました"
                 nowText = "データ指定"
