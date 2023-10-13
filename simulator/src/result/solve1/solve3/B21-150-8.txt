@@ -3,33 +3,33 @@
     "turn": 1,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -38,33 +38,33 @@
     "turn": 2,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -73,179 +73,39 @@
     "turn": 3,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       }
     ]
   },
   {
     "turn": 4,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 5,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 6,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 7,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 8,
     "actions": [
       {
         "type": 1,
@@ -280,36 +140,176 @@
     ]
   },
   {
+    "turn": 5,
+    "actions": [
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 3,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 6,
+    "actions": [
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 7,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 3,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 8,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": true
+      }
+    ]
+  },
+  {
     "turn": 9,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 1,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -344,7 +344,7 @@
       },
       {
         "type": 2,
-        "dir": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -353,33 +353,33 @@
     "turn": 11,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 1,
         "succeeded": true
       }
     ]
@@ -399,7 +399,7 @@
       },
       {
         "type": 1,
-        "dir": 4,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -414,7 +414,7 @@
       },
       {
         "type": 1,
-        "dir": 6,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -423,33 +423,33 @@
     "turn": 13,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -484,7 +484,7 @@
       },
       {
         "type": 2,
-        "dir": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -492,51 +492,6 @@
   {
     "turn": 15,
     "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 16,
-    "actions": [
-      {
-        "type": 1,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 7,
-        "succeeded": true
-      },
       {
         "type": 1,
         "dir": 4,
@@ -549,12 +504,57 @@
       },
       {
         "type": 1,
+        "dir": 3,
+        "succeeded": true
+      },
+      {
+        "type": 2,
         "dir": 2,
         "succeeded": true
       },
       {
+        "type": 2,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 16,
+    "actions": [
+      {
         "type": 1,
-        "dir": 2,
+        "dir": 5,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 3,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -563,33 +563,33 @@
     "turn": 17,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       }
     ]
@@ -608,7 +608,7 @@
         "succeeded": true
       },
       {
-        "type": 2,
+        "type": 3,
         "dir": 2,
         "succeeded": true
       },
@@ -624,7 +624,7 @@
       },
       {
         "type": 2,
-        "dir": 4,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -633,48 +633,18 @@
     "turn": 19,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 20,
-    "actions": [
       {
         "type": 1,
-        "dir": 5,
+        "dir": 1,
         "succeeded": true
       },
       {
         "type": 1,
-        "dir": 8,
+        "dir": 5,
         "succeeded": true
       },
       {
@@ -689,12 +659,42 @@
       },
       {
         "type": 1,
-        "dir": 3,
+        "dir": 5,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 20,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
         "succeeded": true
       },
       {
         "type": 1,
-        "dir": 6,
+        "dir": 7,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -703,33 +703,33 @@
     "turn": 21,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -748,148 +748,8 @@
         "succeeded": true
       },
       {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 4,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 23,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 24,
-    "actions": [
-      {
         "type": 1,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 8,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 8,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 2,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 25,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 26,
-    "actions": [
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
+        "dir": 3,
         "succeeded": true
       },
       {
@@ -910,36 +770,176 @@
     ]
   },
   {
+    "turn": 23,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 6,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 24,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": true
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 25,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 26,
+    "actions": [
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      }
+    ]
+  },
+  {
     "turn": 27,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 6,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -959,12 +959,12 @@
       },
       {
         "type": 1,
-        "dir": 4,
+        "dir": 3,
         "succeeded": true
       },
       {
         "type": 1,
-        "dir": 8,
+        "dir": 6,
         "succeeded": true
       },
       {
@@ -974,7 +974,7 @@
       },
       {
         "type": 1,
-        "dir": 6,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -983,33 +983,33 @@
     "turn": 29,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -1019,7 +1019,12 @@
     "actions": [
       {
         "type": 2,
-        "dir": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
@@ -1039,12 +1044,7 @@
       },
       {
         "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 6,
+        "dir": 8,
         "succeeded": true
       }
     ]
@@ -1053,33 +1053,33 @@
     "turn": 31,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       }
     ]
@@ -1094,139 +1094,9 @@
       },
       {
         "type": 1,
-        "dir": 6,
+        "dir": 7,
         "succeeded": true
       },
-      {
-        "type": 1,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 8,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 2,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 33,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 34,
-    "actions": [
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 8,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 35,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 36,
-    "actions": [
       {
         "type": 1,
         "dir": 4,
@@ -1235,16 +1105,6 @@
       {
         "type": 1,
         "dir": 7,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 2,
         "succeeded": true
       },
       {
@@ -1260,42 +1120,42 @@
     ]
   },
   {
-    "turn": 37,
+    "turn": 33,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
   },
   {
-    "turn": 38,
+    "turn": 34,
     "actions": [
       {
         "type": 2,
@@ -1314,7 +1174,37 @@
       },
       {
         "type": 2,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 2,
         "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 35,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
@@ -1326,50 +1216,70 @@
         "type": 2,
         "dir": 8,
         "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 39,
-    "actions": [
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       }
     ]
   },
   {
-    "turn": 40,
+    "turn": 36,
     "actions": [
       {
         "type": 1,
         "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 37,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
@@ -1379,12 +1289,92 @@
       },
       {
         "type": 1,
+        "dir": 5,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 38,
+    "actions": [
+      {
+        "type": 2,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 3,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 2,
         "dir": 6,
         "succeeded": true
       },
       {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 39,
+    "actions": [
+      {
         "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 3,
+        "succeeded": true
+      },
+      {
+        "type": 2,
         "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 4,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 40,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
@@ -1394,7 +1384,17 @@
       },
       {
         "type": 1,
-        "dir": 2,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
         "succeeded": true
       }
     ]
@@ -1403,33 +1403,33 @@
     "turn": 41,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       }
     ]
@@ -1443,23 +1443,23 @@
         "succeeded": true
       },
       {
-        "type": 2,
-        "dir": 4,
+        "type": 1,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 2,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 2,
+        "type": 3,
         "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
@@ -1473,42 +1473,22 @@
     "turn": 43,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
       },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 44,
-    "actions": [
       {
         "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
         "dir": 4,
         "succeeded": true
       },
@@ -1521,6 +1501,26 @@
         "type": 1,
         "dir": 2,
         "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 44,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
       },
       {
         "type": 1,
@@ -1529,7 +1529,7 @@
       },
       {
         "type": 1,
-        "dir": 6,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -1543,33 +1543,33 @@
     "turn": 45,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -1579,27 +1579,27 @@
     "actions": [
       {
         "type": 2,
-        "dir": 4,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 2,
-        "dir": 4,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 2,
-        "dir": 4,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 8,
+        "type": 1,
+        "dir": 6,
         "succeeded": true
       },
       {
         "type": 2,
         "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
@@ -1613,54 +1613,19 @@
     "turn": 47,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 48,
-    "actions": [
-      {
         "type": 1,
-        "dir": 8,
-        "succeeded": true
+        "dir": 5,
+        "succeeded": false
       },
       {
         "type": 1,
-        "dir": 6,
-        "succeeded": true
+        "dir": 7,
+        "succeeded": false
       },
       {
-        "type": 1,
-        "dir": 6,
-        "succeeded": true
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
       },
       {
         "type": 1,
@@ -1670,6 +1635,41 @@
       {
         "type": 1,
         "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 48,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 4,
+        "succeeded": true
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
         "succeeded": true
       },
       {
@@ -1683,42 +1683,22 @@
     "turn": 49,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      }
-    ]
-  },
-  {
-    "turn": 50,
-    "actions": [
-      {
-        "type": 2,
+        "type": 1,
         "dir": 6,
         "succeeded": true
       },
@@ -1729,17 +1709,37 @@
       },
       {
         "type": 2,
+        "dir": 2,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 50,
+    "actions": [
+      {
+        "type": 3,
         "dir": 6,
         "succeeded": true
       },
       {
         "type": 2,
-        "dir": 6,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
         "type": 2,
-        "dir": 6,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
         "succeeded": true
       },
       {
@@ -1753,33 +1753,33 @@
     "turn": 51,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       }
     ]
@@ -1788,7 +1788,17 @@
     "turn": 52,
     "actions": [
       {
+        "type": 2,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
         "type": 1,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 2,
         "dir": 4,
         "succeeded": true
       },
@@ -1798,18 +1808,8 @@
         "succeeded": true
       },
       {
-        "type": 1,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 6,
+        "type": 0,
+        "dir": 0,
         "succeeded": true
       },
       {
@@ -1823,33 +1823,33 @@
     "turn": 53,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -1858,28 +1858,28 @@
     "turn": 54,
     "actions": [
       {
-        "type": 2,
-        "dir": 6,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 2,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 8,
         "succeeded": true
       },
       {
         "type": 2,
         "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
         "succeeded": true
       },
       {
@@ -1893,33 +1893,33 @@
     "turn": 55,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 1,
         "succeeded": true
       }
     ]
@@ -1928,7 +1928,17 @@
     "turn": 56,
     "actions": [
       {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
         "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
         "dir": 8,
         "succeeded": true
       },
@@ -1940,16 +1950,6 @@
       {
         "type": 0,
         "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 1,
-        "dir": 2,
         "succeeded": true
       },
       {
@@ -1963,33 +1963,33 @@
     "turn": 57,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 1,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -1998,28 +1998,28 @@
     "turn": 58,
     "actions": [
       {
-        "type": 2,
-        "dir": 8,
-        "succeeded": true
-      },
-      {
-        "type": 2,
-        "dir": 6,
-        "succeeded": true
-      },
-      {
         "type": 0,
         "dir": 0,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 2,
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 3,
         "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
         "succeeded": true
       },
       {
@@ -2033,33 +2033,33 @@
     "turn": 59,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 8,
         "succeeded": true
       }
     ]
@@ -2068,18 +2068,23 @@
     "turn": 60,
     "actions": [
       {
-        "type": 1,
-        "dir": 4,
+        "type": 0,
+        "dir": 0,
         "succeeded": true
       },
       {
-        "type": 1,
+        "type": 3,
         "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
@@ -2088,13 +2093,8 @@
         "succeeded": true
       },
       {
-        "type": 1,
-        "dir": 6,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       }
     ]
@@ -2103,33 +2103,33 @@
     "turn": 61,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 8,
         "succeeded": true
       }
     ]
@@ -2143,13 +2143,18 @@
         "succeeded": true
       },
       {
-        "type": 2,
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
         "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2158,13 +2163,8 @@
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -2173,33 +2173,33 @@
     "turn": 63,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       }
     ]
@@ -2213,13 +2213,13 @@
         "succeeded": true
       },
       {
-        "type": 1,
-        "dir": 6,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 4,
         "succeeded": true
       },
       {
@@ -2243,33 +2243,33 @@
     "turn": 65,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -2283,13 +2283,13 @@
         "succeeded": true
       },
       {
-        "type": 2,
-        "dir": 8,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 4,
         "succeeded": true
       },
       {
@@ -2313,33 +2313,33 @@
     "turn": 67,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -2353,13 +2353,13 @@
         "succeeded": true
       },
       {
-        "type": 1,
+        "type": 3,
         "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2383,33 +2383,33 @@
     "turn": 69,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -2423,8 +2423,8 @@
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2453,33 +2453,33 @@
     "turn": 71,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       }
     ]
@@ -2493,8 +2493,8 @@
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2523,33 +2523,33 @@
     "turn": 73,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 6,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 3,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       }
     ]
@@ -2563,8 +2563,8 @@
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2593,34 +2593,34 @@
     "turn": 75,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
       }
     ]
   },
@@ -2633,8 +2633,8 @@
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2663,34 +2663,34 @@
     "turn": 77,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
       }
     ]
   },
@@ -2703,8 +2703,8 @@
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2733,34 +2733,34 @@
     "turn": 79,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
       }
     ]
   },
@@ -2773,8 +2773,8 @@
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2803,34 +2803,34 @@
     "turn": 81,
     "actions": [
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
-      },
-      {
-        "type": 0,
-        "dir": 0,
-        "succeeded": true
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
       }
     ]
   },
@@ -2843,8 +2843,8 @@
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2873,13 +2873,48 @@
     "turn": 83,
     "actions": [
       {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 84,
+    "actions": [
+      {
         "type": 0,
         "dir": 0,
         "succeeded": true
       },
       {
-        "type": 0,
-        "dir": 0,
+        "type": 3,
+        "dir": 2,
         "succeeded": true
       },
       {
@@ -2905,7 +2940,357 @@
     ]
   },
   {
-    "turn": 84,
+    "turn": 85,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 3,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 86,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 87,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 88,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 89,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 3,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 90,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 91,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 92,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 93,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 94,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 95,
     "actions": [
       {
         "type": 0,
@@ -2940,7 +3325,1897 @@
     ]
   },
   {
-    "turn": 85,
+    "turn": 96,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 97,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 98,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 6,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 99,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 100,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 101,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 102,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 103,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 104,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 105,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 106,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 107,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 108,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 109,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 110,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 111,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 112,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 113,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 114,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 115,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 116,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 117,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 118,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 119,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 120,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 121,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 122,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 123,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 124,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 125,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 126,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 127,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 128,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 129,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 130,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 131,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 132,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 133,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 134,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 135,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 136,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 137,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 138,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 139,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 140,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 141,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 142,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 143,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 144,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 145,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 146,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 147,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 148,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 149,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 5,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 7,
+        "succeeded": false
+      },
+      {
+        "type": 3,
+        "dir": 3,
+        "succeeded": false
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": false
+      }
+    ]
+  },
+  {
+    "turn": 150,
     "actions": [
       {
         "type": 0,

@@ -1,0 +1,177 @@
+[
+  {
+    "turn": 1,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 2,
+    "actions": [
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 3,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 4,
+    "actions": [
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 2,
+        "succeeded": true
+      },
+      {
+        "type": 2,
+        "dir": 8,
+        "succeeded": true
+      },
+      {
+        "type": 1,
+        "dir": 1,
+        "succeeded": true
+      }
+    ]
+  },
+  {
+    "turn": 5,
+    "actions": [
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      },
+      {
+        "type": 0,
+        "dir": 0,
+        "succeeded": true
+      }
+    ]
+  }
+]
