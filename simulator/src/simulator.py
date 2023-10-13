@@ -96,9 +96,11 @@ class Board:
             if len(d) == 2: yield pos
             if len(d) == 3: yield (d[0], *pos)
         
-    def distance(self, x, y = None, *, destroy=False):
+    def distance(self, x, y = None, *, destroy=False, other=False):
         if y is None: x, y = x
         if not self.inField(x, y): return None
+        if not other: otherWall = 2
+        else: otherWall = 1
         if destroy not in self.log_distance[x][y]:
             ans = [[-1]*self.width for _ in range(self.height)]
             ans[x][y] = 0
@@ -108,24 +110,26 @@ class Board:
                 now = ans[target[0]][target[1]]+1
                 for pos in self.allDirection(target, directionList):
                     field = self.all[pos]
-                    if ans[pos[0]][pos[1]] == -1 and field.wall != 2 and \
-                       field.structure != 1:
+                    if ans[pos[0]][pos[1]] == -1 and field.wall != otherWall \
+                       and field.structure != 1:
                         ans[pos[0]][pos[1]] = now
                         targets.append(pos)
                 if not destroy: continue
                 for pos in self.allDirection(target, fourDirectionList):
                     field = self.all[pos]
-                    if ans[pos[0]][pos[1]] == -1 and field.wall == 2 and \
-                       field.structure != 1:
+                    if ans[pos[0]][pos[1]] == -1 and field.wall == otherWall \
+                       and field.structure != 1:
                         ans[pos[0]][pos[1]] = now+1
                         targets.append(pos)
             ans = tuple(tuple(a) for a in ans)
             self.log_distance[x][y][destroy] = ans
         return Matrix(self.log_distance[x][y][destroy])
         
-    def reverseDistance(self, x, y = None):
+    def reverseDistance(self, x, y = None, *, other=False):
         if y is None: x, y = x
         if not self.inField(x, y): return None
+        if not other: otherWall = 2
+        else: otherWall = 1
         if "reverse" not in self.log_distance[x][y]:
             ans = [[-1]*self.width for _ in range(self.height)]
             ans[x][y] = 0
@@ -133,7 +137,7 @@ class Board:
             while len(targets) > 0:
                 target = targets.popleft()
                 now = ans[target[0]][target[1]]+1
-                if self.walls[target] == 2:
+                if self.walls[target] == otherWall:
                     for pos in self.allDirection(target, fourDirectionList):
                         field = self.all[pos]
                         if not(-1 < ans[pos[0]][pos[1]] < now+1) and \
@@ -150,23 +154,24 @@ class Board:
             self.log_distance[x][y]["reverse"] = ans
         return Matrix(self.log_distance[x][y]["reverse"])
 
-    def reachAble(self, pos, targets, directions=directionSet, mason=False):
-        distance = self.reverseDistance(pos)
+    def reachAble(self, pos, targets, directions=directionSet, mason=False, \
+                  *, other=False):
+        distance = self.reverseDistance(pos, other=other)
         if distance is None: return None
         ans = [target for target in targets if distance[target] != -1 and \
                 (not mason or self.masons[target] == 0)]
         if pos not in ans and pos in targets: ans.append(pos)
         return ans
 
-    def nearest(self, *args, destroy=False):
+    def nearest(self, *args, destroy=False, other=False):
         if hasattr(args[0], '__len__'): pos, targets = args[0], args[1:]
         else: pos, targets = args[:2], args[2:]
         if len(targets) == 1: targets = targets[0]
         if len(targets) == 0: return None
         if not hasattr(targets[0], '__len__'): targets = (targets, )
         ans, newDistance = None, 999
-        if destroy: distance = self.reverseDistance(pos)
-        else: distance = self.distance(pos)
+        if destroy: distance = self.reverseDistance(pos, other=other)
+        else: distance = self.distance(pos, other=other)
         if distance is None: return None
         for target in targets:
             if -1 < distance[target] < newDistance:
@@ -230,10 +235,13 @@ class Board:
                         reached[pos[-2]][pos[-1]] = True
         return ans
 
-    def route(self, pos, target, directions=directionSet, destroy=True):
-        if destroy: distance = self.reverseDistance(target)
-        else: distance = self.distance(target)
+    def route(self, pos, target, directions=directionSet, destroy=True,
+              *, other=False):
+        if destroy: distance = self.reverseDistance(target, other=other)
+        else: distance = self.distance(target, other=other)
         if distance[pos] == -1: return None
+        if not other: otherWall = 2
+        else: otherWall = 1
         ans = []
         while pos != target:
             newDistance = distance[pos]
@@ -243,15 +251,17 @@ class Board:
                     newDistance = distance[x][y]
                     nextPos = (x, y)
                     targetI = i
-            if self.walls[nextPos] == 2: ans.append([3, targetI])
+            if self.walls[nextPos] == otherWall: ans.append([3, targetI])
             ans.append([1, targetI])
             pos = nextPos
         return ans
 
     def firstMovement(self, pos, target, directions=directionSet, destroy=True):
-        if destroy: distance = self.reverseDistance(target)
-        else: distance = self.distance(target)
+        if destroy: distance = self.reverseDistance(target, other=other)
+        else: distance = self.distance(target, other=other)
         if distance[pos] == -1: return None
+        if not other: otherWall = 2
+        else: otherWall = 1
         ans = nextPos = None
         newDistance = distance[pos]
         for i, x, y in self.allDirection(pos, directions):
@@ -259,7 +269,7 @@ class Board:
                 newDistance = distance[x][y]
                 nextPos = (x, y)
                 ans = i
-        if self.walls[nextPos] == 2: return [3, ans]
+        if self.walls[nextPos] == otherWall: return [3, ans]
         return [1, ans]
 
     def calcPoint(self):

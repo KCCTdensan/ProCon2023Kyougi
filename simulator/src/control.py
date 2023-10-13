@@ -39,15 +39,15 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve1.py","solve1.py"]]
+        matchList = [["solve1.py","solve5.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["A11"]
+        fieldList = ["C25"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = ["30"]
+        turnList = [90]
         # ターン時間の組み合わせ
         # [3, 8]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -76,7 +76,7 @@ match mode:
         # 無効化・有効化("all"に含まれなくなる)
         switchSolver = []
     case 3:
-        solver = "solve1.py"
+        solver = "solve5.py"
         # 特定のsolverに対しての結果を確認する
 
 assert threadLen > 0, "threadLenが0以下なので何も実行出来ません！！"
@@ -267,8 +267,8 @@ if mode == 3:
     pd.set_option('display.width', None)
     result = Result(solver)
     for file in result.all():
-        print("f========{file}========")
-        print(Result(solver)[file].result)
+        print(f"========{file}========")
+        print(Result(solver).result[file])
     sys.exit()
 
 interface.dataBool = recordAll

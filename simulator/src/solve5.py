@@ -6,6 +6,7 @@ from collections import deque, defaultdict
 def building(board, mason, frame, targetPos, walls, targets):
     target = board.nearest(mason, targetPos, destroy=True)
     if target is None:
+        print("solve1")
         # solve1
         target = board.nearest(mason, targets, destroy=True)
         if target is None: return [0, 0]
@@ -22,6 +23,7 @@ def building(board, mason, frame, targetPos, walls, targets):
         ans = board.firstMovement(mason, target)
         if ans is None: return [0, 0]
         return ans
+    print(mason, ":", target)
     if mason == target:
         for i, x, y in board.allDirection(mason, fourDirectionSet):
             if (x, y) not in frame: continue
@@ -44,17 +46,32 @@ def solve5(interface, solver):
     areaIndex = Matrix([[-1]*board.width for _ in range(board.height)])
     pointPos = []
     for i, area in enumerate(areas):
-        for x, y in area:
-            areaIndex[x][y] = i
+        for pos in area:
+            areaIndex[pos] = i
+    willBeAreas = defaultdict(set)
+    for i, area in enumerate(areas):
+        for pos in area:
+            for pos1 in board.allDirection(pos, directionList[4:]):
+                if areaIndex[pos1] != -1 and areaIndex[pos1] != i:
+                    willBeAreas[i].add(areaIndex[pos1])
+    for i, area in enumerate(areas):
+        if len(willBeAreas) == 1:
+            areas[list(willBeAreas)[0]].extend(area)
+    newAreas = []
+    for i, area in enumerate(areas):
+        if len(willBeAreas) != 1: newAreas.append(area)
+    areas = newAreas
+
+    cantProtectArea = set()
     for i, area in enumerate(areas):
         pointPos.append([])
         for pos in area:
             for x, y in board.allDirection(pos, directionList[4:]):
-                if areaIndex[x][y] != -1 and areaIndex[x][y] != i: break
+                if areaIndex[x][y] != -1 and areaIndex[x][y] != i:
+                    if board.structures[pos] == 2: cantProtectArea.add(i)
+                    else: break
             else: continue
             pointPos[-1].append(pos)
-        if len(pointPos[-1]) == 0:
-            pass
     print(pointPos)
     protectedArea = set()
     
@@ -77,13 +94,25 @@ def solve5(interface, solver):
             nowPointPos[i] = targets
         if len(areas) != 1:
             for i, j in nowPointPos.items():
-                if len(j) == 0: protectedArea.add(i)
-        
+                if i in protectedArea:
+                    protectedArea.add(i)
+                else:
+                    for mason in board.otherMasons:
+                        for pos in areas[i]:
+                            if board.distance(mason, destroy=True)[pos] != -1:
+                                print(mason, pos, i, 
+                                      board.distance(mason, destroy=True)[pos])
+                                break
+                        else: continue
+                        break
+                    else: protectedArea.add(i)
         newAreas = []
         protectedAreas = []
         for i, area in enumerate(areas):
             if i in protectedArea: protectedAreas.extend(area)
-            elif i not in otherAreas: newAreas.extend(area)
+            elif i not in otherAreas and i not in cantProtectArea:
+                newAreas.extend(area)
+        print(protectedArea)
         frame = board.frame(protectedAreas, fourDirectionList)
         allFrame = []
         for pos in frame:
@@ -107,6 +136,7 @@ def solve5(interface, solver):
         for target in walls:
             if board.walls[target] != 1:
                 targetWall.append(target)
+        #print(targetWall)
         targets = board.around(targetWall, fourDirectionList)
 
         broken = defaultdict(set)
@@ -116,6 +146,7 @@ def solve5(interface, solver):
         movement = []
         alreadyTarget = []
         for mason in board.myMasons:
+            print(areaIndex[mason])
             if matchInfo.turn < matchInfo.turns/2 and len(areas) != 1:
                 i = areaIndex[mason]
                 target, value = None, 1 << 60
@@ -132,7 +163,7 @@ def solve5(interface, solver):
                         value = v
                         target = t
                 print(mason, ":", target)
-                if i in otherAreas or target is None:
+                if i in otherAreas or i in cantProtectArea or target is None:
                     if mason in newAreas: newAreas.remove(mason)
                     target = board.nearest(mason, newAreas, destroy=True)
                     if target is None: movement.append(building(board,
