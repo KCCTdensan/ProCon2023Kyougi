@@ -31,6 +31,10 @@ class Matrix(list):
             raise IndexError(f"{len(target)}個の引数は許容されません")
         if len(target) == 1: list.__setitem__(self, target, value)
         list.__setitem__(self[target[0]], target[1], value)
+    def __copy__(self):
+        return Matrix([list(item) for item in self])
+    def copy(self):
+        return self.__copy__()
 
 class Field:
     def __init__(self, wall, territory, structure, mason):

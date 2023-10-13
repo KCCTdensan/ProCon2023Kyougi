@@ -344,11 +344,11 @@ class Match(object):
         self.returned = func(*args, **kwargs)
     def show(self):
         if self.mode == "real" and self.start:
-            view.show(self.interface.getMatchInfo(), self.solver.name)
+            view.show(self.interface.getMatchInfo(), self.solver.name, "real")
         if not self.isAlive(): return False
         if self.mode == "practice":
             view.show(self.interface.getMatchInfo(), self.solver1.name,
-                      self.solver2.name, self.field)
+                      self.solver2.name, self.field, "practice")
         return True
     def __del__(self):
         for thread in self.thread:

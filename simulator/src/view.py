@@ -5,6 +5,8 @@ from collections import deque
 finishBool = False
 data = None
 size = 850
+mouseX, mouseY = 0, 0
+mode = 0
 
 def drawField(canvas, field, x, y, x0, length):
     if max(field.territory, field.structure, field.wall, abs(field.mason)) == 0:
@@ -42,12 +44,27 @@ def drawField(canvas, field, x, y, x0, length):
                        x0+(x+0.85)*length-2, 50+(y+0.85)*length-2,
                        fill=color, outline=color)
 
+"""def selecting():
+    global mode, mouseX, mouseY, size
+    x, y = mouseX/size*850, mouseY/size*850
+    match mode:
+        case 0:
+   """         
+
 def main():
     root = tk.Tk()
     height, width = size+100, size
     root.geometry(f"{width}x{height}")
     canvas = tk.Canvas(root, width=width, height=height, bg="#eee")
     canvas.place(x=0, y=0)
+    def mouseReload(event):
+        global mouseX, mouseY
+        mouseX, mouseY = event.x, event.y
+    def mouseClicked(event):
+        pass
+        #print("clicked!")
+    canvas.bind("<Motion>", mouseReload)
+    canvas.bind("<Button-1>", mouseClicked)
     def update():
         global data, finishBool
         canvas.delete("all")
@@ -94,7 +111,20 @@ def main():
             x1, y1 = width-x0+4, 50+board.width*length+4
             canvas.create_line(x0-4, 46, x1, 46, x1, y1, x0-4, y1, x0-4, 46,
                                fill = "#ddd", width = 4)
-            if len(data) == 2:
+            if data[-1] == "real" and len(data) == 3:
+                canvas.create_text(width/4, height-70,
+                    text=f"{data[1]} vs {data[0].other}")
+                points = board.calcPoint()
+                canvas.create_text(width/4, height-50,
+                    text=f"{points[0][0]} - {points[1][0]}")
+                canvas.create_text(width/4, height-30,
+                    text=f"{data[0].turns} turns  "
+                         f"{data[0].turnTime} seconds   turn {data[0].turn}")
+                canvas.create_rectangle(width/2+50, height-90,
+                                        width-50, height-60, fill="green",
+                                        outline="green", activefill="green3")
+                
+            if data[-1] == "preview" and len(data) == 3:
                 canvas.create_text(width/2, height-70,
                     text=f"{data[1]} vs {data[0].other}")
                 points = board.calcPoint()
@@ -103,7 +133,7 @@ def main():
                 canvas.create_text(width/2, height-30,
                     text=f"{data[0].turns} turns  "
                          f"{data[0].turnTime} seconds   turn {data[0].turn}")
-            if len(data) == 4:
+            if len(data) == 5:
                 canvas.create_text(width/2, height-70, text=f"{data[1]} vs {data[2]}")
                 points = board.calcPoint()
                 canvas.create_text(width/2, height-50,
@@ -111,6 +141,8 @@ def main():
                 canvas.create_text(width/2, height-30,
                     text=f"{data[3][0]}   {data[3][1]} turns  "
                          f"{data[3][2]} seconds   turn {data[0].turn}")
+"""        if data[-1] == "real" and len(data) == 3:
+            canvas.create_text(tag="")"""
         if finishBool: root.destroy()
         else: root.after(200, update)
     update()

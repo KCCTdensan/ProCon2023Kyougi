@@ -148,7 +148,7 @@ def read(log=None):
         with open(f"{resultPath}{solver1}{pathSep}{solver2}{pathSep}"
                   f"{field}-{turn}-{turnTime}.txt") as f:
             log = json.load(f)
-        value = [my, opponent, [field, turn, turnTime]]
+        value = [my, opponent, [field, turn, turnTime], "preview"]
     else:
         opponent = "他チーム"
         log = json.loads(log)
@@ -160,7 +160,7 @@ def read(log=None):
         while first not in ["y", "n"]:
             first = input("先手: y, 後手: n >>> ").lower()
         first = first == "y"
-        value = ["自チーム"]
+        value = ["自チーム", "preview"]
     restoration(log, [field, turn, turnTime], opponent, first)
     view.start()
     nowTurn = turn
