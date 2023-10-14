@@ -5,7 +5,7 @@ import sys, os, glob, platform, subprocess, threading, time, traceback, json
 from collections import deque, defaultdict
 from simulator import print
 from preview import *
-mode = 0
+mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
@@ -39,11 +39,11 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve4.py","solve1.py"]]
+        matchList = [["solve1.py","solve1.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["B13"]
+        fieldList = ["A11"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -57,7 +57,10 @@ match mode:
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
         # Trueだと実際の競技と同様に手動でフラグを設置できるようになります
+        # first=Trueで先手側、Falseで後手側を練習できます
         asReal = True
+        first = False
+        # ※練習時には複数試合の確認はできません
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -442,7 +445,8 @@ class Practice(Match):
             "-l", f":{port}", "-start", "0s"], startupinfo=startupinfo)
         processes.append(self.process)
         self.field = field
-        self.interfaceStart(self.interface, 10, "token1", port=port)
+        self.interfaceStart(self.interface, 10,
+                            "token1" if first else "token2", port=port)
         self.interfaceStart(self.interface1, 10, "token1", port=port)
         self.interfaceStart(self.interface2, 10, "token2", port=port)
         
@@ -469,7 +473,8 @@ class Practice(Match):
         if self.cantRecord: return False
         return not self.solver1.dead and not self.solver2.dead
     def getFlag(self):
-        return self.solver1.flag
+        if first: return self.solver1.flag
+        else: return self.solver2.flag
     def release(self, *, safety=False):
         self.solver1.release()
         self.solver2.release()
@@ -557,8 +562,12 @@ def changeMatch():
 view.changeMatch = changeMatch
 
 def getGUIControl():
-    if matches[GUIIndex] is None: return
-    return matches[GUIIndex].getFlag()
+    if mode == 0:
+        if matches[GUIIndex] is None: return
+        return matches[GUIIndex].getFlag()
+    if mode == 1:
+        if matches[GUIIndex][0] is None: return
+        return matches[GUIIndex][0].getFlag()
 view.getGUIControl = getGUIControl
 
 if size is not None: view.size = size

@@ -2,6 +2,7 @@ import simulator
 from simulator import *
 import time
 from collections import deque
+boolean = True
 def solve1(interface, solver):
     matchInfo = interface.getMatchInfo()
     while solver.isAlive() and matchInfo is not None and \
@@ -22,8 +23,34 @@ def solve1(interface, solver):
             if board.walls[target] != 1:
                 targetWall.append(target)
         targets = board.around(targetWall, fourDirectionList)
-        for mason in board.myMasons:
+        for masonId, mason in enumerate(board.myMasons, 1):
             target = board.nearest(mason, targets, destroy=True)
+            if solver.flag[masonId] is not None:
+                if boolean: target = board.nearest(mason, *board.allDirection(
+                                solver.flag[masonId], fourDirectionList),
+                                                   destroy=True)
+                else: target = solver.flag[masonId]
+                if target == mason:
+                    if boolean:
+                        for i, x, y in board.allDirection(mason,
+                                                          fourDirectionSet):
+                            if solver.flag[masonId] == (x, y):
+                                match board.walls[x][y]:
+                                    case 0:
+                                        movement.append([2, i])
+                                        solver.flag[masonId] = None
+                                    case 2:
+                                        movement.append([3, i])
+                                    case 1:
+                                        solver.flag[masonId] = None
+                                        break
+                        else: continue
+                    else: solver.flag[masonId] = None
+                else:
+                    ans = board.firstMovement(mason, target, destroy=True)
+                    if ans is not None: movement.append(ans)
+                    else: movement.append([0, 0])
+                    continue
             if target is None:
                 movement.append([0, 0])
                 continue
