@@ -4,7 +4,7 @@ from simulator import eightDirectionList
 from collections import deque
 finishBool = False
 data = None
-size, height, width, mouseX, mouseY = 600, 850, 950, 0, 0
+size, height, width, mouseX, mouseY = 850, 850, 950, 0, 0
 x0, lenght, mode = 50, 0, 0
 moveLimit = None
 nowText = "データ指定"

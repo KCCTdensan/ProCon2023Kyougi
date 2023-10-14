@@ -30,7 +30,6 @@ def solve7(interface, solver):
         else: attackMason, defendMason = masons[:2], masons[2:]
         attackMason = [mason[1:] for mason in attackMason]
         defendMason = [mason[1:] for mason in defendMason]
-        view.viewPos = [mason[1] for mason in attackMason]
 
         otherWalls = [p for p in product(range(
                 board.height), range(board.width)) if board.walls[p] == 2]
