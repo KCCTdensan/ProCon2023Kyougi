@@ -24,14 +24,14 @@ size = None
 # Noneを指定するとデフォルト(850px)になります
 match mode:
     case 0:
-        token = "token1"
+        token = "kobef571af46faa86c3985a4196a3d96cac1c9aafcbe6e679a73f082ec37cb4c"
         # 試合を指定する2次元配列
         # [solver, matchId, url, port]のように指定すること
         # solver: solver関数(例: "solve1.py")
         # matchId: 試合Id(例: 10)
         # url: 試合URL(例: "http://localhost")
         # port: 試合が行われるポート番号(例: 3000)
-        matchList = [["solve1.py", 10, "http://localhost", 3000]]
+        matchList = [["solve1.py", 10, "http://172.28.0.1", 8080]]
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
     case 1:
