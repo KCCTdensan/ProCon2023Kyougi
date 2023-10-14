@@ -541,11 +541,6 @@ def pattern(solver1, solver2):
             for time in timeList:
                 yield [solver1, solver2, field, turn, time]
 
-def getGUIControl():
-    if match1 is None: return
-    return match1.getFlag()
-view.getGUIControl = getGUIControl
-
 matches = []
 match1 = None
 def practiceStart(target, po):
@@ -553,6 +548,18 @@ def practiceStart(target, po):
     matches.append([Practice(Solver(target[0]),
                     Solver(target[1]), target[2:], po), po])
     if po == startPortNumber: match1 = matches[-1][0]
+
+GUIIndex = 0
+def changeMatch():
+    global GUIIndex
+    GUIIndex += 1
+    GUIIndex %= len(matches)
+view.changeMatch = changeMatch
+
+def getGUIControl():
+    if matches[GUIIndex] is None: return
+    return matches[GUIIndex].getFlag()
+view.getGUIControl = getGUIControl
 
 if size is not None: view.size = size
 try:
@@ -562,21 +569,16 @@ try:
             matches.append(Real(Solver([m[0], solverDict[m[0]]]),
                                 m[1], m[2], m[3]))
         if len(matchList) == 0: raise KeyboardInterrupt
-        if watch: match1 = matches[0]
         while True:
-            if watch: match1.show()
+            if watch: matches[GUIIndex].show()
             aliveBool = False
             for m in matches:
-                if not m.isAlive() and not m.released:
-                    print(f"{m.url}:{m.port}, {m.matchId}の試合について"
-                          "試合の終了を検知しました")
-                    if m != match1: m.release()
                 if m.isAlive(): aliveBool = True
             if not aliveBool: break
             time.sleep(0.1)
         print("すべての試合が終了しました")
         while True:
-            if watch: match1.show()
+            if watch: matches[GUIIndex].show()
             time.sleep(0.1)
     if mode == 1:
         queue, p = iter(matchList), iter([])

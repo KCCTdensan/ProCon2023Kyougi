@@ -4,7 +4,7 @@ from simulator import eightDirectionList
 from collections import deque
 finishBool = False
 data = None
-size, height, width, mouseX, mouseY = 850, 850, 950, 0, 0
+size, height, width, mouseX, mouseY = 600, 850, 950, 0, 0
 x0, lenght, mode = 50, 0, 0
 nowText = "データ指定"
 infoText = ""
@@ -12,6 +12,8 @@ controlData = []
 viewPos = []
 def getGUIControl(mason, pos):
     return None
+def changeMatch():
+    pass
 
 def drawField(canvas, field, x, y, x0, length):
     global controlData
@@ -86,18 +88,23 @@ def drawField(canvas, field, x, y, x0, length):
 
 def selecting():
     global mode, mouseX, mouseY, size, nowText, infoText, controlData, height, \
-           width, length, data, flag
+           width, length, data, flag, getGUIControl
     board = data[0].board
     match mode:
         case 0:
-            if width/2+50 <= mouseX <= width-50 and \
+            if width/2+25 <= mouseX <= width/4*3-25 and \
                height-90 <= mouseY <= height-60:
                 controlData = []
                 infoText = "職人を指定してください"
                 nowText = "キャンセル"
                 mode = 1
+            if width/4*3+25 <= mouseX <= width-25 and \
+               height-90 <= mouseY <= height-60:
+                controlData = []
+                infoText = "表示する試合を変更しました"
+                changeMatch()
         case 1:
-            if width/2+50 <= mouseX <= width-50 and \
+            if width/2+25 <= mouseX <= width/4*3-25 and \
                height-90 <= mouseY <= height-60:
                 infoText = "キャンセルしました"
                 nowText = "データ指定"
@@ -113,7 +120,7 @@ def selecting():
                     nowText = "キャンセル"
                     mode = 2
         case 2:
-            if width/2+50 <= mouseX <= width-50 and \
+            if width/2+25 <= mouseX <= width/4*3-25 and \
                height-90 <= mouseY <= height-60:
                 infoText = "キャンセルしました"
                 nowText = "データ指定"
@@ -203,9 +210,13 @@ def main():
                 canvas.create_text(width/4, height-30,
                     text=f"{data[0].turns} turns  "
                          f"{data[0].turnTime} seconds   turn {data[0].turn}")
-                canvas.create_rectangle(width/2+50, height-90,
-                                        width-50, height-60, fill="green3",
+                canvas.create_rectangle(width/2+25, height-90,
+                                        width/4*3-25, height-60, fill="green3",
                                         outline="green3", activefill="green2")
+                canvas.create_rectangle(width/4*3+25, height-90,
+                                        width-25, height-60, fill="red3",
+                                        outline="red3", activefill="red2")
+                canvas.create_text(width/8*7, height-75, text="変更")
                 
             elif data[-1] == "preview" and len(data) == 3:
                 canvas.create_text(width/2, height-70,
@@ -227,7 +238,7 @@ def main():
         if not hasattr(data, '__len__') or len(data) == 0: pass
         elif data[-1] == "real" and len(data) == 3:
             canvas.delete("control")
-            canvas.create_text(width/4*3, height-75, text=nowText,
+            canvas.create_text(width/8*5, height-75, text=nowText,
                                tag="control")
             canvas.create_text(width/4*3, height-25, text=infoText,
                                tag="control")

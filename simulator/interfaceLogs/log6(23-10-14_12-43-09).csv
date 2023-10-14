@@ -1,2 +1,0 @@
-,method,url,headers,params,status,reqTime,resTime,data,resData
-0,GET,http://localhost:49153/matches,{'procon-token': 'token1'},,(failed),23-10-14 12:43:09.468698,23-10-14 12:43:10.513650,,
