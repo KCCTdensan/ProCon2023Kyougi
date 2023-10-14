@@ -63,10 +63,6 @@ def randomMove(mason,count,countor,board):
         if board.structures[x][y] != 1 and board.masons[x][y] == 0 and countFlag([x,y],count,countor) == True:
             weight.append(int(evaluation.evaluationPoints([x,y],board,3)))
             movement.append(dir)
-    # print("-------------------------")
-    # print("mason:",mason)
-    # print(weight)
-    # print("-------------------------")
     if len(movement) == 0:
         return -1
     else:
@@ -117,7 +113,6 @@ def flagMove(mason,gorl,board):
         return [1, nextDir]
     else:
         return [0,0]
-        
 
 def solve4(interface, solver):
     oldWalls = dict()
@@ -158,8 +153,8 @@ def solve4(interface, solver):
             if wait[id] < waitTurn:nextMovement = buildAround(mason,blackList,buffBoard)
             if  len(nextMovement) == 0:
                 f = False
-                if solver.flag[(id-1)%board.mason] is not None:
-                    nextMovement = flagMove(mason,solver.flag[(id-1)%board.mason],buffBoard)
+                if solver.flag[(id+1)%board.mason] is not None:
+                    nextMovement = flagMove(mason,solver.flag[(id+1)%board.mason],buffBoard)
                     print(nextMovement)
                     f = True
                     if nextMovement[0] == 0:
@@ -181,6 +176,7 @@ def solve4(interface, solver):
                                 nextMovement = [1,dir]
                         else:
                             nextMovement = [1,dir]
+            print(wait)
             movement.append(nextMovement)
             if nextMovement[0] == 1:
                 count[id]+=1
