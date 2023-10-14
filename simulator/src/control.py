@@ -5,7 +5,7 @@ import sys, os, glob, platform, subprocess, threading, time, traceback, json
 from collections import deque, defaultdict
 from simulator import print
 from preview import *
-mode = 1
+mode = 0
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
@@ -13,10 +13,10 @@ threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
-recordData = False
+recordData = True
 # サーバ通信のデータを記録するかどうか選べます
 # 試合数が多いとかなりデータ量がとられます また、データ記録処理は結構時間がかかります
-recordAll = False
+recordAll = True
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
 size = None
@@ -31,7 +31,7 @@ match mode:
         # matchId: 試合Id(例: 10)
         # url: 試合URL(例: "http://localhost")
         # port: 試合が行われるポート番号(例: 3000)
-        matchList = [["solve4.py", 58, "http://172.28.0.1", 8080]]
+        matchList = [["solve4.py", 182, "http://172.28.0.1", 8080]]
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
     case 1:
@@ -39,15 +39,15 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve5.py","solve1.py"]]
+        matchList = [["solve4.py","solve1.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["C13"]
+        fieldList = ["B13"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = [60]
+        turnList = [90]
         # ターン時間の組み合わせ
         # [3, 8]を指定可能
         # "all"を指定することで全ての組み合わせを試行する

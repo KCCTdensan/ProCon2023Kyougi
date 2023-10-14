@@ -8,6 +8,7 @@ pastMatchInfoes = []
 filePath = os.path.dirname(__file__)
 pathSep = os.path.sep
 resultPath = f"{filePath}{pathSep}result{pathSep}"
+realPath = f"{filePath}{pathSep}realLogs{pathSep}"
 fieldPath = f"{filePath}{pathSep}..{pathSep}fieldDatas{pathSep}"
 value = []
 nowTurn = 0
@@ -150,9 +151,15 @@ def read(log=None):
             log = json.load(f)
         value = [my, opponent, [field, turn, turnTime], "preview"]
     else:
+        my = "自チーム"
         opponent = "他チーム"
         log = json.loads(log)
-        field = input("フィールド：")
+        if "field" in log:
+            field = log["field"]
+            my = log["my"]
+            opponent = log["other"]
+            log = log["logs"]
+        else: field = input("フィールド：")
         turn = len(log)
         turnTime = 3
         print("先手として試合を見ますか、後手として試合を見ますか？")
@@ -160,11 +167,17 @@ def read(log=None):
         while first not in ["y", "n"]:
             first = input("先手: y, 後手: n >>> ").lower()
         first = first == "y"
-        value = ["自チーム", "preview"]
+        value = [my, "preview"]
     restoration(log, [field, turn, turnTime], opponent, first)
     view.start()
     nowTurn = turn
     view.show(pastMatchInfoes[-1], *value)
+
+def realRead(matchId = None):
+    if matchId is None: matchId = int(input("試合Id："))
+    with open(f"{realPath}{matchId}.txt") as f:
+        log = f.read()
+    read(log)
 
 def setTurn(turn):
     global nowTurn
@@ -201,7 +214,7 @@ def increment(turn = None):
             if s == "a" and dif != -1:
                 print("1ターンずつ戻します")
                 dif = -1
-            if s[:3] == "end" or s[:3] == "exit":
+            if s[:3] == "end" or s[:4] == "exit":
                 print("incrementを終了します")
                 break
             setTurn(nowTurn+dif)
@@ -223,6 +236,7 @@ def help():
     print("ターン数を指定するとそのターン数でのMatchInfoを返します。")
     print("increment関数: 現在の盤面から1ターンずつ"
           "盤面を変化させることができます")
+    print("realRead関数: 本番で行われた試合データを呼び出します。")
     print("GUIのサイズ変更はインタプリタからは不可能です。")
     print("変更したい場合はこのファイルを変更してください。")
 

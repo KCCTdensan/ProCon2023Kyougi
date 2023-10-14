@@ -97,22 +97,10 @@ def boardUpdate(mason,movement,board):
             board.walls[next] = 0
     return
 
-def flagMove(mason,gorl,board):
-    newDistance = board.distance(gorl)
-    minCost = 10**9
-    nextDir = 0
-    x,y = mason[0],mason[1]
-    for dir,dx,dy in simulator.directionSet:
-        newX,newY = x+dx,y+dy
-        if simulator.inField(board,newX,newY) :
-            if minCost>newDistance[newX][newY] and newDistance[newX][newY] != -1 and \
-            board.masons[newX][newY] == 0:
-                minCost = newDistance[newX][newY]
-                nextDir = dir
-    if minCost != 10**9:
-        return [1, nextDir]
-    else:
-        return [0,0]
+def flagMove(mason,goal,board):
+    ans = board.firstMovement(mason, goal)
+    if ans is not None: return ans
+    else: return [0, 0]
 
 def solve4(interface, solver):
     oldWalls = dict()
@@ -153,13 +141,13 @@ def solve4(interface, solver):
             if wait[id] < waitTurn:nextMovement = buildAround(mason,blackList,buffBoard)
             if  len(nextMovement) == 0:
                 f = False
-                if solver.flag[(id+1)%board.mason] is not None:
-                    nextMovement = flagMove(mason,solver.flag[(id+1)%board.mason],buffBoard)
+                if solver.flag[(id+1)] is not None:
+                    nextMovement = flagMove(mason,solver.flag[(id+1)],buffBoard)
                     print(nextMovement)
                     f = True
                     if nextMovement[0] == 0:
                         f = False
-                        solver.flag[id] = None
+                        solver.flag[(id+1)] = None
                 if f == False:
                     dir = -1
                     if wait[id] < waitTurn:dir = surroundCastel(mason,buffBoard)

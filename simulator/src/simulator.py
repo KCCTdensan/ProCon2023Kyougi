@@ -260,7 +260,7 @@ class Board:
                       *, other=False):
         if destroy: distance = self.reverseDistance(target, other=other)
         else: distance = self.distance(target, other=other)
-        if distance[pos] == -1: return None
+        if distance[pos] <= 0: return None
         if not other: otherWall = 2
         else: otherWall = 1
         ans = nextPos = None
