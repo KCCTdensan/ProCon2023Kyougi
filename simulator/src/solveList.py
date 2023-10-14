@@ -7,4 +7,5 @@ import solve3
 import solve4
 import solve5
 import solve6
+import solve7
 import normalRandomWalk

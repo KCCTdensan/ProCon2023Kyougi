@@ -13,10 +13,10 @@ threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
-recordData = True
+recordData = False
 # サーバ通信のデータを記録するかどうか選べます
 # 試合数が多いとかなりデータ量がとられます また、データ記録処理は結構時間がかかります
-recordAll = True
+recordAll = False
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
 size = None
@@ -39,11 +39,11 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve1.py","solve1.py"]]
+        matchList = [["solve7.py","solve1.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["A11"]
+        fieldList = ["A25"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -59,7 +59,7 @@ match mode:
         # Trueだと実際の競技と同様に手動でフラグを設置できるようになります
         # first=Trueで先手側、Falseで後手側を練習できます
         asReal = True
-        first = False
+        first = True
         # ※練習時には複数試合の確認はできません
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
@@ -69,11 +69,9 @@ match mode:
         #     -> solveXはBタイプフィールド専用, solveKingは全対応
         
         # 追加
-        newSolver = []
+        newSolver = [["solve7.py", "all"]]
         # 変更(記録をリセットする)
-        changedSolver = [["solve1.py", "all"], ["solve2.py", "all"],
-                         ["solve3.py", "all"], ["solve4.py", "all"],
-                         ["solve5.py", "all"], ["normalRandomWalk.py", "all"]]
+        changedSolver = []
         # 削除(記録を消去する) ファイルの削除は手動でやること
         deletedSolver = []
         # 無効化・有効化("all"に含まれなくなる)

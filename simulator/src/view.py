@@ -6,6 +6,7 @@ finishBool = False
 data = None
 size, height, width, mouseX, mouseY = 600, 850, 950, 0, 0
 x0, lenght, mode = 50, 0, 0
+moveLimit = None
 nowText = "データ指定"
 infoText = ""
 controlData = []
@@ -180,6 +181,9 @@ def main():
                         otherMasons[i] = [otherMasons[i][0]-dif[0],
                                           otherMasons[i][1]-dif[1]]
                         otherHistory[i].appendleft(otherMasons[i])
+            if moveLimit is not None and moveLimit != -1:
+                myHistory = myHistory[:moveLimit]
+                otherHistory = otherHistory[:moveLimit]
             for h in myHistory:
                 if len(h) == 1: continue
                 args = []
