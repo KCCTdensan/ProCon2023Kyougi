@@ -4,10 +4,6 @@
   "field": "C13",
   "logs": [
     {
-      "turn": 0,
-      "actions": []
-    },
-    {
       "turn": 1,
       "actions": [
         {

@@ -1,8 +1,6 @@
 from simulator import *
 import view
-import os
-import copy
-import json
+import os, copy, json, time
 from collections import deque
 pastMatchInfoes = []
 filePath = os.path.dirname(__file__)
@@ -197,6 +195,13 @@ def getMatchInfo(turn = None):
 def release():
     view.release()
 
+def auto(turn = None):
+    if turn is None: turn = nowTurn
+    else: setTurn(turn)
+    while nowTurn < len(pastMatchInfoes)-1:
+        time.sleep(0.5)
+        setTurn(nowTurn+1)
+
 def increment(turn = None):
     if turn is None: turn = nowTurn
     else: setTurn(turn)
@@ -236,6 +241,7 @@ def help():
     print("ターン数を指定するとそのターン数でのMatchInfoを返します。")
     print("increment関数: 現在の盤面から1ターンずつ"
           "盤面を変化させることができます")
+    print("auto関数: 0.5秒ごとに1ターン自動で切り替えます")
     print("realRead関数: 本番で行われた試合データを呼び出します。")
     print("GUIのサイズ変更はインタプリタからは不可能です。")
     print("変更したい場合はこのファイルを変更してください。")

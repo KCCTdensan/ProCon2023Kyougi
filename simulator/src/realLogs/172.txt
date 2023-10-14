@@ -1,7 +1,7 @@
 {
   "id": 172,
   "turn": 60,
-  "field": "C13",
+  "field": "B13",
   "logs": [
     {
       "turn": 0,

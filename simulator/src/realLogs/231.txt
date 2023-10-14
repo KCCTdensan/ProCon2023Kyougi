@@ -1,12 +1,8 @@
 {
   "id": 231,
   "turn": 60,
-  "field": "C13",
+  "field": "B13",
   "logs": [
-    {
-      "turn": 0,
-      "actions": []
-    },
     {
       "turn": 1,
       "actions": [
