@@ -24,7 +24,7 @@ def drawField(canvas, field, x, y, x0, length):
                                x0+(x+0.85)*length-2, 50+(y+0.85)*length-2,
                                fill="green2", width = 6)
         if len(controlData) > 0 and \
-           (y, x) == data[0].board.myMasons[controlData[0]]:
+           (y, x) == data[0].board.myMasons[controlData[0]-1]:
             canvas.create_oval(x0+(x+0.3)*length+2, 50+(y+0.3)*length+2,
                            x0+(x+0.7)*length-2, 50+(y+0.7)*length-2,
                            fill="green2", outline="green2")
@@ -74,7 +74,7 @@ def drawField(canvas, field, x, y, x0, length):
                            x0+(x+0.85)*length-2, 50+(y+0.85)*length-2,
                            fill="green2", width = 6)
     if len(controlData) > 0 and \
-       (y, x) == data[0].board.myMasons[controlData[0]]:
+       (y, x) == data[0].board.myMasons[controlData[0]-1]:
         canvas.create_oval(x0+(x+0.3)*length+2, 50+(y+0.3)*length+2,
                        x0+(x+0.7)*length-2, 50+(y+0.7)*length-2,
                        fill="green2", outline="green2")
@@ -106,9 +106,9 @@ def selecting():
                50 <= mouseY < 50+board.height*length:
                 pos = ((mouseY-50)//length, int(mouseX-x0)//length)
                 if board.masons[pos] > 0:
-                    controlData.append(board.masons[pos]-1)
+                    controlData.append(board.masons[pos])
                     flag = getGUIControl()
-                    controlData.append(flag[controlData[0]-1])
+                    controlData.append(flag[controlData[0]])
                     infoText = "対象の地点を指定してください"
                     nowText = "キャンセル"
                     mode = 2
@@ -122,12 +122,12 @@ def selecting():
                50 <= mouseY < 50+board.height*length:
                 controlData[1] = ((mouseY-50)//length, int(mouseX-x0)//length)
                 flag = getGUIControl()
-                flag[controlData[0]-1] = controlData[1]
+                flag[controlData[0]] = controlData[1]
                 infoText = "送信しました"
                 nowText = "データ指定"
                 mode = 0
             else:
-                flag[controlData[0]-1] = None
+                flag[controlData[0]] = None
                 controlData.pop()
                 infoText = "この職人の目的地を消去しました"
                 nowText = "データ指定"
@@ -244,6 +244,7 @@ def start():
     thread.start()
 def show(*new):
     global data
+    if new[0] is None: return
     data = new
 def release():
     global finishBool, thread

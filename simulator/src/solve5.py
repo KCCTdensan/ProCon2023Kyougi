@@ -129,6 +129,26 @@ def solve5(interface, solver):
                 break
             else: continue
             targetArea.append(pos)
+        targetBool = Matrix([[False]*board.width for _ in range(board.height)])
+        for pos in targetArea:
+            targetBool[pos] = True
+        targets = deque([])
+        reached = Matrix([[False]*board.width for _ in range(board.height)])
+        for pos in product(range(board.height), range(board.width)):
+            if not targetBool[pos]:
+                targets.append(pos)
+                reached[pos] = True
+        while len(targets) > 0:
+            target = targets.popleft()
+            for pos in board.allDirection(target, fourDirectionList):
+                if targetBool[pos] and not reached[pos] and \
+                   board.structures[pos] == 2:
+                    targetBool[pos] = False
+                    reached[pos] = True
+                    targets.append(target)
+        targetArea = []
+        for pos in product(range(board.height), range(board.width)):
+            if targetBool[pos]: targetArea.append(pos)
         targetWall = board.frame(targetArea, fourDirectionList)
         targets = []
         for target in targetWall:
@@ -140,8 +160,31 @@ def solve5(interface, solver):
             cantMoveTo[mason[0]].add(mason[1])
         movement = []
         alreadyTarget = []
-        for mason in board.myMasons:
-            if matchInfo.turn < matchInfo.turns/2:
+        for masonId, mason in enumerate(board.myMasons, 1):
+            if solver.flag[masonId] is not None:
+                target = board.nearest(mason, *board.allDirection(
+                    solver.flag[masonId], fourDirectionList), destroy=True)
+                if mason == target:
+                    for i, x, y in board.allDirection(mason, fourDirectionSet):
+                        if solver.flag[masonId] == (x, y):
+                            match board.walls[x][y]:
+                                case 0:
+                                    movement.append([2, i])
+                                    solver.flag[masonId] = None
+                                    break
+                                case 2:
+                                    movement.append([3, i])
+                                    break
+                                case 1:
+                                    solver.flag[masonId] = None
+                    else: movement.append([0, 0])
+                else:
+                    ans = board.firstMovement(mason, target)
+                    if ans is not None:
+                        alreadyTarget.append(target)
+                        movement.append(ans)
+                    else: movement.append([0, 0])
+            elif matchInfo.turn < matchInfo.turns/2:
                 i = areaIndex[mason]
                 target, value = None, 1 << 60
                 for t in board.reachAble(mason,

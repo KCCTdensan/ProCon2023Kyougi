@@ -31,7 +31,7 @@ match mode:
         # matchId: 試合Id(例: 10)
         # url: 試合URL(例: "http://localhost")
         # port: 試合が行われるポート番号(例: 3000)
-        matchList = [["solve1.py", 10, "http://172.28.0.1", 8080]]
+        matchList = [["solve4.py", 58, "http://172.28.0.1", 8080]]
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
     case 1:
@@ -39,15 +39,15 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve1.py","solve5.py"]]
+        matchList = [["solve5.py","solve1.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["all"]
+        fieldList = ["C13"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = [30]
+        turnList = [60]
         # ターン時間の組み合わせ
         # [3, 8]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -57,7 +57,7 @@ match mode:
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
         # Trueだと実際の競技と同様に手動でフラグを設置できるようになります
-        asReal = False
+        asReal = True
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -386,6 +386,7 @@ class Real(Match):
         print(f"{url}:{port}, {matchId}: 試合開始まで待機中…")
         while self.interface.getMatchInfo() is None:
             if self.interface.released: return
+            time.sleep(0.1)
         solver.start(self.interface1)
         self.allTurn = None
         self.start=True
