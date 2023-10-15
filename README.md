@@ -51,7 +51,6 @@ Interface.postMovement(data): bool
 
 Interface.setTurn(turn): None
   Interface.postMovementの直前に使用することで次のターン以外にも行動を設定することが出来る
-  他チームの行動は多分無理
 
 Interface.turn: int
   Interfaceが次にPOSTするターン
@@ -89,6 +88,10 @@ MatchInfo.myLogs: list
   MatchInfo.logsから自チームのターンのみ取り出したもの
 MatchInfo.otherLogs: list
   MatchInfo.logsから相手チームのターンのみ取り出したもの
+MatchInfo.turnTime: int
+  1ターンの時間
+MatchInfo.other: str
+  相手チームを表す文字列(名前的なもの)
 ```
 
 ### Boardクラス(simulator.Board)
@@ -121,11 +124,15 @@ Board.castles: list
 
 ### Solverクラス(control.Solver)
 
-solver関数の第2引数のsolverにはSolverクラスが渡されます solver関数内で利用するのは次のメソッドのみです
+solver関数の第2引数のsolverにはSolverクラスが渡されます 内容は以下の通りです
 
 ```
 solver.isAlive(): bool
   試合が続行可能かどうかを返す
+  Falseが返された場合即座にsolver関数を終了してください(終了処理を円滑に進めるため)
+solver.flag: dict<int, tuple<int>>
+  GUIで入力された座標を職人のIdと結びつけてdictで返す
+  GUIによってデータが指定されていない場合、Noneが代入されている
 ```
 
 Falseが返された場合即座にsolver関数を終了してください(終了処理を円滑に進めるため)
@@ -171,24 +178,28 @@ Board.allDirection(x, y, directions): iter<list<int>>
     for dir, x, y in Board.allDirection(oldX, oldY, directionSet):
     for x, y in Board.allDirection(oldX, oldY, directionList):
   なおイテレータ型なので繰り返し使う際はlistに変換してください
-  引数を3つにして座標の配列で渡すこともできます
+  引数を2つにして座標の配列で渡すこともできます
   Board.allDirection([-1, -1], directionSet) -> iter([(5, 0, 0)])
 
-Board.distance(x, y, *, destroy=False): Matrix<tuple<tuple<int>>>
+Board.distance(x, y, *, destroy=False, other=False): Matrix<tuple<tuple<int>>>
   与えられた座標への距離を幅探索し、2次元配列で返します 到達できない箇所は-1が返されます また、存在しない座標が与えられるとNoneを返します
   destroyをTrueにすることで城壁を破壊する行動を考慮に入れます(が、destroyをTrueにすると必ずposからの移動となるので必要な場合はreverseDistanceを使ってください)
-  引数を2つにして座標の配列で渡すこともできます
+  otherをTrueにすると相手チームの立場からみた結果を返します
+  引数を1つにして座標の配列で渡すこともできます
   Board.distance([500000, -123]) -> None
   O(height*width), メモ化を行っているため同じboard、地点で2回目以降O(1)
 
-Board.reverseDistance(x, y): Matrix<tuple<tuple<int>>>
+Board.reverseDistance(x, y, *, other=False): Matrix<tuple<tuple<int>>>
   ほぼdistanceと同じですが、distanceとは逆に、指定された地点にどのくらいのターン数で到達可能かを返します
   これはrouteメソッドなどの実装に大いに役に立ちます
+  常にdestroy=Trueとなるものを返します
+  otherをTrueにすると相手チームの立場からみた結果を返します
   O(height*width), メモ化を行っているため同じboard、地点で2回目以降O(1)
 
-Board.nearest(pos, targets, *, destroy=False): targets[...]
+Board.nearest(pos, targets, *, destroy=False, other=False): targets[...]
   与えられたBoardクラス、または距離を表す2次元配列から、targetsのうち最も近いものを返します また、存在しない座標が与えられるとNoneを返します
   destroyをTrueにすることで城壁を破壊する行動を考慮に入れます
+  otherをTrueにすると相手チームの立場からみた結果を返します
   次のように使えます
     castle = Board.nearest(mason, castles)
   座標は必ず配列にする必要はなく、targetsも複数の引数として渡して構いません(targets内で複数の形式を混合するのはやめてください)
@@ -196,7 +207,7 @@ Board.nearest(pos, targets, *, destroy=False): targets[...]
   O(|targets|) distanceを内部で呼び出すため、distanceが計算されていない地点ではO(height*width)
 
 Board.outline(targets, directions): list<list<int>>
-  与えられたtargetsの輪郭を返します
+  与えられたtargetsの外に接する輪郭を返します
   城を囲むときに必要な城壁の位置を確認したい時などに便利です
   directionsによって輪郭の方角を変えることが出来ます
   次のように使えます
@@ -210,10 +221,33 @@ Board.around(targets, directions): list<list<int>>
     targets = Board.around(walls, simulator.fourDirectionList)
   O(|targets|)
 
-Board.route(pos, target, directions=directionSet, destroy=True): list<list<int>>
+Board.frame(targets, directions): targets[...]
+  与えられたtargetsの内に接する輪郭を返します
+  厳密にはdirectionsの方向にtargetsが含まれない箇所を返します
+  O(|targets|)
+
+Board.area(outline, directions): list<list<list<int>>>
+  与えられたoutlineによってフィールド全体を分割した結果を返します
+  池で区切られたエリアを確認したい時などに便利です
+  directionsの方向に接続できるかどうかを判定します
+
+Board.reachAble(pos, targets, directions=directionSet, mason=False, *, other=False): targets[...]
+  posから移動可能なtargetsを返します
+  masonをTrueにすると職人が存在する箇所を移動不可とします
+  otherをTrueにすると相手チームの立場からみた結果を返します
+
+Board.route(pos, target, directions=directionSet, destroy=True, *, other=False): list<list<int>>
   posからtargetに移動する際のルートをポストするmovementと同じ形式で返します
   destroy=Falseとすると壁破壊を行わなくなります
+  other=Trueとすると相手チームの立場から見た結果を返します
   O(Board.distance(...)) ルートの長さによって変動します
+  reverseDistanceを内部で呼び出すため、計算されていない地点ではO(height*width)
+
+Board.firstMovement(pos, target, directions=directionSet, destroy=True, *, other=False): list<list<int>>
+  posからtargetに移動する際、次に行うべき行動を返します
+  destroy=Falseとすると壁破壊を行わなくなります
+  other=Trueとすると相手チームの立場から見た結果を返します
+  O(1)
   reverseDistanceを内部で呼び出すため、計算されていない地点ではO(height*width)
 
 Board.calcPoint(): list<list<int>>

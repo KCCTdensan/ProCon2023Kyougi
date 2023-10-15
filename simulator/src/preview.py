@@ -10,9 +10,12 @@ realPath = f"{filePath}{pathSep}realLogs{pathSep}"
 fieldPath = f"{filePath}{pathSep}..{pathSep}fieldDatas{pathSep}"
 value = []
 nowTurn = 0
-size = None
+size = 600
 # GUIの大きさ(横幅)を指定します
 # Noneを指定するとデフォルト(850px)になります
+moveLimit = None
+# 職人の移動経路の表示を制限します
+# Noneを指定すると制限なしになります
 
 def makeMatch(field, opponent, first):
     ans = {"id": 0, "turns": field[1], "turnSeconds": field[2],
@@ -250,6 +253,7 @@ def help():
     print("変更したい場合はこのファイルを変更してください。")
 
 if size is not None: view.size = size
+if moveLimit is not None: view.moveLimit = moveLimit
 
 if __name__ == "__main__":
     print("このプログラムは基本的にインタプリタで実行する形式です。")

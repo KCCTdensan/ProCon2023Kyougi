@@ -25,7 +25,7 @@ interfaceLogsフォルダには通信のログが保存される。
 - class control.Result(solver, \*, update=False)
   
 練習段階において試合結果を保持するクラス。引数のsolverにはsolver関数を表す拡張子付きの文字列を渡す必要がある。新規に作成されたsolver関数の場合updateをTrueにすることで新たなデータが作成される。
-  - Result.result：辞書の中にpandas.DataFrameによる試合結果を格納する。DataFrameのindexは全てのsolver関数の先手、後手に対応する文字列、columnsは全てのフィールドに対応する文字列となる。
+  - Result.result：辞書の中にpandas.DataFrameによる試合結果を格納する。DataFrameのindexは全てのsolver関数の先手、後手に対応する文字列、columnsは全てのフィールドに対応する文字列となる。辞書のキーはターン数やターン時間となっており、一つのsolver関数に対する様々なデータを一つのインスタンスで管理することが出来る。
   - Result.all()：ターン数、1ターンの時間を全通り含めたジェネレータ関数。
   - Result.match(other, field)：指定のフィールドにおいて、指定のsolver関数との試合結果を返す。先手、後手の順の配列が返される。otherには拡張子付きのsolver関数を、fieldにはフィールドの文字列、ターン数、ターン時間を含む配列を渡す(例：["A11", 30, 3])。
   - Result.set(other, field, point1, point2, result, \*, first=True)：試合結果を保存する関数。
@@ -45,6 +45,7 @@ interfaceLogsフォルダには通信のログが保存される。
   - Solver.targetAs(target)：solver関数がフィールドに対応しているかどうか判定する。targetにはフィールドの文字列を渡す。
   - Solver.isAlive()：Solver関数が実行されているかどうかを返す。
   - Solver.release()：Solver関数を停止させる。
+  - Solver.flag: GUIからの操作によって渡された目標地点を保存するdict。キーは職人のId、値は目標地点を表すタプル、あるいはNoneである。
 
 - class control.Match()
 試合を管理するクラス。
@@ -55,19 +56,28 @@ interfaceLogsフォルダには通信のログが保存される。
 
 - class control.Real(solver, matchId)
 試合を管理するクラス。外部のサーバと通信する、本番用のものである。
-solverには拡張子付きのsolver関数を、matchIdには試合のIdを渡す。
+solverにはSolverクラスを、matchIdには試合のIdを渡す。
     - Real.isAlive()：試合が続行されているかどうかを返す。
+    - Real.getFlag()：試合を進行しているSolverクラスのflagを返す。
+    - Practice.release(\*, safety=False)：試合を終了し、interfaceに対してリリース作業を行う。safetyにFalseを渡すことでログを残す処理を待機せず終了する。safetyは高速にプログラムを終了させたい時に必要となる。
 - class control.Practice(solver1, solver2, field, port)
 試合を管理するクラス。内部でサーバを立ち上げてsolver関数を2つ起動する、練習用のものである。
-solver1には先手、solver2には後手の拡張子付きのsolver関数を、fieldには試合情報を表す配列を、portにはサーバを立ち上げるポート番号を渡す。
+solver1には先手、solver2には後手のSolverクラスを、fieldには試合情報を表す配列を、portにはサーバを立ち上げるポート番号を渡す。
     - Practice.isAlive()：試合が続行されているかどうかを返す。
-    - Practice.release(\*, safety=False)：試合を終了し、interfaceに対してリリース作業を行う。safetyにFalseを渡すことでログを残さずに終了する。safetyは高速にプログラムを終了させたい時に必要となる。
+    - Practice.getFlag()：solver1のflagを返す。first=Falseのとき、solver2のflagを返す。
+    - Practice.release(\*, safety=False)：試合を終了し、interfaceに対してリリース作業を行う。safetyにFalseを渡すことでログを残す処理を待機せず終了する。safetyは高速にプログラムを終了させたい時に必要となる。
 
 - control.pattern(solver1, solver2)
 練習時、solver1とsolver2に対しての全ての試合パターンを返すジェネレータ関数。"all"から全てのsolver関数への変換もここで行う。
 
 - control.practiceStart(target, po)
 練習時、試合を非同期で立ち上げる関数。
+
+- control.changeMatch()
+表示する試合を変更する関数。
+
+- control.getGUIControl()
+現在表示している試合についてgetFlagメソッドを実行し、返す関数。
 
 - interface.dataBool
 ログを残すかどうかを決定する変数。
@@ -105,7 +115,7 @@ infoがNoneであればNoneを、でなければ後述のsimulator.MatchInfoク�
   - Interface.postMovement(data)：職人の行動を送信する。dataにはいくつかの形式が対応している(README.md参照)。/matches/{self.id}に対してPOSTリクエストを送信し、成功したかどうかをboolで返す。
   - Interface.get(url)：サーバにGETリクエストを送信し、その結果をpythonオブジェクトに変換して返す。この関数の内部でログを記録する。
   - Interface.get(url)：サーバにPOSTリクエストを送信する。この関数の内部でログを記録する。
-  - Interface.relase(safety=True)：インスタンスを無効化し、LogListクラスを消去することでログのリセット及び記録を行う。safetyをFalseとするとログのリセットは行わない。
+  - Interface.relase(safety=True)：インスタンスを無効化し、LogListクラスを消去することでログのリセット及び記録を行う。safetyをFalseとするとログのリセットを待機しない。
 
 - class simulator.Matrix(iterable=(), /)
 2次元配列を保持することを前提としたlistを継承するクラス。list[x][y]のような記述をMatrix[(x, y)]のような記述で可能にする。Boardクラス内の一部で用いている。
@@ -130,16 +140,23 @@ boardには/matches/{id}に対するGETリクエストのレスポンスの"boar
   - Board.castles：城の位置を表すlistの配列。
   - Board.inField(x, y=None)：与えられた座標がフィールドの中に存在するか否かboolで返す。y=Noneの場合、xが座標の配列になっているものとして処理する。以下、デフォルト値にNoneが指定されている場合は同様の処理。
   - Board.allDirection(x, y, directions=None)：x, yに対してdirectionsの内容を順に加算し、新たな座標を返すジェネレータ関数。
-  - Board.distance(x, y=None, \*, destroy=False)：与えられた座標からの距離を幅探索し、2次元配列で返す。destroy=Trueとすると壁破壊を考慮する。到達できない箇所は-1が返される。存在しない座標が与えられるとNoneを返す。
-  - Board.reverseDistance(x, y=None)：与えられた座標からの距離を幅探索し、2次元配列で返す。distanceメソッドとは辿る経路が逆であり、返り値は与えられた座標に何ターンで移動することができるかを示す。
-  - Board.nearest(pos, targets, \*, destroy=False)：targetsのうちposから最も近いものを返す。destroy=Trueとすると壁破壊を考慮する。存在しない座標が与えられるとNoneを返す。
-  - Board.outline(targets, directions)：与えられたtargetsの輪郭を返す。
+  - Board.distance(x, y=None, \*, destroy=False, other=False)：与えられた座標からの距離を幅探索し、2次元配列で返す。destroy=Trueとすると壁破壊を考慮する。other=Trueとすると相手チームの立場から見た時の答えを返す。到達できない箇所は-1が返される。存在しない座標が与えられるとNoneを返す。
+  - Board.reverseDistance(x, y=None, \*, other=False)：与えられた座標からの距離を幅探索し、2次元配列で返す。distanceメソッドとは辿る経路が逆であり、返り値は与えられた座標へ何ターンで移動することができるかを示す。other=Trueとすると相手チームの立場から見た時の答えを返す。
+  - Board.reachAble(pos, targets, directions=directionSet, mason=False, *, other=False)
+targetsのうちposから到達可能なもののみを2次元配列で返す。mason=Trueとすると、答えのうちの職人が居る地点を除いたものを返す。other=Trueとすると相手チームの立場から見た時の答えを返す。
+
+  - Board.nearest(pos, targets, \*, destroy=False, other=True)：targetsのうちposから最も近いものを返す。destroy=Trueとすると壁破壊を考慮する。other=Trueとすると相手チームの立場から見た時の答えを返す。存在しない座標が与えられるとNoneを返す。
+  - Board.outline(targets, directions)：与えられたtargetsの外側の輪郭を返す。
   - Board.around(targets, directions)：与えられたtargetsに対してdirectionsだけ座標をずらしたときの全ての位置を返す。
-  - Board.route(pos, target, directions=simulator.directionSet, destroy=True)：posからtargetに移動する際の経路を実際にサーバに送信するものとおなじ形式で返す。destroy=Falseで壁破壊を行わないようになる。
+  - Board.frame(targets, directions)：与えられたtargetsの内側の輪郭を返す。
+  - Board.area(outline, directions)：与えられたoutlineでフィールド全体を区切った時、それぞれの領域の座標の配列を保持する3次元配列を返す。
+  - Board.route(pos, target, directions=simulator.directionSet, destroy=True, \*, other=False)：posからtargetに移動する際の経路を実際にサーバに送信するものとおなじ形式で返す。destroy=Falseで壁破壊を行わないようになる。other=Trueとすると相手チームの立場から見た時の答えを返す。
+  - Board.firstMovement(pos, target, directions=simulator.directionSet, destroy=True, \*, other=False)：posからtargetに移動するとした時の次の一手を実際にサーバに送信するものとおなじ形式で返す。
   - Board.calcPoint()：現在の自チームの点数、相手チームの点数を返す。
 
 - class simulator.MatchInfo(info, match)
 試合の現在の状況を表すクラス。
+  - MatchInfo.id：この試合のId
   - MatchInfo.turn：現在のターン数
   - MatchInfo.turns：この試合の総ターン数
   - MatchInfo.myTurn：次のターンが自分のターンか否か (先手チームならturn = [0, 2, 4, 6...]の時にTrue)
@@ -148,6 +165,9 @@ boardには/matches/{id}に対するGETリクエストのレスポンスの"boar
   - MatchInfo.logs：過去の職人の行動
   - MatchInfo.myLogs：MatchInfo.logsから自チームのターンのみ取り出したもの
   - MatchInfo.otherLogs：MatchInfo.logsから相手チームのターンのみ取り出したもの
+  - MatchInfo.first：自チームが先手か否か
+  - MatchInfo.turnTime：1ターンの時間
+  - MatchInfo.other：相手チームの名前
 
 - view.drawField(canvas, field, x, y, x0, length)
 canvasに対してフィールドの1マスを描写する。canvasにはtkinter.Canvasクラスを、fieldにはsimulator.Fieldクラスを、x, yにはマスの座標を、x0にはx方向の初期値を、lengthには1マスの大きさを渡す。

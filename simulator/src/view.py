@@ -90,6 +90,7 @@ def drawField(canvas, field, x, y, x0, length):
 def selecting():
     global mode, mouseX, mouseY, size, nowText, infoText, controlData, height, \
            width, length, data, flag, getGUIControl
+    if data is None: return
     board = data[0].board
     match mode:
         case 0:
@@ -156,7 +157,7 @@ def main():
     canvas.bind("<Motion>", mouseReload)
     canvas.bind("<Button-1>", mouseClicked)
     def update():
-        global data, finishBool, nowText, infoText, x0, length
+        global data, finishBool, nowText, infoText, x0, length, moveLimit
         canvas.delete("all")
         if data is not None:
             board = data[0].board
@@ -182,8 +183,8 @@ def main():
                                           otherMasons[i][1]-dif[1]]
                         otherHistory[i].appendleft(otherMasons[i])
             if moveLimit is not None and moveLimit != -1:
-                myHistory = myHistory[:moveLimit]
-                otherHistory = otherHistory[:moveLimit]
+                myHistory = [list(h)[-moveLimit:] for h in myHistory]
+                otherHistory = [list(h)[-moveLimit:] for h in otherHistory]
             for h in myHistory:
                 if len(h) == 1: continue
                 args = []

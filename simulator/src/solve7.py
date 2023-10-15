@@ -60,7 +60,7 @@ def solve7(interface, solver):
                 else:
                     ans = board.firstMovement(mason, target, destroy=True)
                     if ans is not None: movement[masonId] = ans
-                    else: movement[masonId] = [0, 0]
+                    else: defendMason.append([masonId, mason])
                     continue
             targetWalls = board.reachAble(mason, otherWalls, mason=True)
             cursedCastles = board.reachAble(mason, otherCastles, mason=True)

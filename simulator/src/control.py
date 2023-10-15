@@ -9,7 +9,7 @@ mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 1
+threadLen = 2
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
@@ -19,7 +19,7 @@ recordData = False
 recordAll = False
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
-size = None
+size = 600
 # GUIの大きさ(横幅)を指定します
 # Noneを指定するとデフォルト(850px)になります
 match mode:
@@ -31,7 +31,7 @@ match mode:
         # matchId: 試合Id(例: 10)
         # url: 試合URL(例: "http://localhost")
         # port: 試合が行われるポート番号(例: 3000)
-        matchList = [["solve4.py", 182, "http://172.28.0.1", 8080]]
+        matchList = [["solve4.py", 370, "http://172.28.0.1", 8080]]
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
     case 1:
@@ -39,15 +39,15 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve7.py","solve1.py"]]
+        matchList = [["solve4.py","solve1.py"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["A25"]
+        fieldList = ["all"]
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = [90]
+        turnList = [150]
         # ターン時間の組み合わせ
         # [3, 8]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
@@ -60,7 +60,6 @@ match mode:
         # first=Trueで先手側、Falseで後手側を練習できます
         asReal = True
         first = True
-        # ※練習時には複数試合の確認はできません
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
         # (シミュレートの際に特定の種類のみ試行するようになります)
@@ -598,7 +597,8 @@ try:
         preFinish = 0
         if watch: view.start()
         while True:
-            if watch and match1 is not None: match1.show()
+            if len(matches) <= GUIIndex: GUIIndex = 0
+            if watch and len(matches) > 0: matches[GUIIndex][0].show()
             while len(runningThreads) > 0 and not runningThreads[0].is_alive():
                 runningThreads.popleft()
             matchesLen = len(runningThreads) + len(matches)
@@ -640,7 +640,6 @@ try:
                                             [solver2, solverDict[solver2]],
                                             *m[0].field])
                     port.discard(m[1])
-                    if m[1] == startPortNumber: match1 = None
                     del m, matches[i]
                     finishLen += 1
             targetLen = len(runningThreads) + len(matches)
@@ -669,7 +668,6 @@ finally:
             for m in matches:
                 m[0].cantRecord = True
         m = None
-        if match1 is not None: del match1
         del matches
         matches = []
         for result in results.values():
