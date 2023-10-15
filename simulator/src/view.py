@@ -65,10 +65,10 @@ def drawField(canvas, field, x, y, x0, length):
     elif field.mason < 0:
         if color == "RoyalBlue1": color = "blue"
         else: color="RoyalBlue1"
-    else: return
-    canvas.create_oval(x0+(x+0.15)*length+2, 50+(y+0.15)*length+2,
-                       x0+(x+0.85)*length-2, 50+(y+0.85)*length-2,
-                       fill=color, outline=color)
+    if field.mason != 0:
+        canvas.create_oval(x0+(x+0.15)*length+2, 50+(y+0.15)*length+2,
+                           x0+(x+0.85)*length-2, 50+(y+0.85)*length-2,
+                           fill=color, outline=color)
     if (y, x) in controlData:
         canvas.create_line(x0+(x+0.15)*length+2, 50+(y+0.85)*length-2,
                            x0+(x+0.85)*length-2, 50+(y+0.15)*length-2,

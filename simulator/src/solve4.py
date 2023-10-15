@@ -11,7 +11,6 @@ waitTurn = 6
 def countFlag(pos,count,countor):
     if len(countor) == 0:return True
     if count - countor[pos[0]][pos[1]] >= countLim or countor[pos[0]][pos[1]] == -1:
-        countor[pos[0]][pos[1]] = count
         return True
     else:
         return False
@@ -154,10 +153,10 @@ def solve4(interface, solver):
                     if dir != -1:
                         nextMovement = [1,dir]
                     else:
-                        dir = randomMove(mason,count[id],countor,buffBoard)
+                        dir = randomMove(mason,turn,countor,buffBoard)
                         if dir == -1:
                             tmp = list()
-                            dir = randomMove(mason,count[id],tmp,buffBoard)
+                            dir = randomMove(mason,turn,tmp,buffBoard)
                             if dir == -1:
                                 nextMovement = [0,0]
                             else:
@@ -167,7 +166,7 @@ def solve4(interface, solver):
             print(wait)
             movement.append(nextMovement)
             if nextMovement[0] == 1:
-                count[id]+=1
+                countor[mason[0]][mason[1]] = turn
             boardUpdate(mason,nextMovement,buffBoard)
 
         interface.postMovement(movement)
@@ -179,4 +178,3 @@ def solve4(interface, solver):
     if matchInfo is None: return
     while solver.isAlive(): time.sleep(0.1)
 simulator.solverSet("solve4", solve4)
-
