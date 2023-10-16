@@ -114,7 +114,7 @@ infoがNoneであればNoneを、でなければ後述のsimulator.MatchInfoク�
   - Interface.setTurn(turn)：次に職人の行動を送信する際のターン数を指定する。
   - Interface.postMovement(data)：職人の行動を送信する。dataにはいくつかの形式が対応している(README.md参照)。/matches/{self.id}に対してPOSTリクエストを送信し、成功したかどうかをboolで返す。
   - Interface.get(url)：サーバにGETリクエストを送信し、その結果をpythonオブジェクトに変換して返す。この関数の内部でログを記録する。
-  - Interface.get(url)：サーバにPOSTリクエストを送信する。この関数の内部でログを記録する。
+  - Interface.post(url)：サーバにPOSTリクエストを送信する。この関数の内部でログを記録する。
   - Interface.relase(safety=True)：インスタンスを無効化し、LogListクラスを消去することでログのリセット及び記録を行う。safetyをFalseとするとログのリセットを待機しない。
 
 - class simulator.Matrix(iterable=(), /)
@@ -169,6 +169,22 @@ targetsのうちposから到達可能なもののみを2次元配列で返す。
   - MatchInfo.turnTime：1ターンの時間
   - MatchInfo.other：相手チームの名前
 
+- view.finishBool
+GUIを終了するフラグ。
+- view.size
+GUIの大きさを設定する数値。基本的に横幅をpx単位で設定する。高さは自動で調整される。
+- view.nowText
+決定ボタンのテキストを保持する変数。
+- view.infoText
+キャプションのテキストを保持する変数。
+- view.controlData
+GUIで指定するデータを保持する変数。第0要素に職人のIdを、第1要素に移動先の地点を保存することを想定している。
+- view.viewPos
+GUI上で任意の地点を表示するための変数。solverからこれを変更することで様々なデータを視認可能であり、より潤滑なデバッグを可能とした。
+- view.getGUIControl(mason, pos)
+Solverクラスからflagを取得する。動作時はここに適した関数を設定することで実現する。
+- view.changeMatch
+GUIに表示する試合を変更する。動作時はここに適した関数を設定することで実現する。
 - view.drawField(canvas, field, x, y, x0, length)
 canvasに対してフィールドの1マスを描写する。canvasにはtkinter.Canvasクラスを、fieldにはsimulator.Fieldクラスを、x, yにはマスの座標を、x0にはx方向の初期値を、lengthには1マスの大きさを渡す。
 - view.main()
