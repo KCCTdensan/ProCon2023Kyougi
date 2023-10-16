@@ -10,7 +10,7 @@ realPath = f"{filePath}{pathSep}realLogs{pathSep}"
 fieldPath = f"{filePath}{pathSep}..{pathSep}fieldDatas{pathSep}"
 value = []
 nowTurn = 0
-size = 600
+size = None
 # GUIの大きさ(横幅)を指定します
 # Noneを指定するとデフォルト(850px)になります
 moveLimit = None

@@ -19,7 +19,7 @@ recordData = False
 recordAll = False
 # サーバ通信のデータを完全に残すか否かを選べます
 # データを完全に残すためにはかなり容量が必要になります(1試合9MB)
-size = 600
+size = None
 # GUIの大きさ(横幅)を指定します
 # Noneを指定するとデフォルト(850px)になります
 match mode:
