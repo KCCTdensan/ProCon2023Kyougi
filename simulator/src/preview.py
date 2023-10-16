@@ -171,6 +171,7 @@ def read(log=None):
         while first not in ["y", "n"]:
             first = input("先手: y, 後手: n >>> ").lower()
         first = first == "y"
+        if not first: my, opponent = opponent, my
         value = [my, "preview"]
     restoration(log, [field, turn, turnTime], opponent, first)
     view.start()
