@@ -3004,6 +3004,6 @@
       ]
     }
   ],
-  "my": "\u8c4a\u7530",
-  "other": "\u9999\u6e2fVTC"
+  "my": "\u9999\u6e2fVTC",
+  "other": "\u8c4a\u7530"
 }

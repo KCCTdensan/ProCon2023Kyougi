@@ -3004,6 +3004,6 @@
       ]
     }
   ],
-  "my": "\u65ed\u5ddd",
-  "other": "\u82eb\u5c0f\u7267"
+  "my": "\u82eb\u5c0f\u7267",
+  "other": "\u65ed\u5ddd"
 }

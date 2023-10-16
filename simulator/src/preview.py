@@ -254,6 +254,7 @@ def help():
 
 if size is not None: view.size = size
 if moveLimit is not None: view.moveLimit = moveLimit
+view.setTurn = setTurn
 
 if __name__ == "__main__":
     print("このプログラムは基本的にインタプリタで実行する形式です。")

@@ -3004,6 +3004,6 @@
       ]
     }
   ],
-  "my": "\u718a\u672c(\u516b\u4ee3)",
-  "other": "\u9999\u6e2fVTC"
+  "my": "\u9999\u6e2fVTC",
+  "other": "\u718a\u672c(\u516b\u4ee3)"
 }

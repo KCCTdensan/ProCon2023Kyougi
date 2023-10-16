@@ -1504,6 +1504,6 @@
       ]
     }
   ],
-  "my": "\u5bfe\u6226\u6226\u7565AI",
-  "other": "\u5bcc\u5c71(\u672c\u90f7)"
+  "my": "\u5bcc\u5c71(\u672c\u90f7)",
+  "other": "\u5bfe\u6226\u6226\u7565AI"
 }

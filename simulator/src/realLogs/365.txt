@@ -3004,6 +3004,6 @@
       ]
     }
   ],
-  "my": "\u90fd\u7acb(\u8352\u5ddd)",
-  "other": "\u718a\u672c(\u718a\u672c)"
+  "my": "\u718a\u672c(\u718a\u672c)",
+  "other": "\u90fd\u7acb(\u8352\u5ddd)"
 }

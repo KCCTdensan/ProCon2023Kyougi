@@ -7004,6 +7004,6 @@
       ]
     }
   ],
-  "my": "\u30cf\u30ce\u30a4\u5de5\u696d\u5927",
-  "other": "\u8c4a\u7530"
+  "my": "\u8c4a\u7530",
+  "other": "\u30cf\u30ce\u30a4\u5de5\u696d\u5927"
 }

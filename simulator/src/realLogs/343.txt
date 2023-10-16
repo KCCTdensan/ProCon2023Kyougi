@@ -3004,6 +3004,6 @@
       ]
     }
   ],
-  "my": "\u798f\u5cf6",
-  "other": "\u30cf\u30ce\u30a4\u5de5\u696d\u5927"
+  "my": "\u30cf\u30ce\u30a4\u5de5\u696d\u5927",
+  "other": "\u798f\u5cf6"
 }

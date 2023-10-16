@@ -3004,6 +3004,6 @@
       ]
     }
   ],
-  "my": "\u795e\u6238\u5e02\u7acb",
-  "other": "\u9ad8\u77e5"
+  "my": "\u9ad8\u77e5",
+  "other": "\u795e\u6238\u5e02\u7acb"
 }

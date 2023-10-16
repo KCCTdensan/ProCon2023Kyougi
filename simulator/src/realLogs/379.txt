@@ -3004,6 +3004,6 @@
       ]
     }
   ],
-  "my": "\u718a\u672c(\u718a\u672c)",
-  "other": "\u65ed\u5ddd"
+  "my": "\u65ed\u5ddd",
+  "other": "\u718a\u672c(\u718a\u672c)"
 }

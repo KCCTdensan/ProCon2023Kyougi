@@ -278,15 +278,18 @@ class Board:
         other = [0, 0, 0]
         for row in self.all:
             for field in row:
-                point = 100 if field.structure == 2 else 30
+                point = 130 if field.structure == 2 else 30
                 if field.territory % 2 == 1:
                     ans[0] += point
-                    ans[1+(field.structure!=2)] += point
+                    if field.structure == 2: ans[1] += 100
+                    ans[2] += 30
                 if field.territory >= 2:
                     other[0] += point
-                    other[1+(field.structure!=2)] += point
+                    if field.structure == 2: other[1] += 100
+                    other[2] += 30
                 match field.wall:
-                    case 1: ans[0] += 10
+                    case 1:
+                        ans[0] += 10
                     case 2: other[0] += 10
         return [ans, other]
     

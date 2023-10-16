@@ -1504,6 +1504,6 @@
       ]
     }
   ],
-  "my": "\u5bfe\u6226\u6226\u7565AI",
-  "other": "\u30e2\u30f3\u30b4\u30eb\u9ad8\u5c02"
+  "my": "\u30e2\u30f3\u30b4\u30eb\u9ad8\u5c02",
+  "other": "\u5bfe\u6226\u6226\u7565AI"
 }
