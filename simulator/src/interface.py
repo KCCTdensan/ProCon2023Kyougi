@@ -27,6 +27,7 @@ class LogFileId:
         self.id = newId
     def release(self):
         boolean = True
+        if self.id is None: self.id = 0
         while boolean:
             with open(f"{logFile}nowId.txt", "w") as f:
                 f.write(str(self.id))
