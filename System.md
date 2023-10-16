@@ -189,6 +189,8 @@ GUI上で任意の地点を表示するための変数。solverからこれを�
 Solverクラスからflagを取得する。動作時はここに適した関数を設定することで実現する。
 - view.changeMatch()
 GUIに表示する試合を変更する。動作時はここに適した関数を設定することで実現する。
+- view.setTurn(turn)
+GUIに表示するターン数を変更する。動作時はここに適した関数を設定することで実現する。
 - view.drawField(canvas, field, x, y, x0, length)
 canvasに対してフィールドの1マスを描写する。canvasにはtkinter.Canvasクラスを、fieldにはsimulator.Fieldクラスを、x, yにはマスの座標を、x0にはx方向の初期値を、lengthには1マスの大きさを渡す。
 - view.selecting()

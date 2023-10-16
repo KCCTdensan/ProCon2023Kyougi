@@ -4,6 +4,7 @@ from simulator import eightDirectionList
 from collections import deque
 finishBool = False
 data = None
+changed = False
 size, height, width, mouseX, mouseY = 850, 850, 950, 0, 0
 x0, lenght, mode = 50, 0, 0
 moveLimit = None
@@ -11,9 +12,11 @@ nowText = "データ指定"
 infoText = ""
 controlData = []
 viewPos = []
-def getGUIControl(mason, pos):
+def getGUIControl():
     return None
 def changeMatch():
+    pass
+def setTurn(turn):
     pass
 
 def drawField(canvas, field, x, y, x0, length):
@@ -91,56 +94,62 @@ def selecting():
     global mode, mouseX, mouseY, size, nowText, infoText, controlData, height, \
            width, length, data, flag, getGUIControl
     if data is None: return
-    board = data[0].board
-    match mode:
-        case 0:
-            if width/2+25 <= mouseX <= width/4*3-25 and \
-               height-90 <= mouseY <= height-60:
-                controlData = []
-                infoText = "職人を指定してください"
-                nowText = "キャンセル"
-                mode = 1
-            if width/4*3+25 <= mouseX <= width-25 and \
-               height-90 <= mouseY <= height-60:
-                controlData = []
-                infoText = "表示する試合を変更しました"
-                changeMatch()
-        case 1:
-            if width/2+25 <= mouseX <= width/4*3-25 and \
-               height-90 <= mouseY <= height-60:
-                infoText = "キャンセルしました"
-                nowText = "データ指定"
-                mode = 0
-            if x0 <= mouseX < width-x0 and \
-               50 <= mouseY < 50+board.height*length:
-                pos = ((mouseY-50)//length, int(mouseX-x0)//length)
-                if board.masons[pos] > 0:
-                    controlData.append(board.masons[pos])
-                    flag = getGUIControl()
-                    controlData.append(flag[controlData[0]])
-                    infoText = "対象の地点を指定してください"
+    if data[-1] == "real":
+        board = data[0].board
+        match mode:
+            case 0:
+                if width/2+25 <= mouseX <= width/4*3-25 and \
+                   height-90 <= mouseY <= height-60:
+                    controlData = []
+                    infoText = "職人を指定してください"
                     nowText = "キャンセル"
-                    mode = 2
-        case 2:
-            if width/2+25 <= mouseX <= width/4*3-25 and \
-               height-90 <= mouseY <= height-60:
-                infoText = "キャンセルしました"
-                nowText = "データ指定"
-                mode = 0
-            elif x0 <= mouseX < width-x0 and \
-               50 <= mouseY < 50+board.height*length:
-                controlData[1] = ((mouseY-50)//length, int(mouseX-x0)//length)
-                flag = getGUIControl()
-                flag[controlData[0]] = controlData[1]
-                infoText = "送信しました"
-                nowText = "データ指定"
-                mode = 0
-            else:
-                flag[controlData[0]] = None
-                controlData.pop()
-                infoText = "この職人の目的地を消去しました"
-                nowText = "データ指定"
-                mode = 0
+                    mode = 1
+                if width/4*3+25 <= mouseX <= width-25 and \
+                   height-90 <= mouseY <= height-60:
+                    controlData = []
+                    infoText = "表示する試合を変更しました"
+                    changeMatch()
+            case 1:
+                if width/2+25 <= mouseX <= width/4*3-25 and \
+                   height-90 <= mouseY <= height-60:
+                    infoText = "キャンセルしました"
+                    nowText = "データ指定"
+                    mode = 0
+                if x0 <= mouseX < width-x0 and \
+                   50 <= mouseY < 50+board.height*length:
+                    pos = ((mouseY-50)//length, int(mouseX-x0)//length)
+                    if board.masons[pos] > 0:
+                        controlData.append(board.masons[pos])
+                        flag = getGUIControl()
+                        controlData.append(flag[controlData[0]])
+                        infoText = "対象の地点を指定してください"
+                        nowText = "キャンセル"
+                        mode = 2
+            case 2:
+                if width/2+25 <= mouseX <= width/4*3-25 and \
+                   height-90 <= mouseY <= height-60:
+                    infoText = "キャンセルしました"
+                    nowText = "データ指定"
+                    mode = 0
+                elif x0 <= mouseX < width-x0 and \
+                   50 <= mouseY < 50+board.height*length:
+                    controlData[1] = ((mouseY-50)//length, int(mouseX-x0)//length)
+                    flag = getGUIControl()
+                    flag[controlData[0]] = controlData[1]
+                    infoText = "送信しました"
+                    nowText = "データ指定"
+                    mode = 0
+                else:
+                    flag[controlData[0]] = None
+                    controlData.pop()
+                    infoText = "この職人の目的地を消去しました"
+                    nowText = "データ指定"
+                    mode = 0
+    if data[-1] == "preview":
+        if 50 <= mouseX <= width-50 and 100 <= height-mouseY <= 120:
+            turn = int((mouseX-60)/(width-120)*(data[0].turns+1))
+            turn = max(0, min(data[0].turns, turn))
+            setTurn(turn)
 
 def main():
     global height, width
@@ -157,9 +166,10 @@ def main():
     canvas.bind("<Motion>", mouseReload)
     canvas.bind("<Button-1>", mouseClicked)
     def update():
-        global data, finishBool, nowText, infoText, x0, length, moveLimit
-        canvas.delete("all")
-        if data is not None:
+        global data, finishBool, nowText, infoText, x0, length, moveLimit,\
+               changed
+        if data is not None and changed:
+            canvas.delete("all")
             board = data[0].board
             length = (width-100)//board.height
             x0 = (width-board.height*length)/2
@@ -240,6 +250,17 @@ def main():
                 canvas.create_text(width/2, height-30,
                     text=f"{data[3][0]}   {data[3][1]} turns  "
                          f"{data[3][2]} seconds   turn {data[0].turn}")
+            if data[-1] == "preview":
+                canvas.create_rectangle(50, height-120,
+                                        width-50, height-100,
+                                        fill="gray70", outline="gray70",
+                                        activefill="gray80")
+                canvas.create_rectangle(52+(width-118)*data[0].turn/\
+                                        data[0].turns, height-117,
+                                        66+(width-118)*data[0].turn/\
+                                        data[0].turns, height-103,
+                                        fill="gray50", outline="gray50")
+            changed = False
         if not hasattr(data, '__len__') or len(data) == 0: pass
         elif data[-1] == "real" and len(data) == 3:
             canvas.delete("control")
@@ -259,9 +280,10 @@ def start():
     thread = threading.Thread(target=main)
     thread.start()
 def show(*new):
-    global data
+    global data, changed
     if new[0] is None: return
     data = new
+    changed = True
 def release():
     global finishBool, thread
     finishBool = True
