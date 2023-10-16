@@ -1,21 +1,23 @@
 # システム説明書
 競技を行うシステムは以下の要素で構成されている。
-- src/control.py：競技を行う際はここからシステムを開始する。また複数のアルゴリズムを管理でき、試合を管理するクラスも存在する。
-- src/interface.py：競技APIとの通信を簡単に行うためのクラスが実装されている。また、ログファイルの出力もここから行う。
-- src/simulator.py：競技に関する様々なクラス、関数が実装されている。試合情報を管理するクラス、コーディング上で頻繁に使用する関数などが存在する。
-- src/view.py：GUIでの表示を行うためのモジュール。
-- src/solveList.py：複数のアルゴリズムを全て読み込むためのモジュール。
-- src/logClear.py：ログファイルを消去するためのファイル。
+- simulator/src/control.py：競技を行う際はここからシステムを開始する。また複数のアルゴリズムを管理でき、試合を管理するクラスも存在する。
+- simulator/src/interface.py：競技APIとの通信を簡単に行うためのクラスが実装されている。また、ログファイルの出力もここから行う。
+- simulator/src/simulator.py：競技に関する様々なクラス、関数が実装されている。試合情報を管理するクラス、コーディング上で頻繁に使用する関数などが存在する。
+- simulator/src/view.py：GUIでの表示を行うためのモジュール。
+- simulator/src/solveList.py：複数のアルゴリズムを全て読み込むためのモジュール。
+- simulator/src/logClear.py：ログファイルを消去するためのファイル。
+- simulator/src/preview.py：過去の試合データを表示するファイル。
 また、これ以外のpythonファイルは基本的に行動を決定するアルゴリズムが実装されている。
 
-- src/result/solverList.txt：現在利用可能なアルゴリズムのデータ。
-- src/result/disabledList.txt：現在利用不能なアルゴリズムのデータ。
-また、src/result内部に存在するcsvファイルは練習段階での試合結果を保存した物である。
+- simulator/src/result/solverList.txt：現在利用可能なアルゴリズムのデータ。
+- simulator/src/result/disabledList.txt：現在利用不能なアルゴリズムのデータ。
+simulator/src/result内部に存在するcsvファイルは練習段階での試合結果を保存した物である。
+それ以外のsimulator/src/result内部に存在するフォルダ内、またsimulator/src/realLogsには過去の試合のログが保存されている。
 
-- interfaceLogs.nowId.txt：現在のログ番号のデータ。
-interfaceLogsフォルダには通信のログが保存される。
+- simulator/interfaceLogs/nowId.txt：現在のログ番号のデータ。
+simulator/interfaceLogsフォルダには通信のログが保存される。
 
-また、fieldDatasフォルダには全てのフィールドに対して複数のターン数、ターン時間のデータが存在する。
+また、simulator/fieldDatasフォルダには全てのフィールドに対して複数のターン数、ターン時間のデータが存在する。
 
 以下にクラス及び関数の説明を示す。なお、便宜上職人の行動を決定するアルゴリズムのことをsolver関数と呼ぶ。
 
@@ -59,7 +61,7 @@ interfaceLogsフォルダには通信のログが保存される。
 solverにはSolverクラスを、matchIdには試合のIdを渡す。
     - Real.isAlive()：試合が続行されているかどうかを返す。
     - Real.getFlag()：試合を進行しているSolverクラスのflagを返す。
-    - Practice.release(\*, safety=False)：試合を終了し、interfaceに対してリリース作業を行う。safetyにFalseを渡すことでログを残す処理を待機せず終了する。safetyは高速にプログラムを終了させたい時に必要となる。
+    - Real.release(\*, safety=False)：試合を終了し、interfaceに対してリリース作業を行う。safetyにFalseを渡すことでログを残す処理を待機せず終了する。safetyは高速にプログラムを終了させたい時に必要となる。
 - class control.Practice(solver1, solver2, field, port)
 試合を管理するクラス。内部でサーバを立ち上げてsolver関数を2つ起動する、練習用のものである。
 solver1には先手、solver2には後手のSolverクラスを、fieldには試合情報を表す配列を、portにはサーバを立ち上げるポート番号を渡す。
@@ -115,7 +117,7 @@ infoがNoneであればNoneを、でなければ後述のsimulator.MatchInfoク�
   - Interface.postMovement(data)：職人の行動を送信する。dataにはいくつかの形式が対応している(README.md参照)。/matches/{self.id}に対してPOSTリクエストを送信し、成功したかどうかをboolで返す。
   - Interface.get(url)：サーバにGETリクエストを送信し、その結果をpythonオブジェクトに変換して返す。この関数の内部でログを記録する。
   - Interface.post(url)：サーバにPOSTリクエストを送信する。この関数の内部でログを記録する。
-  - Interface.relase(safety=True)：インスタンスを無効化し、LogListクラスを消去することでログのリセット及び記録を行う。safetyをFalseとするとログのリセットを待機しない。
+  - Interface.release(safety=True)：インスタンスを無効化し、LogListクラスを消去することでログのリセット及び記録を行う。safetyをFalseとするとログのリセットを待機しない。
 
 - class simulator.Matrix(iterable=(), /)
 2次元配列を保持することを前提としたlistを継承するクラス。list[x][y]のような記述をMatrix[(x, y)]のような記述で可能にする。Boardクラス内の一部で用いている。
@@ -200,6 +202,8 @@ GUIに新たなデータを渡す。
 - view.release()
 GUI表示を停止する。
 
+- preview.pastMatchInfoes
+試合を復元した際に全てのターン数のデータを保持する変数。
 - preview.nowTurn
 現在表示しているターンの数値を保持する変数。
 - preview.makeMatch(field, opponent, first)
@@ -211,6 +215,46 @@ GUI表示を停止する。
 - preview.territories(walls, preData)
 inBreadth関数を用いて現在の領域を求める。wallsにはsimulator.Board.wallsと同じ形式のデータを、preDataには1ターン前の領域のデータをsimulator.Board.territoriesと同じ形式を返す。
 - preview.restoration(log, field, opponent, first)
+試合中の全てのターン数のデータを復元する関数。logには最終ターンにinterface.Interface.getMatchInfo().logsから得られるデータと同じものを、fieldには試合情報を表す配列を、opponentには相手チームを表す文字列を、firstには先手、後手を表すboolを渡す。
+- preview.read(log=None)
+試合情報を読み取る関数。logにNoneを渡すと保存されている練習試合データからログを読み込み、表示する。また、logには以下の複数の形式のデータを入れることができる。
+
+  - 最終ターンに/matches/{id}から得られるデータのうちlogsのみをjson形式の文字列で表現したもの
+  - 次のjson形式の文字列
+```
+{
+  "field": "A11",
+  "my": "自チーム",
+  "other": "他チーム",
+  "log": [
+    {
+      "turn": 1,
+      "actions": [
+        {
+          "succeeded": true,
+          "type": 0,
+          "dir": 0
+        }
+      ]
+    }
+  ]
+}
+```
+- preview.realRead(matchId = None)
+事前に準備済みの試合情報を読み取る関数。特に今回は公開された1日目、2日目の競技部門の試合を設定済み。試合データは/simulator/src/result/{matchId}.txtから読み込んでいる。matchIdには試合Idを渡すことができる。
+- preview.setTurn(turn)
+現在表示している試合のターン数を変更して表示する関数。turnには指定するターン数を渡す。
+- preview.getMatchInfo(turn=None)
+現在表示している試合の現在のターン数についての情報をsimulator.MatchInfoクラスとして返す。turnにターン数を渡すとそのターン数のデータを返す。
+- preview.release()
+GUI表示を停止する。
+- preview.auto(turn=None)
+現在表示している試合の現在のターン数から0.5秒ごとに1ターンGUIの表示を進める関数。turnにターン数を渡すとそのターン数から開始する。
+- preview.increment(turn=None)
+現在表示している試合の現在のターン数から1ターンずつGUIの表示を進めることができる関数。turnにターン数を渡すとそのターン数から開始する。
+- preview.help()
+ヘルプ表示。
+
 
 競技時の主な流れを以下に示す。
 
