@@ -168,6 +168,8 @@ targetsのうちposから到達可能なもののみを2次元配列で返す。
   - MatchInfo.first：自チームが先手か否か
   - MatchInfo.turnTime：1ターンの時間
   - MatchInfo.other：相手チームの名前
+- simulator.solverSet(name, solver)
+solver関数をsolverListと結びつける変数。これによってcontrolからsolver関数を呼び出すことができる。
 
 - view.finishBool
 GUIを終了するフラグ。
@@ -181,12 +183,14 @@ GUIの大きさを設定する数値。基本的に横幅をpx単位で設定す
 GUIで指定するデータを保持する変数。第0要素に職人のIdを、第1要素に移動先の地点を保存することを想定している。
 - view.viewPos
 GUI上で任意の地点を表示するための変数。solverからこれを変更することで様々なデータを視認可能であり、より潤滑なデバッグを可能とした。
-- view.getGUIControl(mason, pos)
+- view.getGUIControl()
 Solverクラスからflagを取得する。動作時はここに適した関数を設定することで実現する。
-- view.changeMatch
+- view.changeMatch()
 GUIに表示する試合を変更する。動作時はここに適した関数を設定することで実現する。
 - view.drawField(canvas, field, x, y, x0, length)
 canvasに対してフィールドの1マスを描写する。canvasにはtkinter.Canvasクラスを、fieldにはsimulator.Fieldクラスを、x, yにはマスの座標を、x0にはx方向の初期値を、lengthには1マスの大きさを渡す。
+- view.selecting()
+マウスクリック時に様々な処理を行う。この中でGUIテキストの変更、職人の行動データ送信、表示する試合の切り替えを行っている。
 - view.main()
 GUI表示を行う。
 - view.start()
@@ -196,6 +200,17 @@ GUIに新たなデータを渡す。
 - view.release()
 GUI表示を停止する。
 
+- preview.nowTurn
+現在表示しているターンの数値を保持する変数。
+- preview.makeMatch(field, opponent, first)
+試合データを復元する関数。fieldには試合情報を表す配列を、opponentには相手チームを表す文字列を、firstには先手、後手を表すboolを渡す。最終的に/matchesに対してGETリクエストを送信した時に得られる配列の一つの要素と同じ形式のデータを返す(simulator.MatchInfoクラスには変換しない)。
+- preview.makeField(info)
+試合開始時のデータを復元する関数。infoには/matchesにGETリクエストを送信した時のレスポンスと同じ形式のデータを渡す。最終的に0ターン目に/matches/{id}に対してGETリクエストを送信した時に得られるものと同じ形式のデータを返す。
+- preview.inBreadth(walls, withOut)
+幅探索を行い、現在の領域を求める。wallsにはsimulator.Board.wallsと同じ形式のデータを、withOutには無視する壁の数値を返す。
+- preview.territories(walls, preData)
+inBreadth関数を用いて現在の領域を求める。wallsにはsimulator.Board.wallsと同じ形式のデータを、preDataには1ターン前の領域のデータをsimulator.Board.territoriesと同じ形式を返す。
+- preview.restoration(log, field, opponent, first)
 
 競技時の主な流れを以下に示す。
 
