@@ -26,6 +26,12 @@ solveList.pyの終端に`import solverFileName`を付け加える
 
 削除・変更したい場合は追加する際と同様にすると元に戻せる
 
+## 試合データの確認方法
+
+preview.pyを実行し、read関数かrealRead関数を実行すると過去の試合データが確認できます
+
+詳しい操作方法はこのファイルの下の方に書いてありますが、help関数からも確認できます
+
 ## solver関数の作成方法について
 
 solver関数はシミュレート時呼び出され、試合の情報を取得したり職人の行動を決定することが出来ます 必ず引数は以下の形式に従ってください
@@ -263,6 +269,32 @@ simulator.allDirection(board, x, y, directions): iter<list<int>>
 simulator.distance(board, x, y): tuple<tuple<int>>
 simulator.nearest(board, pos, targets): targets[...]
 simulator.calcPoint(board): list<list<int>>
+```
+
+### previewファイル
+previewファイルでは過去に保存された試合データの表示、実行時データの取り出しが行えます 以下に利用可能な関数を示します
+```
+preview.read(log=None): None
+  与えられたデータをGUIで表示します
+  solverを2つ、フィールドのタイプ、ターン数と実行時間、先手後手を選択するとその練習時に保存されたログデータが呼び出されて試合が復元され、GUIが表示されます
+  入力したデータが間違っているか、指定された試合データが存在しなければエラーとなります
+  また、logには指定の形式の文字列(/matches/{id}のGETレスポンスのうちのlogsを取り出したjson文字列など)を渡すことができ、ファイル上に保存されていない試合についても表示することが可能です(詳しくはSYSTEM.md参照)
+preview.realRead(matchId=None): None
+  保存されているデータをGUIで表示します
+  指定された試合Idのデータを復元し、read関数を内部で呼び出してGUIを表示します
+preview.setTurn(turn): None
+  現在表示している試合について指定のターン数の盤面を復元し表示します
+  また、preview.pyからGUIを実行している際は下に表示されるバーから指定のターンへ飛ぶことができます
+preview.getMatchInfo(turn=None): simulator.MatchInfo
+  現在表示している試合、ターン数におけるinterface.Interface.getMatchInfo()の返り値と同じものを返します
+  turnにターン数を指定することでそのターン数の結果を返します
+preview.increment(turn=None): None
+  現在表示している試合のターン数をキー入力で1ターンずつ切り替えることができる関数です
+  1ターンずつ戻すことも可能です
+  turnにターン数を指定するとそのターン数から開始します
+preview.auto(turn=None): None
+  現在表示している試合のターン数を0.5秒ごとに1ターン、最終ターンまで切り替え続けます
+  turnにターン数を指定するとそのターン数から開始します
 ```
 
 ## 試合結果について
