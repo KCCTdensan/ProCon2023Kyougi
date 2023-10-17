@@ -9,7 +9,7 @@ mode = 1
 # 0: 本番用 1: 練習用 2: solverの管理 3: 結果確認
 # solverは拡張子を含めた文字列を書いてください
 # 拡張子が異なる同じ名前のファイルを作るとバグります
-threadLen = 2
+threadLen = 1
 # 並列化処理のレベル
 # 同時に実行する試合の最大数です
 # 1試合につき3つ(試合終了時たまに6つ)のタスクを並列処理します
@@ -24,14 +24,14 @@ size = None
 # Noneを指定するとデフォルト(850px)になります
 match mode:
     case 0:
-        token = "kobef571af46faa86c3985a4196a3d96cac1c9aafcbe6e679a73f082ec37cb4c"
+        token = ""
         # 試合を指定する2次元配列
         # [solver, matchId, url, port]のように指定すること
         # solver: solver関数(例: "solve1.py")
         # matchId: 試合Id(例: 10)
         # url: 試合URL(例: "http://localhost")
         # port: 試合が行われるポート番号(例: 3000)
-        matchList = [["solve4.py", 370, "http://172.28.0.1", 8080]]
+        matchList = [["solve4.py", 10, "http://localhost", 3000]]
         # 観戦を行うか否か TrueでGUI表示します
         watch = True
     case 1:
@@ -39,26 +39,27 @@ match mode:
         # 0番目の要素が先手に設定される
         # [solver, "all"] と入れると全solverとの総当たり、
         # ["all", "all"] と入れると全ての組み合わせの試行を行う
-        matchList = [["solve4.py","solve1.py"]]
+        matchList = [["all", "all"]]
         # フィールドの組み合わせ
         # A～C、11,13,15,17,21,25を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        fieldList = ["all"]
+        fieldList = "all"
         # ターン数の組み合わせ
         # [30, 90, 150, 200]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
-        turnList = [150]
+        turnList = "all"
         # ターン時間の組み合わせ
         # [3, 8]を指定可能
         # "all"を指定することで全ての組み合わせを試行する
         timeList = [3]
         # Falseだと記録済みの組み合わせはスキップする Trueは上書き
-        replace = True
+        # "error"でエラーと記録されている試合のみ上書き
+        replace = "error"
         # 観戦を行うか否か TrueでGUI表示します
-        watch = True
+        watch = False
         # Trueだと実際の競技と同様に手動でフラグを設置できるようになります
         # first=Trueで先手側、Falseで後手側を練習できます
-        asReal = True
+        asReal = False
         first = True
     case 2:
         # 追加・変更の場合のみ[solver, type]の記述をしてください
@@ -611,8 +612,13 @@ try:
                         if target is None: break
                         p = pattern(*target)
                         continue
-                if replace or not results[target[0][0]].match(target[1][0],
-                                                              target[2:])[0]:
+                replaceBool = True
+                replaceBool |= not results[target[0][0]].match(target[1][0],
+                                                              target[2:])[0]
+                replaceBool |= not replaceBool and replace == "error" and \
+                               -1 in results[target[0][0]].match(target[1][0],
+                               target[2:])[0]
+                if replaceBool:
                     for po in range(startPortNumber, startPortNumber+10000):
                         if po not in failedPort and po not in port: break
                     runningThreads.append(threading.Thread(
