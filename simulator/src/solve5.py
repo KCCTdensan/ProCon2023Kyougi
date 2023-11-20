@@ -10,10 +10,12 @@ def building(board, mason, notProtectedCastles, targets, alreadyTarget):
             fourDirectionList) if target not in alreadyTarget], destroy=True)
     if target is None:
         # solve1
-        target = board.nearest(mason,
-            board.around(board.around(notProtectedCastles, fourDirectionList),
-                         fourDirectionList),
-                               destroy=True)
+        walls = board.around(notProtectedCastles, fourDirectionList)
+        wallPoints = []
+        for point in walls:
+            if board.walls[point] != 1: wallPoints.append(point)
+        target = board.nearest(mason, board.around(wallPoints,
+                                                   fourDirectionList))
         if target is None: return [0, 0]
         if mason == target:
             for i, x, y in board.allDirection(mason, fourDirectionSet):
@@ -25,7 +27,10 @@ def building(board, mason, notProtectedCastles, targets, alreadyTarget):
                 match board.walls[x][y]:
                     case 0: return [2, i]
                     case 2: return [3, i]
-            return [0, 0]
+            targets = board.around(board.around(notProtectedCastles,
+                        fourDirectionList), fourDirectionList)
+            targets.remove(target)
+            target = board.nearest(mason, targets, destroy=True)
         ans = board.firstMovement(mason, target)
         if ans is None: return [0, 0]
         return ans
@@ -232,6 +237,12 @@ def solve5(interface, solver):
                 if y in cantMoveTo[x]: movement[-1] = [0, 0]
                 else: cantMoveTo[x].add(y)
         
+        viewPos = []
+        for mason, d in zip(board.myMasons, movement):
+            if d[1] == 0: continue
+            direction = eightDirectionList[d[1]-1]
+            viewPos.append(tuple(map(sum,zip(mason, direction))))
+        view.viewPos = viewPos
         interface.postMovement(movement)
         turn = matchInfo.turn
         time.sleep(preTime+matchInfo.turnTime*2-0.2-time.time())

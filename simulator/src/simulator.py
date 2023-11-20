@@ -266,6 +266,12 @@ class Board:
         ans = nextPos = None
         newDistance = distance[pos]
         for i, x, y in self.allDirection(pos, directions):
+            if -1 < distance[x][y] < newDistance and \
+               self.walls[x][y] != otherWall:
+                newDistance = distance[x][y]
+                nextPos = (x, y)
+                ans = i
+        for i, x, y in self.allDirection(pos, fourDirectionSet):
             if -1 < distance[x][y] < newDistance:
                 newDistance = distance[x][y]
                 nextPos = (x, y)

@@ -2,6 +2,7 @@ import simulator
 from simulator import *
 import time
 from collections import deque
+import view
 boolean = True
 def solve1(interface, solver):
     matchInfo = interface.getMatchInfo()
